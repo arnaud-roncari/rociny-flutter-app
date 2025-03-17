@@ -1,0 +1,37 @@
+{
+  "hello_world": {
+    "fr": "Bonjour monde",
+    "en": "Hello, world",
+    "es": "Hola, mundo"
+  },
+  "empty_field": {
+    "fr": "Ce champ est vide.",
+    "en": "This field is empty.",
+    "es": "Este campo está vacío."
+  },
+  "invalid_email": {
+    "fr": "Votre email n'est pas valide.",
+    "en": "Your email is not valid.",
+    "es": "Su correo electrónico no es válido."
+  },
+  "minimum_password_length": {
+    "fr": "Votre mot de passe doit contenir au moins 8 caractères.",
+    "en": "Your password must be at least 8 characters long.",
+    "es": "Su contraseña debe tener al menos 8 caracteres."
+  },
+  "maximum_password_length": {
+    "fr": "Votre mot de passe doit contenir au maximum 64 caractères.",
+    "en": "Your password must be at most 64 characters long.",
+    "es": "Su contraseña debe tener como máximo 64 caracteres."
+  },
+  "password_not_matching": {
+    "fr": "Le mot de passe ne correspond pas.",
+    "en": "The password does not match.",
+    "es": "La contraseña no coincide."
+  },
+  "email_or_password_incorrect": {
+    "fr": "Mot de passe ou email incorrect.",
+    "en": "Incorrect password or email.",
+    "es": "Contraseña o correo electrónico incorrectos."
+  }
+}
