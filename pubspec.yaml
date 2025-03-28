@@ -38,6 +38,7 @@ dependencies:
   cached_network_image: ^3.4.1
   cached_network_image_platform_interface: ^4.1.1
   flutter_svg: ^2.0.17
+  flutter_native_splash: ^2.4.5
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -66,12 +67,12 @@ flutter:
   fonts:
     - family: Nunito
       fonts:
-        - asset: assets/fonts/Nunito-Black.otf
-        - asset: assets/fonts/Nunito-Bold.otf
-        - asset: assets/fonts/Nunito-Light.otf
-        - asset: assets/fonts/Nunito-Medium.otf
+        - asset: assets/fonts/Nunito-Black.ttf
+        - asset: assets/fonts/Nunito-Bold.ttf
+        - asset: assets/fonts/Nunito-Light.ttf
+        - asset: assets/fonts/Nunito-Medium.ttf
           weight: 500
-        - asset: assets/fonts/Nunito-Regular.otf
+        - asset: assets/fonts/Nunito-Regular.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -79,3 +80,13 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/translations.json
+    - assets/svg/
+
+flutter_native_splash:
+  ios: true
+  android: true
+  color: "#013E31"
+  image: "assets/images/splash/android_splash.png"
+  android_12:
+    color: "#013E31"
+    image: "assets/images/splash/android_splash.png"

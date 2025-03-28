@@ -58,3 +58,14 @@ Color kOrange600 = const Color.fromRGBO(162, 74, 0, 1);
 Color kOrange700 = const Color.fromRGBO(126, 58, 0, 1);
 Color kOrange800 = const Color.fromRGBO(98, 45, 0, 1);
 Color kOrange900 = const Color.fromRGBO(75, 34, 0, 1);
+
+/// Grey
+Color kGrey100 = const Color.fromRGBO(206, 206, 206, 1);
+Color kGrey200 = const Color.fromRGBO(182, 182, 182, 1);
+Color kGrey300 = const Color.fromRGBO(149, 149, 149, 1);
+Color kGrey400 = const Color.fromRGBO(129, 129, 129, 1);
+Color kGrey500 = const Color.fromRGBO(97, 97, 97, 1);
+Color kGrey600 = const Color.fromRGBO(88, 88, 88, 1);
+Color kGrey700 = const Color.fromRGBO(69, 69, 69, 1);
+Color kGrey800 = const Color.fromRGBO(53, 53, 53, 1);
+Color kGrey900 = const Color.fromRGBO(41, 41, 41, 1);
