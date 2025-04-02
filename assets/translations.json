@@ -33,5 +33,52 @@
     "fr": "Mot de passe ou email incorrect.",
     "en": "Incorrect password or email.",
     "es": "Contraseña o correo electrónico incorrectos."
+  },
+
+  "advanced_search": {
+    "fr": "Recherche avancée",
+    "en": "Advanced search",
+    "es": "Búsqueda avanzada"
+  },
+  "synchronized_statistics": {
+    "fr": "Statistiques synchronisées",
+    "en": "Synchronized statistics",
+    "es": "Estadísticas sincronizadas"
+  },
+  "secure_collaborations": {
+    "fr": "Collaborations sécurisées",
+    "en": "Secure collaborations",
+    "es": "Colaboraciones seguras"
+  },
+  "instant_payments": {
+    "fr": "Paiements instantanés",
+    "en": "Instant payments",
+    "es": "Pagos instantáneos"
+  },
+
+  "find_influencer_with_filters": {
+    "fr": "Trouvez votre influenceur à l'aide de filtres personnalisés.",
+    "en": "Find your influencer using custom filters.",
+    "es": "Encuentra a tu influencer utilizando filtros personalizados."
+  },
+  "instagram_data_updated_daily": {
+    "fr": "Les données Instagram sont mises à jour quotidiennement.",
+    "en": "Instagram data is updated daily.",
+    "es": "Los datos de Instagram se actualizan diariamente."
+  },
+  "contract_automatically_drafted": {
+    "fr": "Un contrat sera automatiquement rédigé pour sécuriser votre collaboration.",
+    "en": "A contract will be automatically drafted to secure your collaboration.",
+    "es": "Se redactará automáticamente un contrato para asegurar tu colaboración."
+  },
+  "payments_within_48_hours": {
+    "fr": "Les paiements sont effectués dans un délai de 48 heures.",
+    "en": "Payments are made within 48 hours.",
+    "es": "Los pagos se realizan en un plazo de 48 horas."
+  },
+  "next": {
+    "fr": "Suivant",
+    "en": "Next",
+    "es": "Siguiente"
   }
 }

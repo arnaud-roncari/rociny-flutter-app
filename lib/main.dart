@@ -7,7 +7,10 @@ import 'package:rociny/router/routes.dart';
 import 'package:rociny/shared/decorations/theme.dart';
 
 /// TODO prépare les icons (leurs tailles 20x20) : mettre dans des frame de 20X20
-/// TODO Splash screen, app icon, premier lancement
+/// TODO nom rociny ne lajucscule sur andfroid
+///
+///
+/// TODO pour login, créer une tabler user, lié à une table influencer ou company
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,10 +25,14 @@ void main() async {
   /// Whenever the language is modified, it should be updated in the keystore.
   /// Then, both during updates and at startup, the value is loaded into a global variable,
   /// making it easier to use for translations.
-  kLanguage = await storage.read(key: kKeyLanguage) ?? "en";
+  kLanguage = await storage.read(key: kKeyLanguage) ?? "fr";
 
   /// Translations are loaded from a JSON file.
   await TranslationExtension.loadTranslations();
+
+  /// Redirect user on "first launch" screens if true.
+  kFirstLaunch = await storage.read(key: kKeyFirstLaunch) == null;
+  kFirstLaunch = true;
 
   runApp(const RocinyApp());
 }
