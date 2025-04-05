@@ -1,15 +1,22 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rociny/core/config/environment.dart';
+import 'package:rociny/features/auth/bloc/auth/auth_bloc.dart';
 import 'package:rociny/features/auth/ui/pages/first_launch_page.dart';
 import 'package:rociny/features/auth/ui/pages/login_page.dart';
 
-/// TODO Faire routes (prendre type de compte en consideration) (dans le JWT ?)
 final GoRouter kRouter = GoRouter(
   initialLocation: getLocation(),
   routes: [
     GoRoute(
       path: '/login',
-      builder: (context, state) => const LoginPage(),
+      builder: (context, state) => BlocProvider(
+        create: (context) => AuthBloc(
+          authRepository: RepositoryProvider.of(context),
+          crashRepository: RepositoryProvider.of(context),
+        ),
+        child: const LoginPage(),
+      ),
     ),
     GoRoute(
       path: '/first_launch',

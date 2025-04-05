@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
@@ -44,50 +46,48 @@ class _FirstLaunchPageState extends State<FirstLaunchPage> {
         children: [
           SizedBox(height: topSafeZone),
           Expanded(
-            child: Container(
-              child: PageView(
-                controller: pageController,
-                onPageChanged: (value) {
-                  setState(() {
-                    pageIndex = value;
-                  });
-                },
-                children: [
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Image.asset("assets/images/first_launch/1.png"),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Image.asset("assets/images/first_launch/2.png"),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Image.asset("assets/images/first_launch/3.png"),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Image.asset("assets/images/first_launch/4.png"),
-                  ),
-                ],
-              ),
+            child: PageView(
+              controller: pageController,
+              onPageChanged: (value) {
+                setState(() {
+                  pageIndex = value;
+                });
+              },
+              children: [
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Image.asset("assets/images/first_launch/1.png"),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Image.asset("assets/images/first_launch/2.png"),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Image.asset("assets/images/first_launch/3.png"),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Image.asset("assets/images/first_launch/4.png"),
+                ),
+              ],
             ),
           ),
           Container(
             color: kWhite,
-            constraints: BoxConstraints(maxHeight: 300, maxWidth: double.infinity),
+            constraints: const BoxConstraints(maxHeight: 300, maxWidth: double.infinity),
             child: Padding(
               padding: const EdgeInsets.all(kPadding20),
               child: Column(
                 children: [
                   buildIndicator(),
-                  Spacer(),
+                  const Spacer(),
                   Text(
                     titles[pageIndex],
                     style: kHeadline4Bold,
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: kPadding20),
+                  const SizedBox(height: kPadding20),
                   Text(
                     descriptions[pageIndex],
                     style: kTitle2.copyWith(
@@ -95,7 +95,7 @@ class _FirstLaunchPageState extends State<FirstLaunchPage> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Button(
                       title: "next".translate(),
                       onPressed: () async {

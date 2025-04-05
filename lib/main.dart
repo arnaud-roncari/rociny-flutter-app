@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/constants/storage_keys.dart';
+import 'package:rociny/core/repositories/crash_repository.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
+import 'package:rociny/features/auth/data/repositories/auth_repository.dart';
 import 'package:rociny/router/routes.dart';
 import 'package:rociny/shared/decorations/theme.dart';
 
 /// TODO prépare les icons (leurs tailles 20x20) : mettre dans des frame de 20X20
-/// TODO nom rociny ne lajucscule sur andfroid
-///
-///
-/// TODO pour login, créer une tabler user, lié à une table influencer ou company
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,13 +41,19 @@ class RocinyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Builder(
-      builder: (context) {
-        return MaterialApp.router(
-          theme: kTheme,
-          routerConfig: kRouter,
-        );
-      },
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(create: (context) => AuthRepository()),
+        RepositoryProvider(create: (context) => CrashRepository()),
+      ],
+      child: Builder(
+        builder: (context) {
+          return MaterialApp.router(
+            theme: kTheme,
+            routerConfig: kRouter,
+          );
+        },
+      ),
     );
   }
 }

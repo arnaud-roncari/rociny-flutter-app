@@ -80,5 +80,50 @@
     "fr": "Suivant",
     "en": "Next",
     "es": "Siguiente"
+  },
+  "login": {
+    "fr": "Connexion",
+    "en": "Login",
+    "es": "Iniciar sesión"
+  },
+  "enter_email_and_password": {
+    "fr": "Entrez votre email et votre mot de passe pour vous connecter.",
+    "en": "Enter your email and password to log in.",
+    "es": "Ingrese su correo electrónico y contraseña para iniciar sesión."
+  },
+  "email": {
+    "fr": "E-mail",
+    "en": "Email",
+    "es": "Correo electrónico"
+  },
+  "password": {
+    "fr": "Mot de passe",
+    "en": "Password",
+    "es": "Contraseña"
+  },
+  "forgot_password": {
+    "fr": "Mot de passe oublié ?",
+    "en": "Forgot password?",
+    "es": "¿Olvidaste tu contraseña?"
+  },
+  "login_button": {
+    "fr": "Se connecter",
+    "en": "Log in",
+    "es": "Iniciar sesión"
+  },
+  "or": {
+    "fr": "Ou",
+    "en": "Or",
+    "es": "O"
+  },
+  "no_account": {
+    "fr": "Je n'ai pas de compte ?",
+    "en": "Don't have an account?",
+    "es": "¿No tienes una cuenta?"
+  },
+  "sign_up": {
+    "fr": "S'inscrire",
+    "en": "Sign up",
+    "es": "Regístrate"
   }
 }

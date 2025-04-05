@@ -1,116 +1,164 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
+import 'package:rociny/core/utils/error_handling/alert.dart';
+import 'package:rociny/core/utils/extensions/translate.dart';
+import 'package:rociny/core/utils/validators.dart';
+import 'package:rociny/features/auth/bloc/auth/auth_bloc.dart';
 import 'package:rociny/features/auth/ui/widgets/apple_button.dart';
 import 'package:rociny/features/auth/ui/widgets/google_button.dart';
 import 'package:rociny/shared/decorations/textfield_decoration.dart';
 import 'package:rociny/shared/widgets/button.dart';
 
-/// TODO TRANSLATE
+/// TODO ajouter le scrolling pour le formulaire
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
     return Scaffold(
       backgroundColor: kWhite,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: kPadding20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Spacer(),
-              Text("Connexion", style: kTitle1Bold),
-              Text(
-                "Entrez votre email et votre mot de passe pour vous connecter.",
-                style: kBody.copyWith(color: kGrey300),
-              ),
-              TextFormField(
-                style: kBody,
-                decoration: kTextFieldDecoration.copyWith(hintText: "E-mail"),
-              ),
-              TextFormField(
-                style: kBody,
-                decoration: kTextFieldDecoration.copyWith(hintText: "Mot de passe"),
-              ),
-              const SizedBox(height: kPadding5),
-              Align(
-                alignment: Alignment.centerRight,
-                child: GestureDetector(
-                  onTap: () {
-                    // Redirect to forgot password
-                  },
-                  child: Text(
-                    "Mot de passe oublié ?",
-                    style: kCaption.copyWith(
-                      color: kGrey500,
+        child: BlocConsumer<AuthBloc, AuthState>(
+          listener: (context, state) {
+            if (state is LoginSuccess) {
+              /// TODO redirect to home page, selon account type
+            }
+
+            if (state is LoginFailed) {
+              Alert.showError(context, state.exception.message);
+            }
+          },
+          builder: (context, state) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: kPadding20),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Spacer(),
+                    Text("login".translate(), style: kTitle1Bold),
+                    Text(
+                      "enter_email_and_password".translate(),
+                      style: kBody.copyWith(color: kGrey300),
                     ),
-                  ),
+                    TextFormField(
+                      controller: emailController,
+                      style: kBody,
+                      decoration: kTextFieldDecoration.copyWith(hintText: "email".translate()),
+                      validator: Validator.email,
+                    ),
+                    const SizedBox(height: kPadding10),
+                    TextFormField(
+                      controller: passwordController,
+                      style: kBody,
+                      obscureText: true,
+                      decoration: kTextFieldDecoration.copyWith(hintText: "password".translate()),
+                      validator: Validator.password,
+                    ),
+                    const SizedBox(height: kPadding5),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector(
+                        onTap: () {
+                          // Redirect to forgot password
+                        },
+                        child: Text(
+                          "forgot_password".translate(),
+                          style: kCaption.copyWith(
+                            color: kGrey500,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: kPadding30),
+                    state is LoginLoading
+                        ? SizedBox(
+                            height: 50,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: kPrimary500,
+                              ),
+                            ),
+                          )
+                        : Button(
+                            title: "login_button".translate(),
+                            onPressed: () {
+                              if (formKey.currentState!.validate()) {
+                                context.read<AuthBloc>().add(
+                                      OnLogin(
+                                        email: emailController.text,
+                                        password: passwordController.text,
+                                      ),
+                                    );
+                              }
+                            },
+                          ),
+                    const SizedBox(height: kPadding30),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Divider(
+                            color: kGrey100,
+                          ),
+                        ),
+                        const SizedBox(width: kPadding15),
+                        Text(
+                          "or".translate(),
+                          style: kBody.copyWith(color: kGrey300),
+                        ),
+                        const SizedBox(width: kPadding15),
+                        Expanded(
+                          child: Divider(
+                            color: kGrey100,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: kPadding30),
+                    const Row(
+                      children: [
+                        Expanded(child: GoogleButton()),
+                        SizedBox(width: kPadding20),
+                        Expanded(child: AppleButton()),
+                      ],
+                    ),
+                    const Spacer(
+                      flex: 2,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "${"no_account".translate()} ",
+                          style: kBody,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            // Redirect to sign-up page
+                          },
+                          child: Text(
+                            "sign_up".translate(),
+                            style: kBodyBold.copyWith(color: kPrimary500),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: kPadding20,
+                    )
+                  ],
                 ),
               ),
-              const SizedBox(height: kPadding30),
-              Button(
-                  title: "Se connecter",
-                  onPressed: () {
-                    /// Login emit
-                  }),
-              const SizedBox(height: kPadding30),
-              Row(
-                children: [
-                  Expanded(
-                    child: Divider(
-                      color: kGrey100,
-                    ),
-                  ),
-                  const SizedBox(width: kPadding15),
-                  Text(
-                    "Ou",
-                    style: kBody.copyWith(color: kGrey300),
-                  ),
-                  const SizedBox(width: kPadding15),
-                  Expanded(
-                    child: Divider(
-                      color: kGrey100,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: kPadding30),
-              const Row(
-                children: [
-                  Expanded(child: GoogleButton()),
-                  SizedBox(width: kPadding20),
-                  Expanded(child: AppleButton()),
-                ],
-              ),
-              const Spacer(
-                flex: 2,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Je n'ai pas de compte ? ",
-                    style: kBody,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      // Redirect to sign-up page
-                    },
-                    child: Text(
-                      "S'inscrire",
-                      style: kBodyBold.copyWith(color: kPrimary500),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: kPadding20,
-              )
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
