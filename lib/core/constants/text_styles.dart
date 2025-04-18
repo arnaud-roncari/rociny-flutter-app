@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 const String fontFamily = "Nunito";
 
 /// Regular
-TextStyle kHeadline1 = const TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.normal, fontSize: 48);
-TextStyle kHeadline2 = const TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.normal, fontSize: 40);
-TextStyle kHeadline3 = const TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.normal, fontSize: 33);
-TextStyle kHeadline4 = const TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.normal, fontSize: 28);
-TextStyle kHeadline5 = const TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.normal, fontSize: 23);
-TextStyle kTitle1 = const TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.normal, fontSize: 19);
-TextStyle kTitle2 = const TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.normal, fontSize: 16);
-TextStyle kTitle3 = const TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.normal, fontSize: 14.5);
-TextStyle kBody = const TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.normal, fontSize: 13);
-TextStyle kCaption = const TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.normal, fontSize: 11);
+TextStyle kHeadline1 = const TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.normal, fontSize: 48, height: 1);
+TextStyle kHeadline2 = const TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.normal, fontSize: 40, height: 1);
+TextStyle kHeadline3 = const TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.normal, fontSize: 33, height: 1);
+TextStyle kHeadline4 = const TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.normal, fontSize: 28, height: 1);
+TextStyle kHeadline5 = const TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.normal, fontSize: 23, height: 1);
+TextStyle kTitle1 = const TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.normal, fontSize: 19, height: 1);
+TextStyle kTitle2 = const TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.normal, fontSize: 16, height: 1);
+TextStyle kTitle3 = const TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.normal, fontSize: 14.5, height: 1);
+TextStyle kBody = const TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.normal, fontSize: 13, height: 1);
+TextStyle kCaption = const TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.normal, fontSize: 11, height: 1);
 
 /// Bold
 TextStyle kHeadline1Bold = kHeadline1.copyWith(fontWeight: FontWeight.bold);

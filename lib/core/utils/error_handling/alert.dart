@@ -48,6 +48,15 @@ class AlertException {
         case "security:password:not_matching":
           message = "email_or_password_incorrect".translate();
           break;
+        case "security:user:already_registering":
+          message = "user_already_registering".translate();
+          break;
+        case "security:user:already_exist":
+          message = "user_already_exists".translate();
+          break;
+        case "security:code:not_matching":
+          message = "code_incorrect".translate();
+          break;
       }
     }
 

@@ -5,11 +5,10 @@ import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/constants/storage_keys.dart';
 import 'package:rociny/core/repositories/crash_repository.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
+import 'package:rociny/features/auth/bloc/auth/auth_bloc.dart';
 import 'package:rociny/features/auth/data/repositories/auth_repository.dart';
 import 'package:rociny/router/routes.dart';
 import 'package:rociny/shared/decorations/theme.dart';
-
-/// TODO prépare les icons (leurs tailles 20x20) : mettre dans des frame de 20X20
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +30,6 @@ void main() async {
 
   /// Redirect user on "first launch" screens if true.
   kFirstLaunch = await storage.read(key: kKeyFirstLaunch) == null;
-  kFirstLaunch = true;
 
   runApp(const RocinyApp());
 }
@@ -48,9 +46,19 @@ class RocinyApp extends StatelessWidget {
       ],
       child: Builder(
         builder: (context) {
-          return MaterialApp.router(
-            theme: kTheme,
-            routerConfig: kRouter,
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => AuthBloc(
+                  authRepository: RepositoryProvider.of<AuthRepository>(context),
+                  crashRepository: RepositoryProvider.of<CrashRepository>(context),
+                ),
+              ),
+            ],
+            child: MaterialApp.router(
+              theme: kTheme,
+              routerConfig: kRouter,
+            ),
           );
         },
       ),

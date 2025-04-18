@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
@@ -43,12 +44,16 @@ class LoginPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Spacer(),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.1,
+                    ),
                     Text("login".translate(), style: kTitle1Bold),
+                    const SizedBox(height: kPadding10),
                     Text(
                       "enter_email_and_password".translate(),
                       style: kBody.copyWith(color: kGrey300),
                     ),
+                    const SizedBox(height: kPadding20),
                     TextFormField(
                       controller: emailController,
                       style: kBody,
@@ -63,12 +68,12 @@ class LoginPage extends StatelessWidget {
                       decoration: kTextFieldDecoration.copyWith(hintText: "password".translate()),
                       validator: Validator.password,
                     ),
-                    const SizedBox(height: kPadding5),
+                    const SizedBox(height: kPadding10),
                     Align(
                       alignment: Alignment.centerRight,
                       child: GestureDetector(
                         onTap: () {
-                          // Redirect to forgot password
+                          context.push('/forgot_password');
                         },
                         child: Text(
                           "forgot_password".translate(),
@@ -142,7 +147,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () {
-                            // Redirect to sign-up page
+                            context.push('/register');
                           },
                           child: Text(
                             "sign_up".translate(),
