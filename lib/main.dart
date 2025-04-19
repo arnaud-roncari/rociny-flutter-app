@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/constants/storage_keys.dart';
 import 'package:rociny/core/repositories/crash_repository.dart';
+import 'package:rociny/core/repositories/influencer_repository.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/auth/bloc/auth/auth_bloc.dart';
 import 'package:rociny/features/auth/data/repositories/auth_repository.dart';
@@ -43,6 +44,7 @@ class RocinyApp extends StatelessWidget {
       providers: [
         RepositoryProvider(create: (context) => AuthRepository()),
         RepositoryProvider(create: (context) => CrashRepository()),
+        RepositoryProvider(create: (context) => InfluencerRepository()),
       ],
       child: Builder(
         builder: (context) {

@@ -29,6 +29,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   /// Stores the email address during the registration process.
   String? emailToRegister;
 
+  /// Stores the account type during the registration process.
+  AccountType? accountTypeToRegister;
+
   /// Stores the email address used for the password recovery process.
   String? emailForgotPassword;
   int? codeForgotPassword;
@@ -72,6 +75,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         event.accountType,
       );
 
+      accountTypeToRegister = event.accountType;
       emailToRegister = event.email;
 
       emit(RegisterSuccess());
@@ -90,10 +94,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       emit(RegisterCodeVerificationLoading());
 
-      await authRepository.verifyRegisterCode(
+      kJwt = await authRepository.verifyRegisterCode(
         emailToRegister!,
         event.code,
       );
+      FlutterSecureStorage storage = const FlutterSecureStorage();
+      await storage.write(key: kKeyJwt, value: kJwt);
 
       emit(RegisterCodeVerificationSuccess());
     } catch (exception, stack) {
@@ -152,6 +158,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       emit(ForgotPasswordVerificationLoading());
       await authRepository.verifyForgotPasswordCode(emailForgotPassword!, event.password, codeForgotPassword!);
+
+      /// Set jwt to null
+      kJwt = null;
+      FlutterSecureStorage storage = const FlutterSecureStorage();
+      await storage.write(key: kKeyJwt, value: kJwt);
+
       emit(ForgotPasswordVerificationSuccess());
     } catch (exception, stack) {
       /// Emit success if already resetting password.

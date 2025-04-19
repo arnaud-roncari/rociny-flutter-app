@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 	<dict>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>Nous avons besoin d'accéder à votre galerie pour sélectionner des photos.</string>
+		<key>NSCameraUsageDescription</key>
+		<string>Nous avons besoin d'accéder à votre caméra pour prendre des photos ou vidéos.</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>Nous avons besoin d'accéder à votre microphone pour enregistrer le son des vidéos.</string>
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>

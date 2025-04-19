@@ -14,6 +14,7 @@ import 'package:rociny/shared/decorations/textfield_decoration.dart';
 import 'package:rociny/shared/widgets/button.dart';
 
 /// TODO ajouter le scrolling pour le formulaire
+/// TODO mettre en place des algorithme de scraping ? (ou passer)
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 

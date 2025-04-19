@@ -5,6 +5,7 @@ import 'package:rociny/core/constants/text_styles.dart';
 final InputDecoration kTextFieldDecoration = InputDecoration(
   labelText: null,
   hintText: null,
+  counterStyle: kCaption.copyWith(color: kGrey300),
   hintStyle: kBody.copyWith(color: kGrey500),
   contentPadding: const EdgeInsets.symmetric(vertical: 8),
   enabledBorder: UnderlineInputBorder(

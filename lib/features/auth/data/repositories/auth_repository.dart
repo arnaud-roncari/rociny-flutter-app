@@ -43,7 +43,7 @@ class AuthRepository {
     }
   }
 
-  Future<void> verifyRegisterCode(String email, int code) async {
+  Future<String> verifyRegisterCode(String email, int code) async {
     final Response response = await post(
       Uri.parse("$kEndpoint/user/auth/register/verify"),
       headers: {
@@ -58,6 +58,8 @@ class AuthRepository {
       Map<String, dynamic> body = jsonDecode(response.body);
       throw ApiException.fromJson(response.statusCode, body);
     }
+    Map<String, dynamic> body = jsonDecode(response.body);
+    return body["access_token"];
   }
 
   Future<void> resentRegisterVerificationCode(String email) async {

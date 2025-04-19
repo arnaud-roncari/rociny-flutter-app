@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
@@ -13,7 +14,6 @@ import 'package:rociny/features/auth/data/enums/account_type.dart';
 import 'package:rociny/shared/decorations/textfield_decoration.dart';
 import 'package:rociny/shared/widgets/button.dart';
 
-/// TODO vérifier le fonctionnement de mot de passe oublié
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
@@ -32,7 +32,6 @@ class _RegisterPageState extends State<RegisterPage> {
   void initState() {
     super.initState();
 
-    /// TODO remove
     emailController.text = "new-user@rociny.com";
     passwordController.text = "yourpassword";
     confirmPasswordController.text = "yourpassword";
@@ -154,7 +153,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             style: kCaption.copyWith(color: kPrimary500),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                // TODO preview le pdf su backend Handle terms and conditions
+                                context.push("/preview_pdf", extra: "$kEndpoint/policy/terms-of-use");
                               },
                           ),
                           TextSpan(
@@ -166,7 +165,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             style: kCaption.copyWith(color: kPrimary500),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                // TODO preview le pdf su backend  Handle privacy policy tap
+                                context.push("/preview_pdf", extra: "$kEndpoint/policy/privacy-policy");
                               },
                           ),
                         ],
@@ -187,7 +186,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             context.pop();
                           },
                           child: Text(
-                            "log_in",
+                            "log_in".translate(),
                             style: kBodyBold.copyWith(color: kPrimary500),
                           ),
                         ),

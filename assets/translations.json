@@ -138,6 +138,11 @@
     "en": "The user already exists.",
     "es": "El usuario ya existe."
   },
+  "file_required": {
+    "fr": "Un fichier est nécessaire.",
+    "en": "A file is required.",
+    "es": "Se requiere un archivo."
+  },
   "code_incorrect": {
     "fr": "Code incorrect.",
     "en": "Incorrect code.",
@@ -286,5 +291,21 @@
     "fr": "secondes restantes",
     "en": "seconds remaining",
     "es": "segundos restantes"
+  },
+
+  "complete": {
+    "fr": "Compléter",
+    "en": "Complete",
+    "es": "Completar"
+  },
+  "profile_visibility_message": {
+    "fr": "Celui-ci sera visible par les entreprises, alors prenez le temps de créer un profil qui représente votre image.",
+    "en": "This will be visible to companies, so take the time to create a profile that represents your image.",
+    "es": "Este será visible para las empresas, así que tómate el tiempo para crear un perfil que represente tu imagen."
+  },
+  "my_profile": {
+    "fr": "Mon profil",
+    "en": "My profile",
+    "es": "Mi perfil"
   }
 }

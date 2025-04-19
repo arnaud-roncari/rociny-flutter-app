@@ -7,6 +7,7 @@ import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/auth/bloc/auth/auth_bloc.dart';
+import 'package:rociny/features/auth/data/enums/account_type.dart';
 import 'package:rociny/shared/widgets/digit_field.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 import 'package:rociny/shared/widgets/time_left.dart';
@@ -33,7 +34,12 @@ class _RegisterCodeVerificationPageState extends State<RegisterCodeVerificationP
             }
 
             if (state is RegisterCodeVerificationSuccess) {
-              /// TODO redirigier vers home selon type de compte
+              AccountType accountType = context.read<AuthBloc>().accountTypeToRegister!;
+              if (accountType == AccountType.influencer) {
+                context.go('/influencer/complete_register/my_profile');
+              }
+
+              /// TODO redirigier vers complete profile
             }
           },
           builder: (context, state) {

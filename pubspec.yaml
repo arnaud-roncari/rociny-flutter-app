@@ -39,6 +39,8 @@ dependencies:
   cached_network_image_platform_interface: ^4.1.1
   flutter_svg: ^2.0.17
   jwt_decoder: ^2.0.1
+  image_picker: ^1.1.2
+  syncfusion_flutter_pdfviewer: ^29.1.38
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -84,3 +86,4 @@ flutter:
     - assets/translations.json
     - assets/svg/
     - assets/images/first_launch/
+    - assets/images/complete_profile/

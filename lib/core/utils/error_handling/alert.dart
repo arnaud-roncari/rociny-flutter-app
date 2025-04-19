@@ -57,6 +57,9 @@ class AlertException {
         case "security:code:not_matching":
           message = "code_incorrect".translate();
           break;
+        case "security:user:file_required":
+          message = "file_required".translate();
+          break;
       }
     }
 

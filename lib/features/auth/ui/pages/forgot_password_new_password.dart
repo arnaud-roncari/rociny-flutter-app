@@ -8,10 +8,12 @@ import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/core/utils/validators.dart';
 import 'package:rociny/features/auth/bloc/auth/auth_bloc.dart';
+import 'package:rociny/features/auth/ui/widgets/password_changed_modal.dart';
 import 'package:rociny/shared/decorations/textfield_decoration.dart';
 import 'package:rociny/shared/widgets/button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
+/// TODO faire création remplissage profil pour influencer et entreprise
 class ForgotPasswordNewPasswordPage extends StatefulWidget {
   const ForgotPasswordNewPasswordPage({super.key});
 
@@ -43,40 +45,10 @@ class _ForgotPasswordNewPasswordPageState extends State<ForgotPasswordNewPasswor
           }
 
           if (state is ForgotPasswordVerificationSuccess) {
-            /// TODO en faire un widget
             showModalBottomSheet(
               context: context,
               builder: (BuildContext context) {
-                return Container(
-                  decoration: BoxDecoration(
-                    color: kWhite,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(kPadding20),
-                      topRight: Radius.circular(kPadding20),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(kPadding20),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('password_changed'.translate(), style: kTitle1Bold),
-                        const SizedBox(height: kPadding10),
-                        Text(
-                          'password_changed_message'.translate(),
-                          style: kBody.copyWith(color: kGrey300),
-                        ),
-                        const SizedBox(height: kPadding30),
-                        Button(
-                          title: "ok".translate(),
-                          onPressed: () => Navigator.of(context).popUntil((route) => route.settings.name == "/login"),
-                        ),
-                        SizedBox(height: MediaQuery.of(context).padding.bottom),
-                      ],
-                    ),
-                  ),
-                );
+                return const PasswordChangedModal();
               },
             );
           }
