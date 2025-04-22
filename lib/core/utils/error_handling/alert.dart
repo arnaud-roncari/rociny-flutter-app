@@ -60,6 +60,9 @@ class AlertException {
         case "security:user:file_required":
           message = "file_required".translate();
           break;
+        case "security:social_network:already_exist":
+          message = "social_network_already_exists".translate();
+          break;
       }
     }
 

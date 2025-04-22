@@ -5,7 +5,10 @@ import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/constants/storage_keys.dart';
 import 'package:rociny/core/repositories/crash_repository.dart';
 import 'package:rociny/core/repositories/influencer_repository.dart';
+import 'package:rociny/core/utils/helpers/department_helper.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
+import 'package:rociny/core/utils/helpers/target_audience_helper.dart';
+import 'package:rociny/core/utils/helpers/theme_helper.dart';
 import 'package:rociny/features/auth/bloc/auth/auth_bloc.dart';
 import 'package:rociny/features/auth/data/repositories/auth_repository.dart';
 import 'package:rociny/router/routes.dart';
@@ -28,6 +31,18 @@ void main() async {
 
   /// Translations are loaded from a JSON file.
   await TranslationExtension.loadTranslations();
+
+  /// Load the list of departments into a global variable.
+  /// This is used throughout the app for features requiring department data.
+  kDepartments = await DepartmentHelper.loadDepartments();
+
+  /// Load the themes into a global variable.
+  /// This is used to dynamically apply themes throughout the app.
+  kThemes = await ThemeHelper.loadThemes();
+
+  /// Load the target audience data into a global variable.
+  /// This is used for features that depend on audience segmentation.
+  kTargetAudiences = await TargetAudienceHelper.loadTargetAudience();
 
   /// Redirect user on "first launch" screens if true.
   kFirstLaunch = await storage.read(key: kKeyFirstLaunch) == null;

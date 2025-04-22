@@ -119,14 +119,14 @@ class InfluencerRepository {
     }
   }
 
-  Future<void> updateTargetAudience(List<String> targetAudience) async {
+  Future<void> updateTargetAudiences(List<String> targetAudiences) async {
     var response = await put(
       Uri.parse('$kEndpoint/influencer/update-target-audience'),
       headers: {
         'Authorization': 'Bearer $kJwt',
         'Content-Type': 'application/json',
       },
-      body: jsonEncode({'target_audience': targetAudience}),
+      body: jsonEncode({'target_audience': targetAudiences}),
     );
 
     if (response.statusCode >= 400) {

@@ -13,7 +13,6 @@ import 'package:rociny/shared/decorations/textfield_decoration.dart';
 import 'package:rociny/shared/widgets/button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
-/// TODO faire création remplissage profil pour influencer et entreprise
 class ForgotPasswordNewPasswordPage extends StatefulWidget {
   const ForgotPasswordNewPasswordPage({super.key});
 

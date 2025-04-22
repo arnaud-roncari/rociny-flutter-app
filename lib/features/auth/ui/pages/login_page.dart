@@ -8,13 +8,13 @@ import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/core/utils/validators.dart';
 import 'package:rociny/features/auth/bloc/auth/auth_bloc.dart';
+import 'package:rociny/features/auth/data/enums/account_type.dart';
 import 'package:rociny/features/auth/ui/widgets/apple_button.dart';
 import 'package:rociny/features/auth/ui/widgets/google_button.dart';
 import 'package:rociny/shared/decorations/textfield_decoration.dart';
 import 'package:rociny/shared/widgets/button.dart';
 
 /// TODO ajouter le scrolling pour le formulaire
-/// TODO mettre en place des algorithme de scraping ? (ou passer)
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
@@ -30,7 +30,11 @@ class LoginPage extends StatelessWidget {
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is LoginSuccess) {
-              /// TODO redirect to home page, selon account type
+              if (state.accountType == AccountType.company) {
+                context.go("/company/home");
+              } else {
+                context.go("/influencer/home");
+              }
             }
 
             if (state is LoginFailed) {

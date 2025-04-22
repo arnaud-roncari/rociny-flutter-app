@@ -84,6 +84,9 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/translations.json
+    - assets/departments.json
+    - assets/themes.json
+    - assets/target_audience.json
     - assets/svg/
     - assets/images/first_launch/
     - assets/images/complete_profile/

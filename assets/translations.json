@@ -138,6 +138,11 @@
     "en": "The user already exists.",
     "es": "El usuario ya existe."
   },
+  "social_network_already_exists": {
+    "fr": "Le réseau social existe déjà.",
+    "en": "The social network already exists.",
+    "es": "La red social ya existe."
+  },
   "file_required": {
     "fr": "Un fichier est nécessaire.",
     "en": "A file is required.",
@@ -307,5 +312,145 @@
     "fr": "Mon profil",
     "en": "My profile",
     "es": "Mi perfil"
+  },
+  "social_networks": {
+    "fr": "Réseaux sociaux",
+    "en": "Social networks",
+    "es": "Redes sociales"
+  },
+  "add_your_social_networks": {
+    "fr": "Ajoutez vos différents réseaux sociaux.",
+    "en": "Add your different social networks.",
+    "es": "Agrega tus diferentes redes sociales."
+  },
+  "add": {
+    "fr": "Ajouter",
+    "en": "Add",
+    "es": "Agregar"
+  },
+  "profile": {
+    "fr": "Profil",
+    "en": "Profile",
+    "es": "Perfil"
+  },
+  "ignore": {
+    "fr": "Ignorer",
+    "en": "Ignore",
+    "es": "Ignorar"
+  },
+  "step": {
+    "fr": "Étape",
+    "en": "Step",
+    "es": "Paso"
+  },
+  "out_of_9": {
+    "fr": "sur 9",
+    "en": "out of 9",
+    "es": "de 9"
+  },
+  "next_step": {
+    "fr": "Suivant",
+    "en": "Next",
+    "es": "Siguiente"
+  },
+  "geolocation": {
+    "fr": "Géolocalisation",
+    "en": "Geolocation",
+    "es": "Geolocalización"
+  },
+  "indicate_active_department": {
+    "fr": "Indiquez le département dans laquelle vous êtes actif.",
+    "en": "Indicate the department in which you are active.",
+    "es": "Indique el departamento en el que está activo."
+  },
+  "department": {
+    "fr": "Département",
+    "en": "Department",
+    "es": "Departamento"
+  },
+  "description": {
+    "fr": "Description",
+    "en": "Description",
+    "es": "Descripción"
+  },
+  "describe_yourself": {
+    "fr": "Décrivez-vous en quelques lignes.",
+    "en": "Describe yourself in a few lines.",
+    "es": "Descríbete en unas pocas líneas."
+  },
+  "minimum_10_characters": {
+    "fr": "Minimum 10 caractères.",
+    "en": "Minimum 10 characters.",
+    "es": "Mínimo 10 caracteres."
+  },
+  "instagram_connect": {
+    "fr": "Une connexion à votre compte Instagram est nécessaire afin d'afficher des statistiques.",
+    "en": "A connection to your Instagram account is required to display statistics.",
+    "es": "Se requiere una conexión a tu cuenta de Instagram para mostrar estadísticas."
+  },
+  "connect": {
+    "fr": "Se connecter",
+    "en": "Connect",
+    "es": "Conectar"
+  },
+  "influencer_name": {
+    "fr": "Nom d'influenceur",
+    "en": "Influencer name",
+    "es": "Nombre del influencer"
+  },
+  "enter_influencer_name": {
+    "fr": "Renseignez votre nom d'influenceur. Vous pouvez utiliser un pseudonyme ou votre prénom et nom.",
+    "en": "Enter your influencer name. You can use a pseudonym or your first and last name.",
+    "es": "Ingrese su nombre de influencer. Puede usar un seudónimo o su nombre y apellido."
+  },
+  "name": {
+    "fr": "Nom",
+    "en": "Name",
+    "es": "Nombre"
+  },
+  "minimum_3_characters": {
+    "fr": "Minimum 3 caractères.",
+    "en": "Minimum 3 characters.",
+    "es": "Mínimo 3 caracteres."
+  },
+  "publish_your_portfolio": {
+    "fr": "Publiez votre portfolio.",
+    "en": "Publish your portfolio.",
+    "es": "Publica tu portafolio."
+  },
+  "define_your_targets": {
+    "fr": "Définissez vos cibles.",
+    "en": "Define your targets.",
+    "es": "Define tus objetivos."
+  },
+  "target": {
+    "fr": "Cible",
+    "en": "Target",
+    "es": "Objetivo"
+  },
+  "profile_picture": {
+    "fr": "Photo de profil",
+    "en": "Profile picture",
+    "es": "Foto de perfil"
+  },
+  "publish_your_profile_picture": {
+    "fr": "Publiez votre photo de profil.",
+    "en": "Publish your profile picture.",
+    "es": "Publica tu foto de perfil."
+  },
+  "themes": {
+    "fr": "Thématiques",
+    "en": "Themes",
+    "es": "Temáticas"
+  },
+  "define_themes_description": {
+    "fr": "Définissez les thématiques qui reflètent votre création de contenu.",
+    "en": "Define the themes that reflect your content creation.",
+    "es": "Define las temáticas que reflejan tu creación de contenido."
+  },
+  "theme": {
+    "fr": "Thématique",
+    "en": "Theme",
+    "es": "Temática"
   }
 }

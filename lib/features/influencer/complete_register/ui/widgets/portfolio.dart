@@ -5,6 +5,7 @@ import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/radius.dart';
 import 'package:rociny/core/constants/text_styles.dart';
+import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/influencer/complete_register/bloc/complete_profile_informations/complete_profile_informations_bloc.dart';
 import 'package:rociny/shared/widgets/chip_button.dart';
 
@@ -26,19 +27,16 @@ class _PortfolioState extends State<Portfolio> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              /// TODO translate
               "Portfolio",
               style: kTitle1Bold,
             ),
             const SizedBox(height: kPadding10),
             Text(
-              /// TODO translate
-              "Publiez votre portfolio.",
+              "publish_your_portfolio".translate(),
               style: kBody.copyWith(color: kGrey300),
             ),
             const SizedBox(height: kPadding20),
             ChipButton(
-              /// TODO TRANSLATE
               label: "Portfolio",
               svgPath: "assets/svg/upload.svg",
               onTap: () async {

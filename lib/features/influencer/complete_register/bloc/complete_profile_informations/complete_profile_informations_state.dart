@@ -52,10 +52,10 @@ class UpdateThemesFailed extends CompleteProfileInformationsState {
 
 class UpdateThemesSuccess extends CompleteProfileInformationsState {}
 
-class UpdateTargetAudienceFailed extends CompleteProfileInformationsState {
+class UpdateTargetAudiencesFailed extends CompleteProfileInformationsState {
   final AlertException exception;
 
-  UpdateTargetAudienceFailed({required this.exception});
+  UpdateTargetAudiencesFailed({required this.exception});
 }
 
-class UpdateTargetAudienceSuccess extends CompleteProfileInformationsState {}
+class UpdateTargetAudiencesSuccess extends CompleteProfileInformationsState {}

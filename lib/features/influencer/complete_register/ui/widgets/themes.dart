@@ -9,16 +9,24 @@ import 'package:rociny/features/influencer/complete_register/bloc/complete_profi
 import 'package:rociny/shared/decorations/textfield_decoration.dart';
 import 'package:rociny/shared/widgets/chip.dart';
 
-class Department extends StatefulWidget {
-  const Department({super.key});
+class Themes extends StatefulWidget {
+  const Themes({super.key});
 
   @override
-  State<Department> createState() => _DepartmentState();
+  State<Themes> createState() => _ThemesState();
 }
 
-class _DepartmentState extends State<Department> {
+class _ThemesState extends State<Themes> {
   TextEditingController controller = TextEditingController();
-  List<String> fitleredDepartments = kDepartments;
+  late List<String> themes;
+  List<String> fitleredThemes = kThemes;
+
+  @override
+  void initState() {
+    super.initState();
+    CompleteProfileInformationsBloc bloc = context.read<CompleteProfileInformationsBloc>();
+    themes = bloc.themes ?? [];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,31 +38,30 @@ class _DepartmentState extends State<Department> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "geolocation".translate(),
+              "themes".translate(),
               style: kTitle1Bold,
             ),
             const SizedBox(height: kPadding10),
             Text(
-              "indicate_active_department".translate(),
+              "define_themes_description".translate(),
               style: kBody.copyWith(color: kGrey300),
             ),
             const SizedBox(height: kPadding20),
             TextField(
               controller: controller,
               decoration: kTextFieldDecoration.copyWith(
-                hintText: "department".translate(),
+                hintText: "theme".translate(),
               ),
               style: kBody,
               onChanged: (value) {
                 if (value.length >= 3) {
                   setState(() {
-                    fitleredDepartments = kDepartments
-                        .where((department) => department.toLowerCase().startsWith(value.toLowerCase()))
-                        .toList();
+                    fitleredThemes =
+                        kThemes.where((theme) => theme.toLowerCase().startsWith(value.toLowerCase())).toList();
                   });
                 } else {
                   setState(() {
-                    fitleredDepartments = kDepartments;
+                    fitleredThemes = kThemes;
                   });
                 }
               },
@@ -66,15 +73,26 @@ class _DepartmentState extends State<Department> {
                   child: Wrap(
                     spacing: kPadding10,
                     runSpacing: kPadding10,
-                    children: List.generate(fitleredDepartments.length, (index) {
-                      final department = fitleredDepartments[index];
-                      final bool isSelected = bloc.department == department;
+                    children: List.generate(fitleredThemes.length, (index) {
+                      final theme = fitleredThemes[index];
+                      final bool isSelected = themes.contains(theme);
 
                       return SelectableChip(
                         onTap: () {
-                          bloc.add(UpdateDepartment(department: department));
+                          if (!isSelected && themes.length < 5) {
+                            setState(() {
+                              themes.add(theme);
+                            });
+                            if (themes.length == 5) {
+                              bloc.add(UpdateThemes(themes: themes));
+                            }
+                          } else {
+                            setState(() {
+                              themes.remove(theme);
+                            });
+                          }
                         },
-                        label: department,
+                        label: theme,
                         isSelected: isSelected,
                       );
                     }),

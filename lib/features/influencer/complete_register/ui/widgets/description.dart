@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
+import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/influencer/complete_register/bloc/complete_profile_informations/complete_profile_informations_bloc.dart';
 import 'package:rociny/shared/decorations/textfield_decoration.dart';
 
@@ -35,14 +35,12 @@ class _DescriptionState extends State<Description> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              /// TODO translate
-              "Description",
+              "description".translate(),
               style: kTitle1Bold,
             ),
             const SizedBox(height: kPadding10),
             Text(
-              /// TODO translate
-              "Décrivez-vous en quelques lignes.",
+              "describe_yourself".translate(),
               style: kBody.copyWith(color: kGrey300),
             ),
             const SizedBox(height: kPadding20),
@@ -50,13 +48,12 @@ class _DescriptionState extends State<Description> {
               controller: controller,
               maxLength: 1000,
               decoration: kTextFieldDecoration.copyWith(
-                hintText: "Description",
+                hintText: "description".translate(),
               ),
               style: kBody,
               onSubmitted: (value) {
                 if (value.length < 10) {
-                  /// TODO TRANSLATE
-                  Alert.showError(context, "Minimum 10 charactères.");
+                  Alert.showError(context, "minimum_10_characters".translate());
                 } else {
                   bloc.add(UpdateDescription(description: value));
                 }

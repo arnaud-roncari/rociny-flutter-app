@@ -19,7 +19,7 @@ class CompleteProfileInformationsBloc extends Bloc<CompleteProfileInformationsEv
     on<UpdateDescription>(updateDescription);
     on<UpdateDepartment>(updateDepartment);
     on<UpdateThemes>(updateThemes);
-    on<UpdateTargetAudience>(updateTargetAudience);
+    on<UpdateTargetAudiences>(updateTargetAudiences);
   }
   final CrashRepository crashRepository;
   final InfluencerRepository influencerRepository;
@@ -30,7 +30,7 @@ class CompleteProfileInformationsBloc extends Bloc<CompleteProfileInformationsEv
   String? description;
   String? department;
   List<String>? themes;
-  List<String>? targetAudience;
+  List<String>? targetAudiences;
 
   void updateProfilePicture(UpdateProfilePicture event, Emitter<CompleteProfileInformationsState> emit) async {
     try {
@@ -138,11 +138,11 @@ class CompleteProfileInformationsBloc extends Bloc<CompleteProfileInformationsEv
     }
   }
 
-  void updateTargetAudience(UpdateTargetAudience event, Emitter<CompleteProfileInformationsState> emit) async {
+  void updateTargetAudiences(UpdateTargetAudiences event, Emitter<CompleteProfileInformationsState> emit) async {
     try {
-      targetAudience = event.targetAudience;
-      await influencerRepository.updateTargetAudience(targetAudience!);
-      emit(UpdateTargetAudienceSuccess());
+      targetAudiences = event.targetAudiences;
+      await influencerRepository.updateTargetAudiences(targetAudiences!);
+      emit(UpdateTargetAudiencesSuccess());
     } catch (exception, stack) {
       if (exception is! ApiException) {
         crashRepository.registerCrash(exception, stack);
@@ -150,7 +150,7 @@ class CompleteProfileInformationsBloc extends Bloc<CompleteProfileInformationsEv
 
       /// Format exception to be displayed.
       AlertException alertException = AlertException.fromException(exception);
-      emit(UpdateTargetAudienceFailed(exception: alertException));
+      emit(UpdateTargetAudiencesFailed(exception: alertException));
     }
   }
 }

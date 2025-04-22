@@ -5,6 +5,7 @@ import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/radius.dart';
 import 'package:rociny/core/constants/text_styles.dart';
+import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/influencer/complete_register/bloc/complete_profile_informations/complete_profile_informations_bloc.dart';
 import 'package:rociny/shared/widgets/chip_button.dart';
 
@@ -26,20 +27,17 @@ class _ProfilePictureState extends State<ProfilePicture> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              /// TODO translate
-              "Photo de profil",
+              "profile_picture".translate(),
               style: kTitle1Bold,
             ),
             const SizedBox(height: kPadding10),
             Text(
-              /// TODO translate
-              "Publiez votre photo de profil.",
+              "publish_your_profile_picture".translate(),
               style: kBody.copyWith(color: kGrey300),
             ),
             const SizedBox(height: kPadding20),
             ChipButton(
-              /// TODO TRANSLATE
-              label: "Photo de profil",
+              label: "profile_picture".translate(),
               svgPath: "assets/svg/upload.svg",
               onTap: () async {
                 context.read<CompleteProfileInformationsBloc>().add(UpdateProfilePicture());

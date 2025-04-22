@@ -9,16 +9,24 @@ import 'package:rociny/features/influencer/complete_register/bloc/complete_profi
 import 'package:rociny/shared/decorations/textfield_decoration.dart';
 import 'package:rociny/shared/widgets/chip.dart';
 
-class Department extends StatefulWidget {
-  const Department({super.key});
+class TargetAudience extends StatefulWidget {
+  const TargetAudience({super.key});
 
   @override
-  State<Department> createState() => _DepartmentState();
+  State<TargetAudience> createState() => _TargetAudienceState();
 }
 
-class _DepartmentState extends State<Department> {
+class _TargetAudienceState extends State<TargetAudience> {
   TextEditingController controller = TextEditingController();
-  List<String> fitleredDepartments = kDepartments;
+  late List<String> targetAudiences;
+  List<String> fitleredTargetAudiences = kTargetAudiences;
+
+  @override
+  void initState() {
+    super.initState();
+    CompleteProfileInformationsBloc bloc = context.read<CompleteProfileInformationsBloc>();
+    targetAudiences = bloc.targetAudiences ?? [];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,31 +38,31 @@ class _DepartmentState extends State<Department> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "geolocation".translate(),
+              "target".translate(),
               style: kTitle1Bold,
             ),
             const SizedBox(height: kPadding10),
             Text(
-              "indicate_active_department".translate(),
+              "define_your_targets".translate(),
               style: kBody.copyWith(color: kGrey300),
             ),
             const SizedBox(height: kPadding20),
             TextField(
               controller: controller,
               decoration: kTextFieldDecoration.copyWith(
-                hintText: "department".translate(),
+                hintText: "target".translate(),
               ),
               style: kBody,
               onChanged: (value) {
                 if (value.length >= 3) {
                   setState(() {
-                    fitleredDepartments = kDepartments
-                        .where((department) => department.toLowerCase().startsWith(value.toLowerCase()))
+                    fitleredTargetAudiences = kTargetAudiences
+                        .where((targetAudience) => targetAudience.toLowerCase().startsWith(value.toLowerCase()))
                         .toList();
                   });
                 } else {
                   setState(() {
-                    fitleredDepartments = kDepartments;
+                    fitleredTargetAudiences = kTargetAudiences;
                   });
                 }
               },
@@ -66,15 +74,26 @@ class _DepartmentState extends State<Department> {
                   child: Wrap(
                     spacing: kPadding10,
                     runSpacing: kPadding10,
-                    children: List.generate(fitleredDepartments.length, (index) {
-                      final department = fitleredDepartments[index];
-                      final bool isSelected = bloc.department == department;
+                    children: List.generate(fitleredTargetAudiences.length, (index) {
+                      final theme = fitleredTargetAudiences[index];
+                      final bool isSelected = targetAudiences.contains(theme);
 
                       return SelectableChip(
                         onTap: () {
-                          bloc.add(UpdateDepartment(department: department));
+                          if (!isSelected && targetAudiences.length < 5) {
+                            setState(() {
+                              targetAudiences.add(theme);
+                            });
+                            if (targetAudiences.length == 5) {
+                              bloc.add(UpdateTargetAudiences(targetAudiences: targetAudiences));
+                            }
+                          } else {
+                            setState(() {
+                              targetAudiences.remove(theme);
+                            });
+                          }
                         },
-                        label: department,
+                        label: theme,
                         isSelected: isSelected,
                       );
                     }),

@@ -30,8 +30,8 @@ class UpdateThemes extends CompleteProfileInformationsEvent {
   UpdateThemes({required this.themes});
 }
 
-class UpdateTargetAudience extends CompleteProfileInformationsEvent {
-  final List<String> targetAudience;
+class UpdateTargetAudiences extends CompleteProfileInformationsEvent {
+  final List<String> targetAudiences;
 
-  UpdateTargetAudience({required this.targetAudience});
+  UpdateTargetAudiences({required this.targetAudiences});
 }

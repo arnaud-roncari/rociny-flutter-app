@@ -5,17 +5,20 @@ import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
+import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/influencer/complete_register/bloc/complete_profile_informations/complete_profile_informations_bloc.dart';
 import 'package:rociny/features/influencer/complete_register/ui/widgets/department.dart';
 import 'package:rociny/features/influencer/complete_register/ui/widgets/description.dart';
+import 'package:rociny/features/influencer/complete_register/ui/widgets/instagram.dart';
 import 'package:rociny/features/influencer/complete_register/ui/widgets/name.dart';
 import 'package:rociny/features/influencer/complete_register/ui/widgets/portfolio.dart';
 import 'package:rociny/features/influencer/complete_register/ui/widgets/profile_picture.dart';
+import 'package:rociny/features/influencer/complete_register/ui/widgets/social_networks.dart';
+import 'package:rociny/features/influencer/complete_register/ui/widgets/target_audience.dart';
+import 'package:rociny/features/influencer/complete_register/ui/widgets/themes.dart';
 import 'package:rociny/shared/widgets/button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
-/// TODO créer un bloc
-/// utilier file picker (pour un et plusieurs fichier) (autoriser que png, jpg ...)
 class CompleteInfluencerProfileInformationsPage extends StatefulWidget {
   const CompleteInfluencerProfileInformationsPage({super.key});
 
@@ -40,7 +43,7 @@ class _CompleteInfluencerProfileInformationsPageState extends State<CompleteInfl
               state is UpdateDescriptionFailed ||
               state is UpdateDepartmentFailed ||
               state is UpdateThemesFailed ||
-              state is UpdateTargetAudienceFailed) {
+              state is UpdateTargetAudiencesFailed) {
             Alert.showError(context, (state as dynamic).exception.message);
           }
 
@@ -50,7 +53,7 @@ class _CompleteInfluencerProfileInformationsPageState extends State<CompleteInfl
               state is UpdateDescriptionSuccess ||
               state is UpdateDepartmentSuccess ||
               state is UpdateThemesSuccess ||
-              state is UpdateTargetAudienceSuccess) {
+              state is UpdateTargetAudiencesSuccess) {
             Alert.showSuccess(context, "Modifications sauvegardées.");
           }
         },
@@ -74,18 +77,14 @@ class _CompleteInfluencerProfileInformationsPageState extends State<CompleteInfl
                       },
                     ),
                     const Spacer(),
-
-                    /// TODO translate
-                    Text("  Profil", style: kTitle1Bold),
+                    Text("  ${"profile".translate()}", style: kTitle1Bold),
                     const Spacer(),
                     GestureDetector(
                       onTap: () {
                         context.go("influencer/complete_profile/legal");
                       },
                       child: Text(
-                        /// TODO translate
-
-                        "Ignorer",
+                        "ignore".translate(),
                         style: kBodyBold.copyWith(color: kGrey300),
                       ),
                     )
@@ -93,8 +92,7 @@ class _CompleteInfluencerProfileInformationsPageState extends State<CompleteInfl
                 ),
                 Center(
                   child: Text(
-                    /// TODO transalate
-                    "Étape ${index + 1} sur 9",
+                    "${"step".translate()} ${index + 1} ${"out_of_9".translate()}",
                     style: kCaption.copyWith(color: kGrey300),
                   ),
                 ),
@@ -102,22 +100,21 @@ class _CompleteInfluencerProfileInformationsPageState extends State<CompleteInfl
                 Expanded(
                   child: PageView(
                     controller: pageController,
-                    children: [
-                      const ProfilePicture(),
-                      const Portfolio(),
-                      const Name(),
-                      const Description(),
-                      const Department(),
-                      Container(),
-                      Container(),
-                      Container(),
-                      Container(),
+                    children: const [
+                      ProfilePicture(),
+                      Portfolio(),
+                      Name(),
+                      Description(),
+                      Department(),
+                      SocialNetworks(),
+                      Themes(),
+                      TargetAudience(),
+                      Instagram(),
                     ],
                   ),
                 ),
                 Button(
-                  /// TODO translate
-                  title: "Suivant",
+                  title: "next_step".translate(),
                   onPressed: () {
                     if (index != 8) {
                       setState(() {
@@ -125,7 +122,7 @@ class _CompleteInfluencerProfileInformationsPageState extends State<CompleteInfl
                       });
                       pageController.jumpToPage(index);
                     } else {
-                      /// TODO naviguer sur legal informations
+                      context.go("influencer/complete_register/legal");
                     }
                   },
                 ),
