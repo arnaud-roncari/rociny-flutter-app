@@ -1,0 +1,4 @@
+enum SocialNetworkSheetType {
+  add,
+  udpate,
+}

@@ -19,6 +19,7 @@ import 'package:rociny/features/influencer/complete_register/ui/widgets/themes.d
 import 'package:rociny/shared/widgets/button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
+/// faire gestion de document (en faire 1)(faire les requete pour changer le statut)
 class CompleteInfluencerProfileInformationsPage extends StatefulWidget {
   const CompleteInfluencerProfileInformationsPage({super.key});
 
@@ -43,6 +44,9 @@ class _CompleteInfluencerProfileInformationsPageState extends State<CompleteInfl
               state is UpdateDescriptionFailed ||
               state is UpdateDepartmentFailed ||
               state is UpdateThemesFailed ||
+              state is UpdateSocialNetworkFailed ||
+              state is AddSocialNetworkFailed ||
+              state is DeleteSocialNetworkFailed ||
               state is UpdateTargetAudiencesFailed) {
             Alert.showError(context, (state as dynamic).exception.message);
           }
@@ -53,6 +57,9 @@ class _CompleteInfluencerProfileInformationsPageState extends State<CompleteInfl
               state is UpdateDescriptionSuccess ||
               state is UpdateDepartmentSuccess ||
               state is UpdateThemesSuccess ||
+              state is UpdateSocialNetworkSuccess ||
+              state is AddSocialNetworkSuccess ||
+              state is DeleteSocialNetworkSuccess ||
               state is UpdateTargetAudiencesSuccess) {
             Alert.showSuccess(context, "Modifications sauvegardées.");
           }
@@ -81,7 +88,7 @@ class _CompleteInfluencerProfileInformationsPageState extends State<CompleteInfl
                     const Spacer(),
                     GestureDetector(
                       onTap: () {
-                        context.go("influencer/complete_profile/legal");
+                        context.go("/influencer/complete_register/legal");
                       },
                       child: Text(
                         "ignore".translate(),
@@ -99,6 +106,7 @@ class _CompleteInfluencerProfileInformationsPageState extends State<CompleteInfl
                 const SizedBox(height: kPadding30),
                 Expanded(
                   child: PageView(
+                    physics: const NeverScrollableScrollPhysics(),
                     controller: pageController,
                     children: const [
                       ProfilePicture(),

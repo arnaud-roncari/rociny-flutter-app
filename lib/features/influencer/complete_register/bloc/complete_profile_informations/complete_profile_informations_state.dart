@@ -59,3 +59,27 @@ class UpdateTargetAudiencesFailed extends CompleteProfileInformationsState {
 }
 
 class UpdateTargetAudiencesSuccess extends CompleteProfileInformationsState {}
+
+class AddSocialNetworkFailed extends CompleteProfileInformationsState {
+  final AlertException exception;
+
+  AddSocialNetworkFailed({required this.exception});
+}
+
+class AddSocialNetworkSuccess extends CompleteProfileInformationsState {}
+
+class DeleteSocialNetworkFailed extends CompleteProfileInformationsState {
+  final AlertException exception;
+
+  DeleteSocialNetworkFailed({required this.exception});
+}
+
+class DeleteSocialNetworkSuccess extends CompleteProfileInformationsState {}
+
+class UpdateSocialNetworkFailed extends CompleteProfileInformationsState {
+  final AlertException exception;
+
+  UpdateSocialNetworkFailed({required this.exception});
+}
+
+class UpdateSocialNetworkSuccess extends CompleteProfileInformationsState {}

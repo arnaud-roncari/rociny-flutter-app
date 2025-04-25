@@ -35,3 +35,23 @@ class UpdateTargetAudiences extends CompleteProfileInformationsEvent {
 
   UpdateTargetAudiences({required this.targetAudiences});
 }
+
+class AddSocialNetwork extends CompleteProfileInformationsEvent {
+  final PlatformType platform;
+  final String url;
+
+  AddSocialNetwork({required this.platform, required this.url});
+}
+
+class DeleteSocialNetwork extends CompleteProfileInformationsEvent {
+  final int id;
+
+  DeleteSocialNetwork({required this.id});
+}
+
+class UpdateSocialNetwork extends CompleteProfileInformationsEvent {
+  final int id;
+  final String url;
+
+  UpdateSocialNetwork({required this.id, required this.url});
+}

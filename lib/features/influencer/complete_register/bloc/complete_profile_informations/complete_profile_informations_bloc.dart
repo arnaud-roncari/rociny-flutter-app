@@ -6,6 +6,8 @@ import 'package:rociny/core/repositories/crash_repository.dart';
 import 'package:rociny/core/repositories/influencer_repository.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
+import 'package:rociny/features/influencer/complete_register/data/enums/platform_type.dart';
+import 'package:rociny/features/influencer/complete_register/data/models/social_network_model.dart';
 
 part 'complete_profile_informations_event.dart';
 part 'complete_profile_informations_state.dart';
@@ -20,6 +22,9 @@ class CompleteProfileInformationsBloc extends Bloc<CompleteProfileInformationsEv
     on<UpdateDepartment>(updateDepartment);
     on<UpdateThemes>(updateThemes);
     on<UpdateTargetAudiences>(updateTargetAudiences);
+    on<AddSocialNetwork>(addSocialNetwork);
+    on<UpdateSocialNetwork>(updateSocialNetwork);
+    on<DeleteSocialNetwork>(deleteSocialNetwork);
   }
   final CrashRepository crashRepository;
   final InfluencerRepository influencerRepository;
@@ -31,6 +36,7 @@ class CompleteProfileInformationsBloc extends Bloc<CompleteProfileInformationsEv
   String? department;
   List<String>? themes;
   List<String>? targetAudiences;
+  List<SocialNetwork> socialNetworks = [];
 
   void updateProfilePicture(UpdateProfilePicture event, Emitter<CompleteProfileInformationsState> emit) async {
     try {
@@ -151,6 +157,54 @@ class CompleteProfileInformationsBloc extends Bloc<CompleteProfileInformationsEv
       /// Format exception to be displayed.
       AlertException alertException = AlertException.fromException(exception);
       emit(UpdateTargetAudiencesFailed(exception: alertException));
+    }
+  }
+
+  void addSocialNetwork(AddSocialNetwork event, Emitter<CompleteProfileInformationsState> emit) async {
+    try {
+      await influencerRepository.addSocialNetwork(event.platform, event.url);
+      socialNetworks = await influencerRepository.getSocialNetworks();
+      emit(AddSocialNetworkSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(AddSocialNetworkFailed(exception: alertException));
+    }
+  }
+
+  void updateSocialNetwork(UpdateSocialNetwork event, Emitter<CompleteProfileInformationsState> emit) async {
+    try {
+      await influencerRepository.updateSocialNetwork(event.id, event.url);
+      socialNetworks = await influencerRepository.getSocialNetworks();
+      emit(UpdateSocialNetworkSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(UpdateSocialNetworkFailed(exception: alertException));
+    }
+  }
+
+  void deleteSocialNetwork(DeleteSocialNetwork event, Emitter<CompleteProfileInformationsState> emit) async {
+    try {
+      await influencerRepository.deleteSocialNetwork(event.id);
+      socialNetworks = await influencerRepository.getSocialNetworks();
+      emit(DeleteSocialNetworkSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(DeleteSocialNetworkFailed(exception: alertException));
     }
   }
 }

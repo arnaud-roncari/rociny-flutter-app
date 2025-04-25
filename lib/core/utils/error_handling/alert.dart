@@ -63,6 +63,11 @@ class AlertException {
         case "security:social_network:already_exist":
           message = "social_network_already_exists".translate();
           break;
+        case "security:legal_document:already_exist":
+
+          /// TODO translate
+          message = "XXX";
+          break;
       }
     }
 

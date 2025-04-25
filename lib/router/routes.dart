@@ -10,6 +10,7 @@ import 'package:rociny/router/company_routes.dart';
 import 'package:rociny/router/influencer_routes.dart';
 import 'package:rociny/shared/widgets/preview_pdf.dart';
 
+/// TODO faire connexion google et apple 0auth
 final GoRouter kRouter = GoRouter(
   initialLocation: getLocation(),
   routes: [
@@ -54,7 +55,8 @@ final GoRouter kRouter = GoRouter(
 );
 
 String getLocation() {
-  return "/influencer/complete_register/complete_profile";
+  // return "/register";
+  return "/influencer/complete_register/complete_legal";
   // if (kFirstLaunch) {
   //   return '/first_launch';
   // }
