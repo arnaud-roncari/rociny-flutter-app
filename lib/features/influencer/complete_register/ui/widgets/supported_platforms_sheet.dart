@@ -54,19 +54,16 @@ class _SupportedPlatformsSheetState extends State<SupportedPlatformsSheet> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            /// TODO translate
             Text(
-              'Réseau social',
+              'social_network'.translate(),
               style: kTitle1Bold,
             ),
             const SizedBox(height: kPadding10),
-
             Text(
               getDescription(),
               style: kBody.copyWith(color: kGrey300),
             ),
             const SizedBox(height: kPadding20),
-
             Wrap(
               spacing: kPadding10,
               runSpacing: kPadding10,
@@ -97,7 +94,6 @@ class _SupportedPlatformsSheetState extends State<SupportedPlatformsSheet> {
               validator: Validator.isNotEmpty,
             ),
             const SizedBox(height: kPadding30),
-
             Button(
                 title: getButtonLabel(),
                 onPressed: () {
@@ -116,18 +112,15 @@ class _SupportedPlatformsSheetState extends State<SupportedPlatformsSheet> {
 
   String getDescription() {
     if (widget.type == SocialNetworkSheetType.udpate) {
-      /// TODO Translate
-      return "Sélectionnez le réseau social et modifiez l'URL correspondante.";
+      return "select_social_network_edit_url".translate();
     }
 
-    /// TODO Translate
-    return "Sélectionnez le réseau social et ajoutez l'URL correspondante.";
+    return "select_social_network_add_url".translate();
   }
 
   String getButtonLabel() {
     if (widget.type == SocialNetworkSheetType.udpate) {
-      /// TODO translate
-      return "Modifier";
+      return "edit";
     }
     return "add".translate();
   }

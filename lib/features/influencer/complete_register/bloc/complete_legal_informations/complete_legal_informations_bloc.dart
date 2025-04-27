@@ -16,11 +16,20 @@ class CompleteLegalInformationsBloc extends Bloc<CompleteLegalInformationsEvent,
   CompleteLegalInformationsBloc({required this.crashRepository, required this.influencerRepository})
       : super(CompleteLegalInitial()) {
     on<UpdateDocument>(updateDocument);
+    on<GetStripeAccountLink>(getStripeAccountLink);
+    on<SetStripeAccountStatus>(setStripeAccountStatus);
   }
   final CrashRepository crashRepository;
   final InfluencerRepository influencerRepository;
 
+  /// Documents status (add more)
   LegalDocumentStatus debugStatus = LegalDocumentStatus.missing;
+
+  /// Stripe webview url
+  String? stripeAccountUrl;
+
+  /// Stripe account status
+  bool isStripeAccountCompleted = false;
 
   void updateDocument(UpdateDocument event, Emitter<CompleteLegalInformationsState> emit) async {
     try {
@@ -46,5 +55,27 @@ class CompleteLegalInformationsBloc extends Bloc<CompleteLegalInformationsEvent,
       AlertException alertException = AlertException.fromException(exception);
       emit(UpdateDocumentFailed(exception: alertException));
     }
+  }
+
+  void getStripeAccountLink(GetStripeAccountLink event, Emitter<CompleteLegalInformationsState> emit) async {
+    try {
+      emit(GetStripeAccountLinkLoading());
+
+      stripeAccountUrl = await influencerRepository.getStripeAccountUrl();
+      emit(GetStripeAccountLinkSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(GetStripeAccountLinkFailed(exception: alertException));
+    }
+  }
+
+  void setStripeAccountStatus(SetStripeAccountStatus event, Emitter<CompleteLegalInformationsState> emit) async {
+    isStripeAccountCompleted = true;
+    emit(StripeAccountCompleted());
   }
 }

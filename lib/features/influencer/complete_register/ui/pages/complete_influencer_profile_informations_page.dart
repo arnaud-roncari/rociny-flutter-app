@@ -61,7 +61,7 @@ class _CompleteInfluencerProfileInformationsPageState extends State<CompleteInfl
               state is AddSocialNetworkSuccess ||
               state is DeleteSocialNetworkSuccess ||
               state is UpdateTargetAudiencesSuccess) {
-            Alert.showSuccess(context, "Modifications sauvegardées.");
+            Alert.showSuccess(context, "changes_saved".translate());
           }
         },
         builder: (context, state) {
@@ -99,7 +99,7 @@ class _CompleteInfluencerProfileInformationsPageState extends State<CompleteInfl
                 ),
                 Center(
                   child: Text(
-                    "${"step".translate()} ${index + 1} ${"out_of_9".translate()}",
+                    "${"step".translate()} ${index + 1} ${"out_of".translate()} 9",
                     style: kCaption.copyWith(color: kGrey300),
                   ),
                 ),

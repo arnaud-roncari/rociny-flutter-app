@@ -43,15 +43,13 @@ class LegalPageState extends State<LegalPage> {
                   buildIndicator(),
                   const Spacer(),
                   Text(
-                    /// TODO translate
-                    "Mon entreprise",
+                    "my_business".translate(),
                     style: kHeadline4Bold,
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: kPadding20),
                   Text(
-                    /// TODO translate
-                    "Vous devez également nous fournir les informations légales de votre entreprise afin de rémunérer les influenceurs.",
+                    "provide_legal_info".translate(),
                     style: kTitle2.copyWith(
                       color: kGrey300,
                     ),

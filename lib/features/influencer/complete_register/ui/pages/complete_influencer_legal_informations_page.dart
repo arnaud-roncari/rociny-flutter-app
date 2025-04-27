@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
@@ -7,6 +8,7 @@ import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/influencer/complete_register/bloc/complete_legal_informations/complete_legal_informations_bloc.dart';
 import 'package:rociny/features/influencer/complete_register/ui/widgets/legal_documents.dart';
+import 'package:rociny/features/influencer/complete_register/ui/widgets/stripe.dart';
 import 'package:rociny/shared/widgets/button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
@@ -33,7 +35,7 @@ class _CompleteInfluencerLegalInformationsPageState extends State<CompleteInflue
           }
 
           if (state is UpdateDocumentSuccess) {
-            Alert.showSuccess(context, "Modifications sauvegardées.");
+            Alert.showSuccess(context, "changes_saved".translate());
           }
         },
         builder: (context, state) {
@@ -60,8 +62,7 @@ class _CompleteInfluencerLegalInformationsPageState extends State<CompleteInflue
                     const Spacer(),
                     GestureDetector(
                       onTap: () {
-                        /// TODO got to homepage
-                        // context.go("/influencer/complete_register/legal");
+                        context.go("/influencer/home");
                       },
                       child: Text(
                         "ignore".translate(),
@@ -72,8 +73,7 @@ class _CompleteInfluencerLegalInformationsPageState extends State<CompleteInflue
                 ),
                 Center(
                   child: Text(
-                    /// TODO translate
-                    "${"step".translate()} ${index + 1} ${"out_of_3".translate()}",
+                    "${"step".translate()} ${index + 1} ${"out_of".translate()} 2",
                     style: kCaption.copyWith(color: kGrey300),
                   ),
                 ),
@@ -82,24 +82,22 @@ class _CompleteInfluencerLegalInformationsPageState extends State<CompleteInflue
                   child: PageView(
                     physics: const NeverScrollableScrollPhysics(),
                     controller: pageController,
-                    children: [
-                      const LegalDocuments(),
-                      Container(),
-                      Container(),
+                    children: const [
+                      LegalDocuments(),
+                      Stripe(),
                     ],
                   ),
                 ),
                 Button(
-                  title: "next_step".translate(),
+                  title: index == 1 ? "finish".translate() : "next_step".translate(),
                   onPressed: () {
-                    if (index != 2) {
+                    if (index != 1) {
                       setState(() {
                         index += 1;
                       });
                       pageController.jumpToPage(index);
                     } else {
-                      /// TODO go to home page
-                      // context.go("influencer/complete_register/legal");
+                      context.go("/influencer/home");
                     }
                   },
                 ),

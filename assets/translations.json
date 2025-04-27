@@ -143,6 +143,11 @@
     "en": "The social network already exists.",
     "es": "La red social ya existe."
   },
+  "legal_document_already_exists": {
+    "fr": "Le document existe déjà.",
+    "en": "The document already exists.",
+    "es": "La documento ya existe."
+  },
   "file_required": {
     "fr": "Un fichier est nécessaire.",
     "en": "A file is required.",
@@ -343,10 +348,10 @@
     "en": "Step",
     "es": "Paso"
   },
-  "out_of_9": {
-    "fr": "sur 9",
-    "en": "out of 9",
-    "es": "de 9"
+  "out_of": {
+    "fr": "sur",
+    "en": "out of",
+    "es": "de"
   },
   "next_step": {
     "fr": "Suivant",
@@ -452,5 +457,86 @@
     "fr": "Thématique",
     "en": "Theme",
     "es": "Temática"
+  },
+
+  "to_provide": {
+    "fr": "À fournir",
+    "en": "To provide",
+    "es": "A proporcionar"
+  },
+  "verification_in_progress": {
+    "fr": "Vérification en cours",
+    "en": "Verification in progress",
+    "es": "Verificación en curso"
+  },
+  "validated": {
+    "fr": "Validé",
+    "en": "Validated",
+    "es": "Validado"
+  },
+  "rejected": {
+    "fr": "Refusé",
+    "en": "Rejected",
+    "es": "Rechazado"
+  },
+  "changes_saved": {
+    "fr": "Modifications sauvegardées.",
+    "en": "Changes saved.",
+    "es": "Cambios guardados."
+  },
+  "finish": {
+    "fr": "Terminer",
+    "en": "Finish",
+    "es": "Terminar"
+  },
+  "my_business": {
+    "fr": "Mon entreprise",
+    "en": "My business",
+    "es": "Mi empresa"
+  },
+  "provide_legal_info": {
+    "fr": "Vous devez également nous fournir les informations légales de votre entreprise afin de rémunérer les influenceurs.",
+    "en": "You must also provide us with the legal information of your company in order to pay the influencers.",
+    "es": "También debe proporcionarnos la información legal de su empresa para pagar a los influencers."
+  },
+  "document": {
+    "fr": "Document",
+    "en": "Document",
+    "es": "Documento"
+  },
+  "provide_documents": {
+    "fr": "Pour recevoir des collaborations, vous devez nous fournir les documents nécessaires.",
+    "en": "To receive collaborations, you must provide us with the necessary documents.",
+    "es": "Para recibir colaboraciones, debe proporcionarnos los documentos necesarios."
+  },
+  "rociny_stripe_payment": {
+    "fr": "Rociny utilise Stripe pour le traitement des paiements. Il est donc nécessaire de fournir vos informations bancaires via Stripe pour finaliser la configuration.",
+    "en": "Rociny uses Stripe for payment processing. Therefore, it is necessary to provide your banking information via Stripe to complete the setup.",
+    "es": "Rociny usa Stripe para el procesamiento de pagos. Por lo tanto, es necesario proporcionar su información bancaria a través de Stripe para completar la configuración."
+  },
+  "start": {
+    "fr": "Commencer",
+    "en": "Start",
+    "es": "Comenzar"
+  },
+  "social_network": {
+    "fr": "Réseau social",
+    "en": "Social network",
+    "es": "Red social"
+  },
+  "select_social_network_edit_url": {
+    "fr": "Sélectionnez le réseau social et modifiez l'URL correspondante.",
+    "en": "Select the social network and edit the corresponding URL.",
+    "es": "Seleccione la red social y modifique la URL correspondiente."
+  },
+  "select_social_network_add_url": {
+    "fr": "Sélectionnez le réseau social et ajoutez l'URL correspondante.",
+    "en": "Select the social network and add the corresponding URL.",
+    "es": "Seleccione la red social y agregue la URL correspondiente."
+  },
+  "edit": {
+    "fr": "Modifier",
+    "en": "Edit",
+    "es": "Modificar"
   }
 }

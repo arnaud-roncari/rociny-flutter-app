@@ -208,7 +208,6 @@ class InfluencerRepository {
   }
 
   Future<void> addLegalDocument(LegalDocumentType type, File file) async {
-    print(kJwt);
     final uri = Uri.parse('$kEndpoint/influencer/add-legal-document/${type.name}');
     final request = MultipartRequest('POST', uri)
       ..headers['Authorization'] = 'Bearer $kJwt'
@@ -252,5 +251,21 @@ class InfluencerRepository {
       final body = jsonDecode(response.body);
       throw ApiException.fromJson(response.statusCode, body);
     }
+  }
+
+  Future<String> getStripeAccountUrl() async {
+    final response = await get(
+      Uri.parse('$kEndpoint/influencer/stripe/account-link'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+    String url = jsonDecode(response.body)['url'];
+    return url;
   }
 }

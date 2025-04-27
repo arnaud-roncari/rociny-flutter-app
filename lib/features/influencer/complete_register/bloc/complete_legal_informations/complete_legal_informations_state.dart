@@ -11,3 +11,15 @@ class UpdateDocumentFailed extends CompleteLegalInformationsState {
 }
 
 class UpdateDocumentSuccess extends CompleteLegalInformationsState {}
+
+class GetStripeAccountLinkFailed extends CompleteLegalInformationsState {
+  final AlertException exception;
+
+  GetStripeAccountLinkFailed({required this.exception});
+}
+
+class GetStripeAccountLinkSuccess extends CompleteLegalInformationsState {}
+
+class GetStripeAccountLinkLoading extends CompleteLegalInformationsState {}
+
+class StripeAccountCompleted extends CompleteLegalInformationsState {}

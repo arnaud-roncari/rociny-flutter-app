@@ -1,3 +1,5 @@
+import 'package:rociny/core/utils/extensions/translate.dart';
+
 enum LegalDocumentStatus {
   missing,
   pending,
@@ -5,16 +7,15 @@ enum LegalDocumentStatus {
   refused,
 }
 
-/// TODO translate
 String getDisplayedName(LegalDocumentStatus status) {
   switch (status) {
     case LegalDocumentStatus.missing:
-      return 'À fournir';
+      return 'to_provide'.translate();
     case LegalDocumentStatus.pending:
-      return 'Vérification en cours';
+      return 'verification_in_progress'.translate();
     case LegalDocumentStatus.validated:
-      return 'Validé';
+      return 'validated'.translate();
     case LegalDocumentStatus.refused:
-      return 'Refusé';
+      return 'rejected'.translate();
   }
 }

@@ -7,3 +7,7 @@ class UpdateDocument extends CompleteLegalInformationsEvent {
 
   UpdateDocument({required this.type});
 }
+
+class GetStripeAccountLink extends CompleteLegalInformationsEvent {}
+
+class SetStripeAccountStatus extends CompleteLegalInformationsEvent {}

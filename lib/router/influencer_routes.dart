@@ -8,6 +8,7 @@ import 'package:rociny/features/influencer/complete_register/ui/pages/complete_i
 import 'package:rociny/features/influencer/complete_register/ui/pages/complete_influencer_profile_informations_page.dart';
 import 'package:rociny/features/influencer/complete_register/ui/pages/legal.dart';
 import 'package:rociny/features/influencer/complete_register/ui/pages/my_profile_page.dart';
+import 'package:rociny/features/influencer/complete_register/ui/widgets/stripe_webview.dart';
 import 'package:rociny/features/influencer/home/ui/pages/home_page.dart';
 
 List<RouteBase> kInfluencerRoutes = [
@@ -42,5 +43,12 @@ List<RouteBase> kInfluencerRoutes = [
       ),
       child: const CompleteInfluencerLegalInformationsPage(),
     ),
+  ),
+  GoRoute(
+    path: '/influencer/complete_register/complete_stripe',
+    builder: (context, state) {
+      String url = state.extra as String;
+      return StripeWebview(url: url);
+    },
   ),
 ];
