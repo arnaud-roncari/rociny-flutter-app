@@ -6,7 +6,7 @@ import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
-import 'package:rociny/features/influencer/complete_register/bloc/complete_legal_informations/complete_legal_informations_bloc.dart';
+import 'package:rociny/features/influencer/complete_register/bloc/complete_influencer_legal_informations/complete_influencer_legal_informations_bloc.dart';
 import 'package:rociny/features/influencer/complete_register/ui/widgets/legal_documents.dart';
 import 'package:rociny/features/influencer/complete_register/ui/widgets/stripe.dart';
 import 'package:rociny/shared/widgets/button.dart';
@@ -28,7 +28,7 @@ class _CompleteInfluencerLegalInformationsPageState extends State<CompleteInflue
     return Scaffold(
       backgroundColor: kWhite,
       body: SafeArea(
-          child: BlocConsumer<CompleteLegalInformationsBloc, CompleteLegalInformationsState>(
+          child: BlocConsumer<CompleteInfluencerLegalInformationsBloc, CompleteInfluencerLegalInformationsState>(
         listener: (context, state) {
           if (state is UpdateDocumentFailed) {
             Alert.showError(context, (state as dynamic).exception.message);

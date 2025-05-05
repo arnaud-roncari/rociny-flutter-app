@@ -1,11 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/constants/storage_keys.dart';
 import 'package:rociny/core/repositories/crash_repository.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
+import 'package:rociny/features/auth/data/dto/login_with_google_dto.dart';
 import 'package:rociny/features/auth/data/enums/account_type.dart';
 import 'package:rociny/features/auth/data/repositories/auth_repository.dart';
 
@@ -22,6 +24,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<OnResentForgotPasswordVerificationCode>(forgotPasswordCodeVerificationResentEmail);
     on<OnCodeEnteredForgotPassword>(setCodePasswordForgot);
     on<OnNewPasswordEntered>(verifyForgotPassword);
+    on<OnLoginWithGoogle>(loginWithGoogle);
+    on<OnLoginWithApple>(loginWithApple);
+    on<OnCompleteAccounType>(completeAccountType);
   }
   final AuthRepository authRepository;
   final CrashRepository crashRepository;
@@ -35,6 +40,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   /// Stores the email address used for the password recovery process.
   String? emailForgotPassword;
   int? codeForgotPassword;
+
+  String? providerUserId;
 
   void login(OnLogin event, Emitter<AuthState> emit) async {
     try {
@@ -196,6 +203,92 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       /// Format exception to be displayed.
       AlertException alertException = AlertException.fromException(exception);
       emit(RegisterCodeVerificationFailed(exception: alertException));
+    }
+  }
+
+  void loginWithGoogle(OnLoginWithGoogle event, Emitter<AuthState> emit) async {
+    try {
+      final GoogleSignIn googleSignIn = GoogleSignIn(
+        scopes: ['email', 'profile'],
+      );
+
+      GoogleSignInAccount? user = await googleSignIn.signIn();
+      if (user == null) {
+        return;
+      }
+
+      final GoogleSignInAuthentication auth = await user.authentication;
+      final String? idToken = auth.idToken;
+
+      if (idToken == null) {
+        return;
+      }
+
+      LoginWithGoogleDto dto = await authRepository.loginWithGoogle(idToken);
+
+      if (dto.status == "logged") {
+        kJwt = dto.jwt;
+
+        /// The JWT is saved in the client's keystore.
+        /// This allows the client, on startup, to check if there is an existing session.
+        /// If so, the user won't need to log in again.
+        /// For subsequent requests, this JWT will be sent to the API to verify the session and identify the requester.
+        FlutterSecureStorage storage = const FlutterSecureStorage();
+        await storage.write(key: kKeyJwt, value: kJwt);
+
+        /// Extract account type from JWT.
+        Map<String, dynamic> decodedToken = JwtDecoder.decode(kJwt!);
+        AccountType accountType = AccountTypeExtension.fromString(decodedToken['account_type']);
+
+        emit(LoginSuccess(accountType: accountType));
+      } else {
+        providerUserId = dto.providerUserId;
+        emit(CompleteAccountType());
+      }
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(LoginWithGoogleFailed(exception: alertException));
+    }
+  }
+
+  void loginWithApple(OnLoginWithApple event, Emitter<AuthState> emit) async {
+    // try {
+    //   /// TODO
+    // } catch (exception, stack) {
+    // if (exception is! ApiException) {
+    //   crashRepository.registerCrash(exception, stack);
+    // }
+
+    /// Format exception to be displayed.
+    // AlertException alertException = AlertException.fromException(exception);
+    // emit(LoginWithGoogleFailed(exception: alertException)); changer
+    // }
+  }
+
+  void completeAccountType(OnCompleteAccounType event, Emitter<AuthState> emit) async {
+    try {
+      emit(CompleteAccountTypeLoading());
+
+      /// faire la meme requete poura pple et google ?
+      kJwt = await authRepository.completeAuthGoogleUser(providerUserId!, event.accountType);
+
+      FlutterSecureStorage storage = const FlutterSecureStorage();
+      await storage.write(key: kKeyJwt, value: kJwt);
+
+      emit(CompleteAccountTypeSuccess(accountType: event.accountType));
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(CompleteAccountTypeFailed(exception: alertException));
     }
   }
 }

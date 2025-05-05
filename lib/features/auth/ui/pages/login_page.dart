@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -37,7 +39,15 @@ class LoginPage extends StatelessWidget {
               }
             }
 
+            if (state is CompleteAccountType) {
+              context.go("/complete_account_type");
+            }
+
             if (state is LoginFailed) {
+              Alert.showError(context, state.exception.message);
+            }
+
+            if (state is LoginWithGoogleFailed) {
               Alert.showError(context, state.exception.message);
             }
           },
@@ -133,11 +143,13 @@ class LoginPage extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: kPadding30),
-                    const Row(
+                    Row(
                       children: [
-                        Expanded(child: GoogleButton()),
-                        SizedBox(width: kPadding20),
-                        Expanded(child: AppleButton()),
+                        /// TODO faire connexion google et apple 0auth (
+                        const Expanded(child: GoogleButton()),
+
+                        if (Platform.isIOS) const SizedBox(width: kPadding20),
+                        if (Platform.isIOS) const Expanded(child: AppleButton()),
                       ],
                     ),
                     const Spacer(

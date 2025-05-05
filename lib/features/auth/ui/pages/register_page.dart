@@ -72,7 +72,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         Text(
                           accountType == AccountType.influencer
                               ? "${"am_i_a_company".translate()} "
-                              : "${"am_i_a_influencer".translate()} ",
+                              : "${"am_i_an_influencer".translate()} ",
                           style: kBody.copyWith(color: kGrey300),
                         ),
                         GestureDetector(

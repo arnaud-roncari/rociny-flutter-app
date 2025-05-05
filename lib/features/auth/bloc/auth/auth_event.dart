@@ -9,6 +9,10 @@ class OnLogin extends AuthEvent {
   OnLogin({required this.email, required this.password});
 }
 
+class OnLoginWithGoogle extends AuthEvent {}
+
+class OnLoginWithApple extends AuthEvent {}
+
 class OnRegister extends AuthEvent {
   final String email;
   final String password;
@@ -43,4 +47,10 @@ class OnNewPasswordEntered extends AuthEvent {
   final String password;
 
   OnNewPasswordEntered({required this.password});
+}
+
+class OnCompleteAccounType extends AuthEvent {
+  final AccountType accountType;
+
+  OnCompleteAccounType({required this.accountType});
 }

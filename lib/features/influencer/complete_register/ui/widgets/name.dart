@@ -5,7 +5,7 @@ import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
-import 'package:rociny/features/influencer/complete_register/bloc/complete_profile_informations/complete_profile_informations_bloc.dart';
+import 'package:rociny/features/influencer/complete_register/bloc/complete_influencer_profile_informations/complete_influencer_profile_informations_bloc.dart';
 import 'package:rociny/shared/decorations/textfield_decoration.dart';
 
 class Name extends StatefulWidget {
@@ -21,15 +21,15 @@ class _NameState extends State<Name> {
   @override
   void initState() {
     super.initState();
-    CompleteProfileInformationsBloc bloc = context.read<CompleteProfileInformationsBloc>();
+    CompleteInfluencerProfileInformationsBloc bloc = context.read<CompleteInfluencerProfileInformationsBloc>();
     controller.text = bloc.name ?? "";
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CompleteProfileInformationsBloc, CompleteProfileInformationsState>(
+    return BlocBuilder<CompleteInfluencerProfileInformationsBloc, CompleteInfluencerProfileInformationsState>(
       builder: (context, state) {
-        CompleteProfileInformationsBloc bloc = context.read<CompleteProfileInformationsBloc>();
+        CompleteInfluencerProfileInformationsBloc bloc = context.read<CompleteInfluencerProfileInformationsBloc>();
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,

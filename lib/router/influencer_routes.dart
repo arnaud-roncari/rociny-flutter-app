@@ -2,8 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rociny/core/repositories/crash_repository.dart';
 import 'package:rociny/core/repositories/influencer_repository.dart';
-import 'package:rociny/features/influencer/complete_register/bloc/complete_legal_informations/complete_legal_informations_bloc.dart';
-import 'package:rociny/features/influencer/complete_register/bloc/complete_profile_informations/complete_profile_informations_bloc.dart';
+import 'package:rociny/features/influencer/complete_register/bloc/complete_influencer_legal_informations/complete_influencer_legal_informations_bloc.dart';
+import 'package:rociny/features/influencer/complete_register/bloc/complete_influencer_profile_informations/complete_influencer_profile_informations_bloc.dart';
 import 'package:rociny/features/influencer/complete_register/ui/pages/complete_influencer_legal_informations_page.dart';
 import 'package:rociny/features/influencer/complete_register/ui/pages/complete_influencer_profile_informations_page.dart';
 import 'package:rociny/features/influencer/complete_register/ui/pages/legal.dart';
@@ -19,7 +19,7 @@ List<RouteBase> kInfluencerRoutes = [
   GoRoute(
     path: '/influencer/complete_register/complete_profile',
     builder: (context, state) => BlocProvider(
-      create: (context) => CompleteProfileInformationsBloc(
+      create: (context) => CompleteInfluencerProfileInformationsBloc(
         crashRepository: RepositoryProvider.of<CrashRepository>(context),
         influencerRepository: RepositoryProvider.of<InfluencerRepository>(context),
       ),
@@ -37,7 +37,7 @@ List<RouteBase> kInfluencerRoutes = [
   GoRoute(
     path: '/influencer/complete_register/complete_legal',
     builder: (context, state) => BlocProvider(
-      create: (context) => CompleteLegalInformationsBloc(
+      create: (context) => CompleteInfluencerLegalInformationsBloc(
         crashRepository: RepositoryProvider.of<CrashRepository>(context),
         influencerRepository: RepositoryProvider.of<InfluencerRepository>(context),
       ),

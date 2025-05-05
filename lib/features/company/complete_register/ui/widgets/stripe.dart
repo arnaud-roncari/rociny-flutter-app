@@ -1,0 +1,59 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rociny/core/constants/colors.dart';
+import 'package:rociny/core/constants/paddings.dart';
+import 'package:rociny/core/constants/text_styles.dart';
+import 'package:rociny/core/utils/extensions/translate.dart';
+import 'package:rociny/features/company/complete_register/bloc/complete_company_legal_informations/complete_company_legal_informations_bloc.dart';
+import 'package:rociny/shared/widgets/chip_button.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+
+class Stripe extends StatefulWidget {
+  const Stripe({super.key});
+
+  @override
+  State<Stripe> createState() => _StripeState();
+}
+
+class _StripeState extends State<Stripe> {
+  late WebViewController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<CompleteCompanyLegalInformationsBloc, CompleteCompanyLegalInformationsState>(
+      listener: (context, state) async {},
+      builder: (context, state) {
+        CompleteCompanyLegalInformationsBloc bloc = context.read<CompleteCompanyLegalInformationsBloc>();
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Stripe",
+              style: kTitle1Bold,
+            ),
+            const SizedBox(height: kPadding10),
+            Text(
+              "rociny_stripe_payment".translate(),
+              style: kBody.copyWith(color: kGrey300),
+            ),
+            const SizedBox(height: kPadding20),
+            if (!bloc.isStripeAccountCompleted)
+              ChipButton(
+                label: "start".translate(),
+                onTap: () async {
+                  if (state is CreateSetupIntentLoading) {
+                    return;
+                  }
+
+                  CompleteCompanyLegalInformationsBloc bloc = context.read<CompleteCompanyLegalInformationsBloc>();
+                  bloc.add(CreateSetupIntent());
+                },
+              ),
+            const Spacer(),
+          ],
+        );
+      },
+    );
+  }
+}

@@ -18,6 +18,28 @@ class LoginSuccess extends AuthState {
   LoginSuccess({required this.accountType});
 }
 
+class CompleteAccountType extends AuthState {}
+
+class CompleteAccountTypeFailed extends AuthState {
+  final AlertException exception;
+
+  CompleteAccountTypeFailed({required this.exception});
+}
+
+class CompleteAccountTypeSuccess extends AuthState {
+  final AccountType accountType;
+
+  CompleteAccountTypeSuccess({required this.accountType});
+}
+
+class CompleteAccountTypeLoading extends AuthState {}
+
+class LoginWithGoogleFailed extends AuthState {
+  final AlertException exception;
+
+  LoginWithGoogleFailed({required this.exception});
+}
+
 class RegisterLoading extends AuthState {}
 
 class RegisterFailed extends AuthState {

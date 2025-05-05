@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:rociny/features/auth/ui/pages/complete_account_type_page.dart';
 import 'package:rociny/features/auth/ui/pages/first_launch_page.dart';
 import 'package:rociny/features/auth/ui/pages/forgot_password_code_verification_page.dart';
 import 'package:rociny/features/auth/ui/pages/forgot_password_new_password.dart';
@@ -10,13 +11,16 @@ import 'package:rociny/router/company_routes.dart';
 import 'package:rociny/router/influencer_routes.dart';
 import 'package:rociny/shared/widgets/preview_pdf.dart';
 
-/// TODO faire connexion google et apple 0auth
 final GoRouter kRouter = GoRouter(
   initialLocation: getLocation(),
   routes: [
     GoRoute(
       path: '/login',
       builder: (context, state) => const LoginPage(),
+    ),
+    GoRoute(
+      path: '/complete_account_type',
+      builder: (context, state) => const CompleteAccountTypePage(),
     ),
     GoRoute(
       path: '/register',
@@ -55,8 +59,7 @@ final GoRouter kRouter = GoRouter(
 );
 
 String getLocation() {
-  // return "/register";
-  return "/influencer/complete_register/complete_legal";
+  return "/login";
   // if (kFirstLaunch) {
   //   return '/first_launch';
   // }

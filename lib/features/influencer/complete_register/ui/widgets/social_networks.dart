@@ -6,7 +6,7 @@ import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/radius.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
-import 'package:rociny/features/influencer/complete_register/bloc/complete_profile_informations/complete_profile_informations_bloc.dart';
+import 'package:rociny/features/influencer/complete_register/bloc/complete_influencer_profile_informations/complete_influencer_profile_informations_bloc.dart';
 import 'package:rociny/features/influencer/complete_register/data/enums/platform_type.dart';
 import 'package:rociny/features/influencer/complete_register/data/enums/social_network_sheet_type.dart';
 import 'package:rociny/features/influencer/complete_register/data/models/social_network_model.dart';
@@ -32,9 +32,9 @@ class _SocialNetworksState extends State<SocialNetworks> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CompleteProfileInformationsBloc, CompleteProfileInformationsState>(
+    return BlocBuilder<CompleteInfluencerProfileInformationsBloc, CompleteInfluencerProfileInformationsState>(
       builder: (context, state) {
-        CompleteProfileInformationsBloc bloc = context.read<CompleteProfileInformationsBloc>();
+        CompleteInfluencerProfileInformationsBloc bloc = context.read<CompleteInfluencerProfileInformationsBloc>();
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,7 +82,7 @@ class _SocialNetworksState extends State<SocialNetworks> {
   }
 
   void addSocialNetwork() {
-    CompleteProfileInformationsBloc bloc = context.read<CompleteProfileInformationsBloc>();
+    CompleteInfluencerProfileInformationsBloc bloc = context.read<CompleteInfluencerProfileInformationsBloc>();
 
     showModalBottomSheet(
       context: context,
@@ -106,7 +106,7 @@ class _SocialNetworksState extends State<SocialNetworks> {
   }
 
   void updateSocialNetwork(SocialNetwork socialNetwork) {
-    CompleteProfileInformationsBloc bloc = context.read<CompleteProfileInformationsBloc>();
+    CompleteInfluencerProfileInformationsBloc bloc = context.read<CompleteInfluencerProfileInformationsBloc>();
 
     showModalBottomSheet(
       context: context,

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/radius.dart';
+import 'package:rociny/features/auth/bloc/auth/auth_bloc.dart';
 
 class GoogleButton extends StatelessWidget {
   const GoogleButton({super.key});
@@ -21,7 +23,7 @@ class GoogleButton extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(kRadius10),
         onTap: () {
-          /// ...
+          context.read<AuthBloc>().add(OnLoginWithGoogle());
         },
         child: Center(
           child: SvgPicture.asset(

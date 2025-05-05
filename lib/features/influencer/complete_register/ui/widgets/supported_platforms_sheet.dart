@@ -120,7 +120,7 @@ class _SupportedPlatformsSheetState extends State<SupportedPlatformsSheet> {
 
   String getButtonLabel() {
     if (widget.type == SocialNetworkSheetType.udpate) {
-      return "edit";
+      return "edit".translate();
     }
     return "add".translate();
   }

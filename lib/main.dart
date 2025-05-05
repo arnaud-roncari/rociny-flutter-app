@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/constants/storage_keys.dart';
+import 'package:rociny/core/repositories/company_repository.dart';
 import 'package:rociny/core/repositories/crash_repository.dart';
 import 'package:rociny/core/repositories/influencer_repository.dart';
 import 'package:rociny/core/utils/helpers/department_helper.dart';
@@ -11,8 +12,11 @@ import 'package:rociny/core/utils/helpers/target_audience_helper.dart';
 import 'package:rociny/core/utils/helpers/theme_helper.dart';
 import 'package:rociny/features/auth/bloc/auth/auth_bloc.dart';
 import 'package:rociny/features/auth/data/repositories/auth_repository.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:rociny/router/routes.dart';
 import 'package:rociny/shared/decorations/theme.dart';
+
+/// TODO retester google. regenerer clés si besoin (avec sha)
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,6 +51,8 @@ void main() async {
   /// Redirect user on "first launch" screens if true.
   kFirstLaunch = await storage.read(key: kKeyFirstLaunch) == null;
 
+  Stripe.publishableKey = kStripePublishableKey;
+
   runApp(const RocinyApp());
 }
 
@@ -60,6 +66,7 @@ class RocinyApp extends StatelessWidget {
         RepositoryProvider(create: (context) => AuthRepository()),
         RepositoryProvider(create: (context) => CrashRepository()),
         RepositoryProvider(create: (context) => InfluencerRepository()),
+        RepositoryProvider(create: (context) => CompanyRepository()),
       ],
       child: Builder(
         builder: (context) {

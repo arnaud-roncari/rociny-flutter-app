@@ -6,7 +6,7 @@ import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/radius.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
-import 'package:rociny/features/influencer/complete_register/bloc/complete_profile_informations/complete_profile_informations_bloc.dart';
+import 'package:rociny/features/influencer/complete_register/bloc/complete_influencer_profile_informations/complete_influencer_profile_informations_bloc.dart';
 import 'package:rociny/shared/widgets/chip_button.dart';
 
 class ProfilePicture extends StatefulWidget {
@@ -19,9 +19,9 @@ class ProfilePicture extends StatefulWidget {
 class _ProfilePictureState extends State<ProfilePicture> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CompleteProfileInformationsBloc, CompleteProfileInformationsState>(
+    return BlocBuilder<CompleteInfluencerProfileInformationsBloc, CompleteInfluencerProfileInformationsState>(
       builder: (context, state) {
-        CompleteProfileInformationsBloc bloc = context.read<CompleteProfileInformationsBloc>();
+        CompleteInfluencerProfileInformationsBloc bloc = context.read<CompleteInfluencerProfileInformationsBloc>();
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,7 +40,7 @@ class _ProfilePictureState extends State<ProfilePicture> {
               label: "profile_picture".translate(),
               svgPath: "assets/svg/upload.svg",
               onTap: () async {
-                context.read<CompleteProfileInformationsBloc>().add(UpdateProfilePicture());
+                context.read<CompleteInfluencerProfileInformationsBloc>().add(UpdateProfilePicture());
               },
             ),
             const SizedBox(height: kPadding30),

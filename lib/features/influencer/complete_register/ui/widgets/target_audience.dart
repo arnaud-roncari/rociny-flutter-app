@@ -5,7 +5,7 @@ import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
-import 'package:rociny/features/influencer/complete_register/bloc/complete_profile_informations/complete_profile_informations_bloc.dart';
+import 'package:rociny/features/influencer/complete_register/bloc/complete_influencer_profile_informations/complete_influencer_profile_informations_bloc.dart';
 import 'package:rociny/shared/decorations/textfield_decoration.dart';
 import 'package:rociny/shared/widgets/chip.dart';
 
@@ -24,15 +24,15 @@ class _TargetAudienceState extends State<TargetAudience> {
   @override
   void initState() {
     super.initState();
-    CompleteProfileInformationsBloc bloc = context.read<CompleteProfileInformationsBloc>();
+    CompleteInfluencerProfileInformationsBloc bloc = context.read<CompleteInfluencerProfileInformationsBloc>();
     targetAudiences = bloc.targetAudiences ?? [];
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CompleteProfileInformationsBloc, CompleteProfileInformationsState>(
+    return BlocBuilder<CompleteInfluencerProfileInformationsBloc, CompleteInfluencerProfileInformationsState>(
       builder: (context, state) {
-        CompleteProfileInformationsBloc bloc = context.read<CompleteProfileInformationsBloc>();
+        CompleteInfluencerProfileInformationsBloc bloc = context.read<CompleteInfluencerProfileInformationsBloc>();
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,

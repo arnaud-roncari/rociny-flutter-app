@@ -538,5 +538,31 @@
     "fr": "Modifier",
     "en": "Edit",
     "es": "Modificar"
+  },
+
+  "enter_company_name": {
+    "fr": "Renseignez votre nom d'entreprise.",
+    "en": "Enter your company name.",
+    "es": "Ingrese el nombre de su empresa."
+  },
+  "company_name": {
+    "fr": "Nom d'entreprise",
+    "en": "Company name",
+    "es": "Nombre de la empresa"
+  },
+  "stripe_setup_cancelled": {
+    "fr": "Configuration Stripe annulée.",
+    "en": "Stripe setup cancelled.",
+    "es": "Configuración de Stripe cancelada."
+  },
+  "provide_legal_info_company": {
+    "fr": "Vous devez également nous fournir les informations légales de votre entreprise afin de rémunérer les influenceurs.",
+    "en": "You must also provide your company's legal information in order to pay influencers.",
+    "es": "También debe proporcionarnos la información legal de su empresa para poder pagar a los influencers."
+  },
+  "company_profile_tip": {
+    "fr": "Celui-ci sera visible par les influenceurs, alors prenez le temps de créer un profil qui représente votre marque.",
+    "en": "This will be visible to influencers, so take the time to create a profile that represents your brand.",
+    "es": "Este será visible para los influencers, así que tómese el tiempo de crear un perfil que represente su marca."
   }
 }

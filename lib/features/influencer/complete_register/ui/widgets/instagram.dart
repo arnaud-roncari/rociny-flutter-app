@@ -4,7 +4,7 @@ import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
-import 'package:rociny/features/influencer/complete_register/bloc/complete_profile_informations/complete_profile_informations_bloc.dart';
+import 'package:rociny/features/influencer/complete_register/bloc/complete_influencer_profile_informations/complete_influencer_profile_informations_bloc.dart';
 import 'package:rociny/shared/widgets/button.dart';
 
 class Instagram extends StatefulWidget {
@@ -17,7 +17,7 @@ class Instagram extends StatefulWidget {
 class _InstagramState extends State<Instagram> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CompleteProfileInformationsBloc, CompleteProfileInformationsState>(
+    return BlocBuilder<CompleteInfluencerProfileInformationsBloc, CompleteInfluencerProfileInformationsState>(
       builder: (context, state) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,9 +35,7 @@ class _InstagramState extends State<Instagram> {
             Button(
               backgroundColor: kBlack,
               title: "connect".translate(),
-              onPressed: () {
-                /// TODO Implement instagram OAuth
-              },
+              onPressed: () {},
             ),
             const SizedBox(height: kPadding10),
           ],

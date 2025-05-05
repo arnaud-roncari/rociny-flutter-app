@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
+import 'package:rociny/features/auth/data/dto/login_with_google_dto.dart';
 import 'package:rociny/features/auth/data/enums/account_type.dart';
 
 class AuthRepository {
@@ -126,5 +127,41 @@ class AuthRepository {
       Map<String, dynamic> body = jsonDecode(response.body);
       throw ApiException.fromJson(response.statusCode, body);
     }
+  }
+
+  Future<LoginWithGoogleDto> loginWithGoogle(String idToken) async {
+    final Response response = await get(
+      Uri.parse("$kEndpoint/user/auth/login-with-google/$idToken"),
+    );
+
+    Map<String, dynamic> body = jsonDecode(response.body);
+    if (response.statusCode >= 400) {
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+
+    return LoginWithGoogleDto.fromJson(body);
+  }
+
+  Future<String> completeAuthGoogleUser(
+    String providerUserId,
+    AccountType accountType,
+  ) async {
+    final Response response = await post(
+      Uri.parse("$kEndpoint/user/auth/complete-oauth-google-user"),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        "provider_user_id": providerUserId,
+        "account_type": accountType.name,
+      }),
+    );
+
+    Map<String, dynamic> body = jsonDecode(response.body);
+    if (response.statusCode >= 400) {
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+
+    return body["access_token"];
   }
 }

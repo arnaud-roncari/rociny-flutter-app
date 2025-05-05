@@ -1,0 +1,2 @@
+/Users/arnaudroncari/Repositories/Rociny/rociny-flutter-app/android/app/.cxx/RelWithDebInfo/6m6v4b3f/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/arnaudroncari/Repositories/Rociny/rociny-flutter-app/android/app/.cxx/RelWithDebInfo/6m6v4b3f/armeabi-v7a/CMakeFiles/rebuild_cache.dir

@@ -6,7 +6,7 @@ import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
-import 'package:rociny/features/influencer/complete_register/bloc/complete_legal_informations/complete_legal_informations_bloc.dart';
+import 'package:rociny/features/influencer/complete_register/bloc/complete_influencer_legal_informations/complete_influencer_legal_informations_bloc.dart';
 import 'package:rociny/shared/widgets/chip_button.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -22,9 +22,9 @@ class _StripeState extends State<Stripe> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CompleteLegalInformationsBloc, CompleteLegalInformationsState>(
+    return BlocConsumer<CompleteInfluencerLegalInformationsBloc, CompleteInfluencerLegalInformationsState>(
       listener: (context, state) async {
-        CompleteLegalInformationsBloc bloc = context.read<CompleteLegalInformationsBloc>();
+        CompleteInfluencerLegalInformationsBloc bloc = context.read<CompleteInfluencerLegalInformationsBloc>();
 
         if (state is GetStripeAccountLinkSuccess) {
           var bool = await context.push("/influencer/complete_register/complete_stripe", extra: bloc.stripeAccountUrl!);
@@ -39,7 +39,7 @@ class _StripeState extends State<Stripe> {
         }
       },
       builder: (context, state) {
-        CompleteLegalInformationsBloc bloc = context.read<CompleteLegalInformationsBloc>();
+        CompleteInfluencerLegalInformationsBloc bloc = context.read<CompleteInfluencerLegalInformationsBloc>();
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +58,8 @@ class _StripeState extends State<Stripe> {
               ChipButton(
                 label: "start".translate(),
                 onTap: () async {
-                  CompleteLegalInformationsBloc bloc = context.read<CompleteLegalInformationsBloc>();
+                  CompleteInfluencerLegalInformationsBloc bloc =
+                      context.read<CompleteInfluencerLegalInformationsBloc>();
                   if (bloc.stripeAccountUrl == null && state is! GetStripeAccountLinkLoading) {
                     bloc.add(GetStripeAccountLink());
                   }
