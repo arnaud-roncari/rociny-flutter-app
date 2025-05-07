@@ -12,8 +12,8 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "com.example.rociny"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    compileSdk = 35
+    ndkVersion = "27.0.12077973"
 
     signingConfigs {
         release {
@@ -36,7 +36,7 @@ android {
     defaultConfig {
         applicationId = "com.example.rociny"
         minSdk = 21
-        targetSdk = flutter.targetSdkVersion
+        targetSdk = 35
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
@@ -53,4 +53,8 @@ android {
 
 flutter {
     source = "../.."
+}
+dependencies {
+    implementation 'com.facebook.android:facebook-login:latest.release';
+    implementation 'com.facebook.android:facebook-android-sdk:[8,9)';
 }

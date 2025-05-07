@@ -15,6 +15,8 @@ import 'package:rociny/features/auth/ui/widgets/apple_button.dart';
 import 'package:rociny/features/auth/ui/widgets/google_button.dart';
 import 'package:rociny/shared/decorations/textfield_decoration.dart';
 import 'package:rociny/shared/widgets/button.dart';
+import 'package:rociny/features/auth/ui/widgets/facebook_button.dart';
+
 
 /// TODO ajouter le scrolling pour le formulaire
 class LoginPage extends StatelessWidget {
@@ -150,6 +152,12 @@ class LoginPage extends StatelessWidget {
 
                         if (Platform.isIOS) const SizedBox(width: kPadding20),
                         if (Platform.isIOS) const Expanded(child: AppleButton()),
+                      ],
+                    ),
+                    const SizedBox(height: kPadding30),
+                    const Row(
+                      children: [
+                        Expanded(child: FacebookButton()),
                       ],
                     ),
                     const Spacer(

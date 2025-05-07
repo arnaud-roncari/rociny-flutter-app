@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Rociny</string>
+    <string name="facebook_app_id">1602480893785207</string>
+    <string name="fb_login_protocol_scheme">fb1602480893785207</string>
+    <string name="facebook_client_token">f2cfd0188b66aa504b195a698bda1dd3</string>
+</resources>
