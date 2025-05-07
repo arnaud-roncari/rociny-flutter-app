@@ -1,4 +1,7 @@
 import 'package:go_router/go_router.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:rociny/core/config/environment.dart';
+import 'package:rociny/features/auth/data/enums/account_type.dart';
 import 'package:rociny/features/auth/ui/pages/complete_account_type_page.dart';
 import 'package:rociny/features/auth/ui/pages/first_launch_page.dart';
 import 'package:rociny/features/auth/ui/pages/forgot_password_code_verification_page.dart';
@@ -59,9 +62,21 @@ final GoRouter kRouter = GoRouter(
 );
 
 String getLocation() {
-  return "/login";
-  // if (kFirstLaunch) {
-  //   return '/first_launch';
-  // }
-  // return kJwt == null ? '/login' : '/home';
+  if (kFirstLaunch) {
+    return '/first_launch';
+  }
+
+  if (kJwt == null) {
+    return '/login';
+  }
+
+  /// Extract account type from JWT.
+  Map<String, dynamic> decodedToken = JwtDecoder.decode(kJwt!);
+  AccountType accountType = AccountTypeExtension.fromString(decodedToken['account_type']);
+
+  if (accountType == AccountType.company) {
+    return '/company/home';
+  }
+
+  return '/influencer/home';
 }
