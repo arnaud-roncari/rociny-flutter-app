@@ -135,6 +135,7 @@ class AuthRepository {
     );
 
     Map<String, dynamic> body = jsonDecode(response.body);
+
     if (response.statusCode >= 400) {
       throw ApiException.fromJson(response.statusCode, body);
     }

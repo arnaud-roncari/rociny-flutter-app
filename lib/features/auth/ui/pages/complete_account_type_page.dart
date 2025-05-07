@@ -10,6 +10,9 @@ import 'package:rociny/features/auth/data/enums/account_type.dart';
 
 import 'package:rociny/shared/widgets/button.dart';
 
+/// TODO après apple, aider integration instagram (intégrer meta oauth)
+/// un compte facenook peut avoir pluseierus comtpe isntagram (ocmment gérer le oauth)
+/// NOTE : Loris must redesign this page.
 class CompleteAccountTypePage extends StatelessWidget {
   const CompleteAccountTypePage({super.key});
 

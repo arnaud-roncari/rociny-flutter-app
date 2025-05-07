@@ -210,6 +210,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       final GoogleSignIn googleSignIn = GoogleSignIn(
         scopes: ['email', 'profile'],
+        serverClientId: kGooglePublishableClientWebId,
       );
 
       GoogleSignInAccount? user = await googleSignIn.signIn();
@@ -274,7 +275,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       emit(CompleteAccountTypeLoading());
 
-      /// faire la meme requete poura pple et google ?
+      /// TODO faire la meme requete poura pple et google ?
       kJwt = await authRepository.completeAuthGoogleUser(providerUserId!, event.accountType);
 
       FlutterSecureStorage storage = const FlutterSecureStorage();

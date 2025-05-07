@@ -145,7 +145,7 @@ class LoginPage extends StatelessWidget {
                     const SizedBox(height: kPadding30),
                     Row(
                       children: [
-                        /// TODO faire connexion google et apple 0auth (
+                        /// TODO faire connexion google (android) et apple 0auth
                         const Expanded(child: GoogleButton()),
 
                         if (Platform.isIOS) const SizedBox(width: kPadding20),
