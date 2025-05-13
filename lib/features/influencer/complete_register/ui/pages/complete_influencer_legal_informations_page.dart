@@ -97,7 +97,9 @@ class _CompleteInfluencerLegalInformationsPageState extends State<CompleteInflue
                       });
                       pageController.jumpToPage(index);
                     } else {
-                      context.go("/influencer/home");
+                      //context.go("/influencer/home");
+                      GoRouter.of(context).go("/influencer/home");
+
                     }
                   },
                 ),

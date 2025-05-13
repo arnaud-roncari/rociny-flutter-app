@@ -130,7 +130,8 @@ class _CompleteInfluencerProfileInformationsPageState extends State<CompleteInfl
                       });
                       pageController.jumpToPage(index);
                     } else {
-                      context.go("influencer/complete_register/legal");
+                      GoRouter.of(context).go("/influencer/complete_register/legal");
+                      //context.go("influencer/complete_register/legal");
                     }
                   },
                 ),
