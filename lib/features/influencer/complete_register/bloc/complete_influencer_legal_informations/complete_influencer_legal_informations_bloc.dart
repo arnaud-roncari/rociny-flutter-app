@@ -18,6 +18,7 @@ class CompleteInfluencerLegalInformationsBloc
       : super(CompleteLegalInitial()) {
     on<UpdateDocument>(updateDocument);
     on<GetStripeAccountLink>(getStripeAccountLink);
+    on<GetStripeLoginLink>(getStripeLoginLink);
     on<SetStripeAccountStatus>(setStripeAccountStatus);
   }
   final CrashRepository crashRepository;
@@ -28,9 +29,10 @@ class CompleteInfluencerLegalInformationsBloc
 
   /// Stripe webview url
   String? stripeAccountUrl;
+  String? stripeLoginUrl;
 
   /// Stripe account status
-  bool isStripeAccountCompleted = false;
+  bool hasCompletedStripe = false;
 
   void updateDocument(UpdateDocument event, Emitter<CompleteInfluencerLegalInformationsState> emit) async {
     try {
@@ -75,9 +77,26 @@ class CompleteInfluencerLegalInformationsBloc
     }
   }
 
+  void getStripeLoginLink(GetStripeLoginLink event, Emitter<CompleteInfluencerLegalInformationsState> emit) async {
+    try {
+      emit(GetStripeLoginLinkLoading());
+
+      stripeLoginUrl = await influencerRepository.getStripeLoginUrl();
+      emit(GetStripeLoginLinkSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(GetStripeLoginLinkFailed(exception: alertException));
+    }
+  }
+
   void setStripeAccountStatus(
       SetStripeAccountStatus event, Emitter<CompleteInfluencerLegalInformationsState> emit) async {
-    isStripeAccountCompleted = true;
+    hasCompletedStripe = true;
     emit(StripeAccountCompleted());
   }
 }

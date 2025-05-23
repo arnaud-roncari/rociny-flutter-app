@@ -18,7 +18,7 @@ class PreviewPdfPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: kPadding20, top: kPadding20),
+                padding: const EdgeInsets.only(left: kPadding20, top: kPadding20, bottom: kPadding20),
                 child: SvgButton(
                   path: "assets/svg/left_arrow.svg",
                   color: kBlack,

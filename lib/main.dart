@@ -16,13 +16,11 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:rociny/router/routes.dart';
 import 'package:rociny/shared/decorations/theme.dart';
 
-/// TODO retester google. regenerer clés si besoin (avec sha)
-/// TODO suppromer le service.plsit pour le oauth et garder que le web
-///
 /// TODO faire doc pour mise ne prod
 /// - changer les apikey stripe front et back
 /// - mettre leystore de production avec le sha1 (nécésasire pour le googlesign)
 /// - maj le fichier apple google oauth (pour sigin google)
+/// - changer app version dans environnement
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -50,6 +50,10 @@ class LoginPage extends StatelessWidget {
             if (state is LoginWithGoogleFailed) {
               Alert.showError(context, state.exception.message);
             }
+
+            if (state is LoginWithAppleFailed) {
+              Alert.showError(context, state.exception.message);
+            }
           },
           builder: (context, state) {
             return Padding(
@@ -145,9 +149,7 @@ class LoginPage extends StatelessWidget {
                     const SizedBox(height: kPadding30),
                     Row(
                       children: [
-                        /// TODO faire connexion google (android) et apple 0auth
                         const Expanded(child: GoogleButton()),
-
                         if (Platform.isIOS) const SizedBox(width: kPadding20),
                         if (Platform.isIOS) const Expanded(child: AppleButton()),
                       ],

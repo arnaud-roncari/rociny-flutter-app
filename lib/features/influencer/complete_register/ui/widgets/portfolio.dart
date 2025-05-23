@@ -9,7 +9,6 @@ import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/influencer/complete_register/bloc/complete_influencer_profile_informations/complete_influencer_profile_informations_bloc.dart';
 import 'package:rociny/shared/widgets/chip_button.dart';
 
-/// TODO faire un caroussel
 class Portfolio extends StatefulWidget {
   const Portfolio({super.key});
 

@@ -32,7 +32,7 @@ class _RegisterPageState extends State<RegisterPage> {
   void initState() {
     super.initState();
 
-    emailController.text = "new-user@rociny.com";
+    emailController.text = "arnaud.roncaripro@gmail.com";
     passwordController.text = "yourpassword";
     confirmPasswordController.text = "yourpassword";
   }

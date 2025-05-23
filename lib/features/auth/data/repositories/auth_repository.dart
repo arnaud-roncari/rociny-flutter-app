@@ -95,6 +95,24 @@ class AuthRepository {
     }
   }
 
+  Future<void> updateEmail(String newEmail, String password) async {
+    final Response response = await post(
+      Uri.parse("$kEndpoint/user/auth/update-email"),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $kJwt',
+      },
+      body: jsonEncode({
+        "new_email": newEmail,
+        "password": password,
+      }),
+    );
+    if (response.statusCode >= 400) {
+      Map<String, dynamic> body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+  }
+
   Future<void> verifyForgotPasswordCode(String email, String password, int code) async {
     final Response response = await post(
       Uri.parse("$kEndpoint/user/auth/forgot-password/verify"),
@@ -105,6 +123,24 @@ class AuthRepository {
         "email": email,
         "code": code,
         "password": password,
+      }),
+    );
+    if (response.statusCode >= 400) {
+      Map<String, dynamic> body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+  }
+
+  Future<void> verifyUpdateEmailCode(String newEmail, int code) async {
+    final Response response = await post(
+      Uri.parse("$kEndpoint/user/auth/update-email/verify"),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $kJwt',
+      },
+      body: jsonEncode({
+        "new_email": newEmail,
+        "code": code,
       }),
     );
     if (response.statusCode >= 400) {
@@ -129,7 +165,24 @@ class AuthRepository {
     }
   }
 
-  Future<LoginWithGoogleDto> loginWithGoogle(String idToken) async {
+  Future<void> resentUpdateEmailVerificationCode(String newEmail) async {
+    final Response response = await post(
+      Uri.parse("$kEndpoint/user/auth/update-email/resent-verification-code"),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $kJwt',
+      },
+      body: jsonEncode({
+        "new_email": newEmail,
+      }),
+    );
+    if (response.statusCode >= 400) {
+      Map<String, dynamic> body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+  }
+
+  Future<LoginWithProviderDto> loginWithGoogle(String idToken) async {
     final Response response = await get(
       Uri.parse("$kEndpoint/user/auth/login-with-google/$idToken"),
     );
@@ -140,15 +193,29 @@ class AuthRepository {
       throw ApiException.fromJson(response.statusCode, body);
     }
 
-    return LoginWithGoogleDto.fromJson(body);
+    return LoginWithProviderDto.fromJson(body);
   }
 
-  Future<String> completeAuthGoogleUser(
+  Future<LoginWithProviderDto> loginWithApple(String idToken) async {
+    final Response response = await get(
+      Uri.parse("$kEndpoint/user/auth/login-with-apple/$idToken"),
+    );
+
+    Map<String, dynamic> body = jsonDecode(response.body);
+
+    if (response.statusCode >= 400) {
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+
+    return LoginWithProviderDto.fromJson(body);
+  }
+
+  Future<String> completeOAuthUser(
     String providerUserId,
     AccountType accountType,
   ) async {
     final Response response = await post(
-      Uri.parse("$kEndpoint/user/auth/complete-oauth-google-user"),
+      Uri.parse("$kEndpoint/user/auth/complete-oauth-user"),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -164,5 +231,59 @@ class AuthRepository {
     }
 
     return body["access_token"];
+  }
+
+  Future<bool> isRegisteredLocally() async {
+    final Response response = await get(
+      Uri.parse("$kEndpoint/user/auth/is-registered-locally"),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    Map<String, dynamic> body = jsonDecode(response.body);
+
+    if (response.statusCode >= 400) {
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+
+    return (body["is_registered_locally"]);
+  }
+
+  Future<void> updatePassword(
+    String password,
+    String newPassword,
+  ) async {
+    final Response response = await put(
+      Uri.parse("$kEndpoint/user/auth/update-password"),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $kJwt',
+      },
+      body: jsonEncode({
+        "password": password,
+        "new_password": newPassword,
+      }),
+    );
+
+    if (response.statusCode >= 400) {
+      Map<String, dynamic> body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+  }
+
+  Future<void> deleteAccount() async {
+    final Response response = await delete(
+      Uri.parse("$kEndpoint/user/auth/delete-user"),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      Map<String, dynamic> body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
   }
 }

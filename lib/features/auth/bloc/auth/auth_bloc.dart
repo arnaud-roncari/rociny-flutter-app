@@ -10,6 +10,7 @@ import 'package:rociny/core/utils/error_handling/api_exception.dart';
 import 'package:rociny/features/auth/data/dto/login_with_google_dto.dart';
 import 'package:rociny/features/auth/data/enums/account_type.dart';
 import 'package:rociny/features/auth/data/repositories/auth_repository.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -225,7 +226,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         return;
       }
 
-      LoginWithGoogleDto dto = await authRepository.loginWithGoogle(idToken);
+      LoginWithProviderDto dto = await authRepository.loginWithGoogle(idToken);
 
       if (dto.status == "logged") {
         kJwt = dto.jwt;
@@ -258,25 +259,51 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void loginWithApple(OnLoginWithApple event, Emitter<AuthState> emit) async {
-    // try {
-    //   /// TODO
-    // } catch (exception, stack) {
-    // if (exception is! ApiException) {
-    //   crashRepository.registerCrash(exception, stack);
-    // }
+    try {
+      final credential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
 
-    /// Format exception to be displayed.
-    // AlertException alertException = AlertException.fromException(exception);
-    // emit(LoginWithGoogleFailed(exception: alertException)); changer
-    // }
+      final String? idToken = credential.identityToken;
+
+      if (idToken == null) {
+        return;
+      }
+
+      LoginWithProviderDto dto = await authRepository.loginWithApple(idToken);
+
+      if (dto.status == "logged") {
+        kJwt = dto.jwt;
+        FlutterSecureStorage storage = const FlutterSecureStorage();
+        await storage.write(key: kKeyJwt, value: kJwt);
+
+        /// Extract account type from JWT.
+        Map<String, dynamic> decodedToken = JwtDecoder.decode(kJwt!);
+        AccountType accountType = AccountTypeExtension.fromString(decodedToken['account_type']);
+
+        emit(LoginSuccess(accountType: accountType));
+      } else {
+        providerUserId = dto.providerUserId;
+        emit(CompleteAccountType());
+      }
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      AlertException alertException = AlertException.fromException(exception);
+      emit(LoginWithAppleFailed(exception: alertException));
+    }
   }
 
   void completeAccountType(OnCompleteAccounType event, Emitter<AuthState> emit) async {
     try {
       emit(CompleteAccountTypeLoading());
 
-      /// TODO faire la meme requete poura pple et google ?
-      kJwt = await authRepository.completeAuthGoogleUser(providerUserId!, event.accountType);
+      kJwt = await authRepository.completeOAuthUser(providerUserId!, event.accountType);
 
       FlutterSecureStorage storage = const FlutterSecureStorage();
       await storage.write(key: kKeyJwt, value: kJwt);

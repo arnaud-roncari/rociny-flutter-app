@@ -1,4 +1,5 @@
-String kEndpoint = "http://192.168.1.42:3000";
+String kEndpoint = "http://localhost:3000";
+String kAppVersion = "1.0.0";
 // String kEndpoint = "http://127.0.0.1:3000";
 
 String kStripePublishableKey =

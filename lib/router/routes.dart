@@ -71,6 +71,7 @@ String getLocation() {
   }
 
   /// Extract account type from JWT.
+
   Map<String, dynamic> decodedToken = JwtDecoder.decode(kJwt!);
   AccountType accountType = AccountTypeExtension.fromString(decodedToken['account_type']);
 

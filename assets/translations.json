@@ -564,5 +564,185 @@
     "fr": "Celui-ci sera visible par les influenceurs, alors prenez le temps de créer un profil qui représente votre marque.",
     "en": "This will be visible to influencers, so take the time to create a profile that represents your brand.",
     "es": "Este será visible para los influencers, así que tómese el tiempo de crear un perfil que represente su marca."
+  },
+  "account_type": {
+    "fr": "Type de compte",
+    "en": "Account type",
+    "es": "Tipo de cuenta"
+  },
+  "define_usage": {
+    "fr": "Définissez votre usage de Rociny.",
+    "en": "Define your use of Rociny.",
+    "es": "Defina su uso de Rociny."
+  },
+  "i_am_influencer": {
+    "fr": "Je suis un influenceur",
+    "en": "I am an influencer",
+    "es": "Soy un influencer"
+  },
+  "i_am_company": {
+    "fr": "Je suis une entreprise",
+    "en": "I am a company",
+    "es": "Soy una empresa"
+  },
+  "messaging": {
+    "fr": "Messagerie",
+    "en": "Messaging",
+    "es": "Mensajería"
+  },
+  "collaborations": {
+    "fr": "Collaborations",
+    "en": "Collaborations",
+    "es": "Colaboraciones"
+  },
+  "home": {
+    "fr": "Accueil",
+    "en": "Home",
+    "es": "Inicio"
+  },
+  "messages": {
+    "fr": "Messages",
+    "en": "Messages",
+    "es": "Mensajes"
+  },
+  "collaboration": {
+    "fr": "Collaboration",
+    "en": "Collaboration",
+    "es": "Colaboración"
+  },
+
+  "dashboard": {
+    "fr": "Tableau de bord",
+    "en": "Dashboard",
+    "es": "Panel de control"
+  },
+  "stripe_payment_info_completed": {
+    "fr": "Rociny utilise Stripe pour le traitement des paiements. Votre profil de paiement a bien été complété via Stripe.",
+    "en": "Rociny uses Stripe to process payments. Your payment profile has been successfully completed via Stripe.",
+    "es": "Rociny utiliza Stripe para procesar los pagos. Su perfil de pago ha sido completado correctamente a través de Stripe."
+  },
+  "my_account": {
+    "fr": "Mon compte",
+    "en": "My account",
+    "es": "Mi cuenta"
+  },
+  "my_company": {
+    "fr": "Mon entreprise",
+    "en": "My company",
+    "es": "Mi empresa"
+  },
+  "notifications": {
+    "fr": "Notifications",
+    "en": "Notifications",
+    "es": "Notificaciones"
+  },
+  "legal_documents": {
+    "fr": "Documents légaux",
+    "en": "Legal documents",
+    "es": "Documentos legales"
+  },
+  "logout": {
+    "fr": "Se déconnecter",
+    "en": "Log out",
+    "es": "Cerrar sesión"
+  },
+  "delete_account": {
+    "fr": "Supprimer son compte",
+    "en": "Delete account",
+    "es": "Eliminar cuenta"
+  },
+  "confirm_logout_message": {
+    "fr": "Si vous continuez, vous serez déconnecté de Rociny.",
+    "en": "If you continue, you will be logged out of Rociny.",
+    "es": "Si continúa, se cerrará la sesión en Rociny."
+  },
+  "confirm_delete": {
+    "fr": "Supprimer",
+    "en": "Delete",
+    "es": "Eliminar"
+  },
+  "confirm_delete_message": {
+    "fr": "Si vous continuez, votre compte sera supprimé de Rociny.",
+    "en": "If you continue, your account will be deleted from Rociny.",
+    "es": "Si continúa, su cuenta será eliminada de Rociny."
+  },
+  "login_information": {
+    "fr": "Informations de connexion",
+    "en": "Login information",
+    "es": "Información de inicio de sesión"
+  },
+  "settings": {
+    "fr": "Paramètres",
+    "en": "Settings",
+    "es": "Configuración"
+  },
+
+  "password_cannot_be_changed_social": {
+    "fr": "Votre mot de passe ne peut pas être modifié car vous utilisez une connexion via Google ou Apple.",
+    "en": "Your password cannot be changed because you are using Google or Apple sign-in.",
+    "es": "No se puede cambiar su contraseña porque usa el inicio de sesión con Google o Apple."
+  },
+  "enter_old_and_new_password": {
+    "fr": "Renseignez votre ancien mot de passe, ainsi que le nouveau.",
+    "en": "Enter your current password and the new one.",
+    "es": "Ingrese su contraseña actual y la nueva."
+  },
+  "confirm_new_password": {
+    "fr": "Confirmer nouveau mot de passe",
+    "en": "Confirm new password",
+    "es": "Confirmar nueva contraseña"
+  },
+  "continue": {
+    "fr": "Continuer",
+    "en": "Continue",
+    "es": "Continuar"
+  },
+
+  "new_message": {
+    "fr": "Nouveau message",
+    "en": "New message",
+    "es": "Nuevo mensaje"
+  },
+  "notification_on_message_from_influencer": {
+    "fr": "Recevez une notification lorsqu'un influenceur vous envoi un message.",
+    "en": "Get notified when an influencer sends you a message.",
+    "es": "Reciba una notificación cuando un influencer le envíe un mensaje."
+  },
+  "documents": {
+    "fr": "Documents",
+    "en": "Documents",
+    "es": "Documentos"
+  },
+
+  "email_address": {
+    "fr": "Adresse e-mail",
+    "en": "Email address",
+    "es": "Dirección de correo electrónico"
+  },
+  "email_cannot_be_changed_social": {
+    "fr": "Votre adresse e-mail ne peut pas être modifiée car vous utilisez une connexion via Google ou Apple.",
+    "en": "Your email address cannot be changed because you are using Google or Apple sign-in.",
+    "es": "No se puede cambiar su dirección de correo electrónico porque usa el inicio de sesión con Google o Apple."
+  },
+  "enter_password_and_new_email": {
+    "fr": "Renseignez votre mot de passe ainsi que votre nouvelle adresse e-mail.",
+    "en": "Enter your password and your new email address.",
+    "es": "Ingrese su contraseña y su nueva dirección de correo electrónico."
+  },
+  "new_email": {
+    "fr": "Nouvel e-mail",
+    "en": "New email",
+    "es": "Nuevo correo electrónico"
+  },
+
+  "legal_information": {
+    "fr": "Informations légales",
+    "en": "Legal information",
+    "es": "Información legal"
+  },
+  "legal_information_description": {
+    "fr": "Ici, vous pouvez mettre à jour toutes vos informations légales. Assurez-vous que vos informations sont à jour avant de commencer une mission.",
+    "en": "Here you can update all your legal information. Make sure your information is up to date before starting a mission.",
+    "es": "Aquí puede actualizar toda su información legal. Asegúrese de que su información esté actualizada antes de comenzar una misión."
   }
 }

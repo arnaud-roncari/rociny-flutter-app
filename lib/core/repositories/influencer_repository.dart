@@ -268,4 +268,54 @@ class InfluencerRepository {
     String url = jsonDecode(response.body)['url'];
     return url;
   }
+
+  Future<String> getStripeLoginUrl() async {
+    final response = await get(
+      Uri.parse('$kEndpoint/influencer/stripe/login-link'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+    String url = jsonDecode(response.body)['url'];
+    return url;
+  }
+
+  Future<bool> hasCompletedLegalDocuments() async {
+    final response = await get(
+      Uri.parse('$kEndpoint/influencer/has-completed/legal-documents'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+
+    bool hasCompleted = jsonDecode(response.body)['has_completed'];
+    return hasCompleted;
+  }
+
+  Future<bool> hasCompletedStripe() async {
+    final response = await get(
+      Uri.parse('$kEndpoint/influencer/has-completed/stripe'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+
+    bool hasCompleted = jsonDecode(response.body)['has_completed'];
+    return hasCompleted;
+  }
 }

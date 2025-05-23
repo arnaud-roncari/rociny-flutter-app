@@ -23,3 +23,13 @@ class GetStripeAccountLinkSuccess extends CompleteInfluencerLegalInformationsSta
 class GetStripeAccountLinkLoading extends CompleteInfluencerLegalInformationsState {}
 
 class StripeAccountCompleted extends CompleteInfluencerLegalInformationsState {}
+
+class GetStripeLoginLinkSuccess extends CompleteInfluencerLegalInformationsState {}
+
+class GetStripeLoginLinkLoading extends CompleteInfluencerLegalInformationsState {}
+
+class GetStripeLoginLinkFailed extends CompleteInfluencerLegalInformationsState {
+  final AlertException exception;
+
+  GetStripeLoginLinkFailed({required this.exception});
+}

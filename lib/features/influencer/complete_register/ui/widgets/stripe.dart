@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -25,22 +27,20 @@ class _StripeState extends State<Stripe> {
     return BlocConsumer<CompleteInfluencerLegalInformationsBloc, CompleteInfluencerLegalInformationsState>(
       listener: (context, state) async {
         CompleteInfluencerLegalInformationsBloc bloc = context.read<CompleteInfluencerLegalInformationsBloc>();
-
         if (state is GetStripeAccountLinkSuccess) {
-          var bool = await context.push("/influencer/complete_register/complete_stripe", extra: bloc.stripeAccountUrl!);
+          var bool = await context.push("/influencer/complete_register/stripe/webview", extra: bloc.stripeAccountUrl!);
           if (bool != null && bool == true) {
             bloc.add(SetStripeAccountStatus());
-            // ignore: use_build_context_synchronously
             Alert.showSuccess(context, "Modifications sauvegardées.");
           } else {
-            // ignore: use_build_context_synchronously
             Alert.showError(context, "Votre compte Stripe est incomplet.");
           }
         }
+        if (state is GetStripeLoginLinkSuccess) {
+          await context.push("/influencer/complete_register/stripe/webview", extra: bloc.stripeLoginUrl!);
+        }
       },
       builder: (context, state) {
-        CompleteInfluencerLegalInformationsBloc bloc = context.read<CompleteInfluencerLegalInformationsBloc>();
-
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -50,25 +50,49 @@ class _StripeState extends State<Stripe> {
             ),
             const SizedBox(height: kPadding10),
             Text(
-              "rociny_stripe_payment".translate(),
+              getText(),
               style: kBody.copyWith(color: kGrey300),
             ),
             const SizedBox(height: kPadding20),
-            if (!bloc.isStripeAccountCompleted)
-              ChipButton(
-                label: "start".translate(),
-                onTap: () async {
-                  CompleteInfluencerLegalInformationsBloc bloc =
-                      context.read<CompleteInfluencerLegalInformationsBloc>();
-                  if (bloc.stripeAccountUrl == null && state is! GetStripeAccountLinkLoading) {
-                    bloc.add(GetStripeAccountLink());
-                  }
-                },
-              ),
+            ChipButton(
+              label: getChipText(),
+              onTap: () async {
+                CompleteInfluencerLegalInformationsBloc bloc = context.read<CompleteInfluencerLegalInformationsBloc>();
+                if (state is GetStripeAccountLinkLoading) {
+                  return;
+                }
+
+                if (bloc.hasCompletedStripe) {
+                  bloc.add(GetStripeLoginLink());
+                } else {
+                  bloc.add(GetStripeAccountLink());
+                }
+              },
+            ),
             const Spacer(),
           ],
         );
       },
     );
+  }
+
+  String getText() {
+    CompleteInfluencerLegalInformationsBloc bloc = context.read<CompleteInfluencerLegalInformationsBloc>();
+
+    if (bloc.hasCompletedStripe) {
+      return "stripe_payment_info_completed".translate();
+    }
+
+    return "rociny_stripe_payment".translate();
+  }
+
+  String getChipText() {
+    CompleteInfluencerLegalInformationsBloc bloc = context.read<CompleteInfluencerLegalInformationsBloc>();
+
+    if (bloc.hasCompletedStripe) {
+      return "my_account".translate();
+    }
+
+    return "start".translate();
   }
 }

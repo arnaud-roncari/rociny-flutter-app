@@ -26,7 +26,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   @override
   void initState() {
     super.initState();
-    emailController.text = "new-user@rociny.com";
+    emailController.text = "arnaud.roncaripro@gmail.com";
   }
 
   @override

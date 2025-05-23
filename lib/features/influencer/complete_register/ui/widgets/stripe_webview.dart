@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rociny/core/constants/colors.dart';
+import 'package:rociny/core/constants/paddings.dart';
+import 'package:rociny/shared/widgets/svg_button.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class StripeWebview extends StatefulWidget {
@@ -48,7 +50,22 @@ class _StripeWebviewState extends State<StripeWebview> {
                   color: kPrimary500,
                 ),
               )
-            : WebViewWidget(controller: controller),
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: kPadding20, top: kPadding20, bottom: kPadding20),
+                    child: SvgButton(
+                      path: "assets/svg/left_arrow.svg",
+                      color: kBlack,
+                      onPressed: () {
+                        context.pop();
+                      },
+                    ),
+                  ),
+                  Expanded(child: WebViewWidget(controller: controller)),
+                ],
+              ),
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
+import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/company/home/ui/pages/chat_page.dart';
 import 'package:rociny/features/company/home/ui/pages/collaboration_page.dart';
 import 'package:rociny/features/company/home/ui/pages/profile_page.dart';
@@ -15,7 +16,6 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-/// TODO se souvenir du state des 4 pages
 class _HomePageState extends State<HomePage> {
   PageController pageController = PageController();
   int selectedPage = 0;
@@ -54,11 +54,10 @@ class _HomePageState extends State<HomePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          /// TODO translates
-          buildNavigationIcon(0, ["assets/svg/house.svg", "assets/svg/house_full.svg"], "Accueil"),
-          buildNavigationIcon(1, ["assets/svg/chat.svg", "assets/svg/chat_full.svg"], "Messages"),
-          buildNavigationIcon(2, ["assets/svg/box.svg", "assets/svg/box_full.svg"], "Collaboration"),
-          buildNavigationIcon(3, ["assets/svg/people.svg", "assets/svg/people_full.svg"], "Profil"),
+          buildNavigationIcon(0, ["assets/svg/house.svg", "assets/svg/house_full.svg"], "home".translate()),
+          buildNavigationIcon(1, ["assets/svg/chat.svg", "assets/svg/chat_full.svg"], "messages".translate()),
+          buildNavigationIcon(2, ["assets/svg/box.svg", "assets/svg/box_full.svg"], "collaboration".translate()),
+          buildNavigationIcon(3, ["assets/svg/people.svg", "assets/svg/people_full.svg"], "profile".translate()),
         ],
       ),
     );
@@ -87,8 +86,8 @@ class _HomePageState extends State<HomePage> {
           children: [
             SvgPicture.asset(
               isSelected ? svgPaths[1] : svgPaths[0],
-              width: 25,
-              height: 25,
+              width: 20,
+              height: 20,
               colorFilter: ColorFilter.mode(isSelected ? kPrimary500 : kGrey300, BlendMode.srcIn),
             ),
             const SizedBox(

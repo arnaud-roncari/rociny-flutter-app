@@ -11,3 +11,5 @@ class UpdateDocument extends CompleteInfluencerLegalInformationsEvent {
 class GetStripeAccountLink extends CompleteInfluencerLegalInformationsEvent {}
 
 class SetStripeAccountStatus extends CompleteInfluencerLegalInformationsEvent {}
+
+class GetStripeLoginLink extends CompleteInfluencerLegalInformationsEvent {}

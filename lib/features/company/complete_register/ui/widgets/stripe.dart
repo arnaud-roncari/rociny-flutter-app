@@ -8,6 +8,7 @@ import 'package:rociny/features/company/complete_register/bloc/complete_company_
 import 'package:rociny/shared/widgets/chip_button.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+/// TODO maj comme stripe influenceur
 class Stripe extends StatefulWidget {
   const Stripe({super.key});
 

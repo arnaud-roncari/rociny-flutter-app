@@ -40,6 +40,12 @@ class LoginWithGoogleFailed extends AuthState {
   LoginWithGoogleFailed({required this.exception});
 }
 
+class LoginWithAppleFailed extends AuthState {
+  final AlertException exception;
+
+  LoginWithAppleFailed({required this.exception});
+}
+
 class RegisterLoading extends AuthState {}
 
 class RegisterFailed extends AuthState {

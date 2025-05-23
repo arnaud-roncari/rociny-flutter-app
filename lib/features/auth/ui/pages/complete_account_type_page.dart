@@ -5,6 +5,7 @@ import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
+import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/auth/bloc/auth/auth_bloc.dart';
 import 'package:rociny/features/auth/data/enums/account_type.dart';
 
@@ -12,6 +13,7 @@ import 'package:rociny/shared/widgets/button.dart';
 
 /// TODO après apple, aider integration instagram (intégrer meta oauth)
 /// un compte facenook peut avoir pluseierus comtpe isntagram (ocmment gérer le oauth)
+
 /// NOTE : Loris must redesign this page.
 class CompleteAccountTypePage extends StatelessWidget {
   const CompleteAccountTypePage({super.key});
@@ -52,21 +54,15 @@ class CompleteAccountTypePage extends StatelessWidget {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.1,
                   ),
-
-                  /// TODO translate
-                  Text("Type de compte", style: kTitle1Bold),
+                  Text("account_type".translate(), style: kTitle1Bold),
                   const SizedBox(height: kPadding10),
-
-                  /// TODO translate
                   Text(
-                    "Définissez votre usage de Rociny.",
+                    "define_usage".translate(),
                     style: kBody.copyWith(color: kGrey300),
                   ),
                   const Spacer(),
-
-                  /// TODO translate
                   Button(
-                    title: "Je suis un influenceur",
+                    title: "i_am_influencer".translate(),
                     onPressed: () {
                       context.read<AuthBloc>().add(OnCompleteAccounType(accountType: AccountType.influencer));
                     },
@@ -74,12 +70,11 @@ class CompleteAccountTypePage extends StatelessWidget {
                   const SizedBox(height: kPadding10),
                   Button(
                     backgroundColor: kPrimary700,
-                    title: "Je suis une entreprise",
+                    title: "i_am_company".translate(),
                     onPressed: () {
                       context.read<AuthBloc>().add(OnCompleteAccounType(accountType: AccountType.company));
                     },
                   ),
-
                   const SizedBox(
                     height: kPadding20,
                   )
