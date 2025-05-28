@@ -34,7 +34,7 @@ static const platform = MethodChannel('com.example.rociny/facebook');
       await _sendAccessTokenToBackend(result);
     } on PlatformException catch (e) {
       setState(() {
-        _accessToken = 'Erreur: ${e.message}';
+        _accessToken = 'Erreur: ${e.message} et : ${e}';
       });
     }
   }

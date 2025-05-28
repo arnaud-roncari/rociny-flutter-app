@@ -26,6 +26,7 @@ class MainActivity : FlutterFragmentActivity() {
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "com.example.rociny/facebook")
             .setMethodCallHandler { call, result ->
                 if (call.method == "loginWithFacebook") {
+                    LoginManager.getInstance().logOut()
                     LoginManager.getInstance().logInWithReadPermissions(
                         this,
                         listOf(
