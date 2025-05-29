@@ -1,12 +1,10 @@
 import 'dart:io';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:rociny/core/repositories/company_repository.dart';
 import 'package:rociny/core/repositories/crash_repository.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
-import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/company/complete_register/data/dtos/setup_intent_dto.dart';
 import 'package:rociny/features/influencer/complete_register/data/enums/legal_document_status.dart';
 import 'package:rociny/features/influencer/complete_register/data/enums/legal_document_type.dart';
@@ -27,11 +25,6 @@ class CompleteCompanyLegalInformationsBloc
 
   /// Documents status (add more)
   LegalDocumentStatus debugStatus = LegalDocumentStatus.missing;
-
-  bool isStripeAccountCompleted = false;
-  String? setupIntentSecret;
-  String? ephemeralKeySecret;
-  String? customerId;
 
   void updateDocument(UpdateDocument event, Emitter<CompleteCompanyLegalInformationsState> emit) async {
     try {
@@ -63,12 +56,10 @@ class CompleteCompanyLegalInformationsBloc
     try {
       emit(CreateSetupIntentLoading());
 
-      if (customerId == null) {
-        SetupIntentDto si = await companyRepository.createSetupIntent();
-        customerId = si.customerId;
-        ephemeralKeySecret = si.ephemeralKeySecret;
-        setupIntentSecret = si.setupIntentSecret;
-      }
+      SetupIntentDto si = await companyRepository.createSetupIntent();
+      String customerId = si.customerId;
+      String ephemeralKeySecret = si.ephemeralKeySecret;
+      String setupIntentSecret = si.setupIntentSecret;
 
       await Stripe.instance.initPaymentSheet(
         paymentSheetParameters: SetupPaymentSheetParameters(
@@ -80,15 +71,8 @@ class CompleteCompanyLegalInformationsBloc
         ),
       );
       await Stripe.instance.presentPaymentSheet();
-      isStripeAccountCompleted = true;
       emit(CreateSetupIntentSuccess());
     } catch (exception, stack) {
-      if (exception is StripeException && exception.error.code == FailureCode.Canceled) {
-        emit(CreateSetupIntentFailed(exception: AlertException(message: "stripe_setup_cancelled".translate())));
-
-        return;
-      }
-
       if (exception is! ApiException) {
         crashRepository.registerCrash(exception, stack);
       }

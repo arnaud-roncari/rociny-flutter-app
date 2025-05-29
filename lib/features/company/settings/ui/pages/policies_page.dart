@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
+import 'package:rociny/core/utils/extensions/translate.dart';
+import 'package:rociny/features/influencer/settings/ui/widgets/settings_button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
-class InstagramPage extends StatefulWidget {
-  const InstagramPage({super.key});
+class PoliciesPage extends StatelessWidget {
+  const PoliciesPage({super.key});
 
-  @override
-  State<InstagramPage> createState() => _InstagramPageState();
-}
-
-class _InstagramPageState extends State<InstagramPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +32,7 @@ class _InstagramPageState extends State<InstagramPage> {
                 ),
                 const Spacer(),
                 Text(
-                  "Instagram",
+                  "legal_documents".translate(),
                   style: kTitle1Bold,
                 ),
                 const Spacer(),
@@ -42,7 +40,19 @@ class _InstagramPageState extends State<InstagramPage> {
               ],
             ),
             const SizedBox(height: kPadding30),
-            const Placeholder(),
+            SettingsButton(
+              label: "terms_of_service".translate(),
+              onPressed: () {
+                context.push("/preview_pdf", extra: "$kEndpoint/policy/privacy-policy");
+              },
+            ),
+            const SizedBox(height: kPadding5),
+            SettingsButton(
+              label: "privacy_policy".translate(),
+              onPressed: () {
+                context.push("/preview_pdf", extra: "$kEndpoint/policy/terms-of-use");
+              },
+            ),
           ],
         ),
       )),

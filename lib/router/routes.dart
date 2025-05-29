@@ -14,6 +14,9 @@ import 'package:rociny/router/company_routes.dart';
 import 'package:rociny/router/influencer_routes.dart';
 import 'package:rociny/shared/widgets/preview_pdf.dart';
 
+/// TODO faire connexion instagram en deeplnk
+/// TODO si ok, faire pareil avec stripe ?
+
 final GoRouter kRouter = GoRouter(
   initialLocation: getLocation(),
   routes: [

@@ -1,7 +1,10 @@
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
+import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
+import 'package:rociny/shared/widgets/svg_button.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -20,9 +23,22 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: kPadding20),
-          Text(
-            "profile".translate(),
-            style: kHeadline4Bold,
+          Row(
+            children: [
+              Text(
+                "profile".translate(),
+                style: kHeadline4Bold,
+              ),
+              const Spacer(),
+              SizedBox(
+                child: SvgButton(
+                    path: "assets/svg/settings.svg",
+                    color: kBlack,
+                    onPressed: () {
+                      context.push("/company/settings");
+                    }),
+              )
+            ],
           ),
           const Spacer(),
           const SizedBox(height: kPadding20),

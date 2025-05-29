@@ -8,7 +8,6 @@ import 'package:rociny/features/company/complete_register/bloc/complete_company_
 import 'package:rociny/shared/widgets/chip_button.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-/// TODO maj comme stripe influenceur
 class Stripe extends StatefulWidget {
   const Stripe({super.key});
 
@@ -24,8 +23,6 @@ class _StripeState extends State<Stripe> {
     return BlocConsumer<CompleteCompanyLegalInformationsBloc, CompleteCompanyLegalInformationsState>(
       listener: (context, state) async {},
       builder: (context, state) {
-        CompleteCompanyLegalInformationsBloc bloc = context.read<CompleteCompanyLegalInformationsBloc>();
-
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -35,26 +32,31 @@ class _StripeState extends State<Stripe> {
             ),
             const SizedBox(height: kPadding10),
             Text(
-              "rociny_stripe_payment".translate(),
+              getText(),
               style: kBody.copyWith(color: kGrey300),
             ),
             const SizedBox(height: kPadding20),
-            if (!bloc.isStripeAccountCompleted)
-              ChipButton(
-                label: "start".translate(),
-                onTap: () async {
-                  if (state is CreateSetupIntentLoading) {
-                    return;
-                  }
-
-                  CompleteCompanyLegalInformationsBloc bloc = context.read<CompleteCompanyLegalInformationsBloc>();
-                  bloc.add(CreateSetupIntent());
-                },
-              ),
+            ChipButton(
+              label: getChipText(),
+              onTap: () async {
+                if (state is CreateSetupIntentLoading) {
+                  return;
+                }
+                context.read<CompleteCompanyLegalInformationsBloc>().add(CreateSetupIntent());
+              },
+            ),
             const Spacer(),
           ],
         );
       },
     );
+  }
+
+  String getText() {
+    return "rociny_stripe_payment".translate();
+  }
+
+  String getChipText() {
+    return "Ajouter un moyen de paiement";
   }
 }
