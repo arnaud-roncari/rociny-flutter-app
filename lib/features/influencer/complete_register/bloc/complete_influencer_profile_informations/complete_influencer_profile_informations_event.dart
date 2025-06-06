@@ -55,3 +55,13 @@ class UpdateSocialNetwork extends CompleteInfluencerProfileInformationsEvent {
 
   UpdateSocialNetwork({required this.id, required this.url});
 }
+
+class GetFacebookSession extends CompleteInfluencerProfileInformationsEvent {}
+
+class GetInstagramAccounts extends CompleteInfluencerProfileInformationsEvent {}
+
+class CreateInstagramAccount extends CompleteInfluencerProfileInformationsEvent {
+  final String fetchedInstagramAccountId;
+
+  CreateInstagramAccount({required this.fetchedInstagramAccountId});
+}

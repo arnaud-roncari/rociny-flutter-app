@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:rociny/core/constants/colors.dart';
-import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/radius.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 
@@ -22,7 +21,6 @@ class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: kPadding10),
       height: height ?? 50,
       width: width,
       decoration: BoxDecoration(

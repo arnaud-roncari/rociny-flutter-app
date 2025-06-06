@@ -66,6 +66,12 @@ class AlertException {
         case "security:legal_document:already_exist":
           message = "legal_document_already_exists".translate();
           break;
+        case "security:instagram:not_found":
+          message = "instagram_not_found".translate();
+          break;
+        case "security:instagram:already_exist":
+          message = "instagram_already_exists".translate();
+          break;
       }
     }
 

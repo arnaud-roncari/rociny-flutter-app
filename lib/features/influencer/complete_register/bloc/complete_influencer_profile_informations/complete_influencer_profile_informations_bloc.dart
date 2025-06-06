@@ -6,6 +6,9 @@ import 'package:rociny/core/repositories/crash_repository.dart';
 import 'package:rociny/core/repositories/influencer_repository.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
+import 'package:rociny/features/auth/data/models/fetched_instagram_account.dart';
+import 'package:rociny/features/auth/data/models/instagram_account.dart';
+import 'package:rociny/features/auth/data/repositories/auth_repository.dart';
 import 'package:rociny/features/influencer/complete_register/data/enums/platform_type.dart';
 import 'package:rociny/features/influencer/complete_register/data/models/social_network_model.dart';
 
@@ -14,8 +17,11 @@ part 'complete_influencer_profile_informations_state.dart';
 
 class CompleteInfluencerProfileInformationsBloc
     extends Bloc<CompleteInfluencerProfileInformationsEvent, CompleteInfluencerProfileInformationsState> {
-  CompleteInfluencerProfileInformationsBloc({required this.crashRepository, required this.influencerRepository})
-      : super(CompleteProfileInitial()) {
+  CompleteInfluencerProfileInformationsBloc({
+    required this.crashRepository,
+    required this.influencerRepository,
+    required this.authRepository,
+  }) : super(CompleteProfileInitial()) {
     on<UpdateProfilePicture>(updateProfilePicture);
     on<UpdatePortfolio>(updatePortfolio);
     on<UpdateName>(updateName);
@@ -26,9 +32,13 @@ class CompleteInfluencerProfileInformationsBloc
     on<AddSocialNetwork>(addSocialNetwork);
     on<UpdateSocialNetwork>(updateSocialNetwork);
     on<DeleteSocialNetwork>(deleteSocialNetwork);
+    on<GetFacebookSession>(getFacebookSession);
+    on<GetInstagramAccounts>(getInstagramAccounts);
+    on<CreateInstagramAccount>(createInstagramAccount);
   }
   final CrashRepository crashRepository;
   final InfluencerRepository influencerRepository;
+  final AuthRepository authRepository;
 
   String? profilePicture;
   List<String> portfolio = [];
@@ -38,6 +48,11 @@ class CompleteInfluencerProfileInformationsBloc
   List<String>? themes;
   List<String>? targetAudiences;
   List<SocialNetwork> socialNetworks = [];
+
+  bool hasFacebookSession = false;
+  late List<FetchedInstagramAccount> instagramAccounts;
+  InstagramAccount? instagramAccount;
+  bool hasInstagramAccount = false;
 
   void updateProfilePicture(
       UpdateProfilePicture event, Emitter<CompleteInfluencerProfileInformationsState> emit) async {
@@ -208,6 +223,63 @@ class CompleteInfluencerProfileInformationsBloc
       /// Format exception to be displayed.
       AlertException alertException = AlertException.fromException(exception);
       emit(DeleteSocialNetworkFailed(exception: alertException));
+    }
+  }
+
+  void getFacebookSession(GetFacebookSession event, Emitter<CompleteInfluencerProfileInformationsState> emit) async {
+    try {
+      emit(GetFacebookSessionLoading());
+      hasFacebookSession = await authRepository.hasFacebookSession();
+
+      if (hasFacebookSession) {
+        hasInstagramAccount = await influencerRepository.hasInstagramAccount();
+        if (hasInstagramAccount) {
+          instagramAccount = await influencerRepository.getInstagramAccount();
+        }
+      }
+
+      emit(GetFacebookSessionSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      AlertException alertException = AlertException.fromException(exception);
+      emit(GetFacebookSessionFailed(exception: alertException));
+    }
+  }
+
+  void getInstagramAccounts(
+      GetInstagramAccounts event, Emitter<CompleteInfluencerProfileInformationsState> emit) async {
+    try {
+      emit(GetInstagramAccountsLoading());
+      instagramAccounts = await authRepository.getInstagramAccounts();
+      emit(GetInstagramAccountsSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      AlertException alertException = AlertException.fromException(exception);
+      emit(GetInstagramAccountsFailed(exception: alertException));
+    }
+  }
+
+  void createInstagramAccount(
+      CreateInstagramAccount event, Emitter<CompleteInfluencerProfileInformationsState> emit) async {
+    try {
+      emit(CreateInstagramAccountLoading());
+      await influencerRepository.createInstagramAccount(event.fetchedInstagramAccountId);
+      instagramAccount = await influencerRepository.getInstagramAccount();
+      hasInstagramAccount = true;
+      emit(CreateInstagramAccountSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      AlertException alertException = AlertException.fromException(exception);
+      emit(CreateInstagramAccountFailed(exception: alertException));
     }
   }
 }

@@ -6,6 +6,9 @@ import 'package:rociny/core/repositories/company_repository.dart';
 import 'package:rociny/core/repositories/crash_repository.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
+import 'package:rociny/features/auth/data/models/fetched_instagram_account.dart';
+import 'package:rociny/features/auth/data/models/instagram_account.dart';
+import 'package:rociny/features/auth/data/repositories/auth_repository.dart';
 import 'package:rociny/features/influencer/complete_register/data/enums/platform_type.dart';
 import 'package:rociny/features/influencer/complete_register/data/models/social_network_model.dart';
 
@@ -14,7 +17,8 @@ part 'complete_company_profile_informations_state.dart';
 
 class CompleteCompanyProfileInformationsBloc
     extends Bloc<CompleteCompanyProfileInformationsEvent, CompleteCompanyProfileInformationsState> {
-  CompleteCompanyProfileInformationsBloc({required this.crashRepository, required this.companyRepository})
+  CompleteCompanyProfileInformationsBloc(
+      {required this.crashRepository, required this.companyRepository, required this.authRepository})
       : super(CompleteProfileInitial()) {
     on<UpdateProfilePicture>(updateProfilePicture);
     on<UpdateName>(updateName);
@@ -23,15 +27,24 @@ class CompleteCompanyProfileInformationsBloc
     on<AddSocialNetwork>(addSocialNetwork);
     on<UpdateSocialNetwork>(updateSocialNetwork);
     on<DeleteSocialNetwork>(deleteSocialNetwork);
+    on<GetFacebookSession>(getFacebookSession);
+    on<GetInstagramAccounts>(getInstagramAccounts);
+    on<CreateInstagramAccount>(createInstagramAccount);
   }
   final CrashRepository crashRepository;
   final CompanyRepository companyRepository;
+  final AuthRepository authRepository;
 
   String? profilePicture;
   String? name;
   String? description;
   String? department;
   List<SocialNetwork> socialNetworks = [];
+
+  bool hasFacebookSession = false;
+  late List<FetchedInstagramAccount> instagramAccounts;
+  InstagramAccount? instagramAccount;
+  bool hasInstagramAccount = false;
 
   void updateProfilePicture(UpdateProfilePicture event, Emitter<CompleteCompanyProfileInformationsState> emit) async {
     try {
@@ -148,6 +161,62 @@ class CompleteCompanyProfileInformationsBloc
       /// Format exception to be displayed.
       AlertException alertException = AlertException.fromException(exception);
       emit(DeleteSocialNetworkFailed(exception: alertException));
+    }
+  }
+
+  void getFacebookSession(GetFacebookSession event, Emitter<CompleteCompanyProfileInformationsState> emit) async {
+    try {
+      emit(GetFacebookSessionLoading());
+      hasFacebookSession = await authRepository.hasFacebookSession();
+
+      if (hasFacebookSession) {
+        hasInstagramAccount = await companyRepository.hasInstagramAccount();
+        if (hasInstagramAccount) {
+          instagramAccount = await companyRepository.getInstagramAccount();
+        }
+      }
+
+      emit(GetFacebookSessionSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      AlertException alertException = AlertException.fromException(exception);
+      emit(GetFacebookSessionFailed(exception: alertException));
+    }
+  }
+
+  void getInstagramAccounts(GetInstagramAccounts event, Emitter<CompleteCompanyProfileInformationsState> emit) async {
+    try {
+      emit(GetInstagramAccountsLoading());
+      instagramAccounts = await authRepository.getInstagramAccounts();
+      emit(GetInstagramAccountsSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      AlertException alertException = AlertException.fromException(exception);
+      emit(GetInstagramAccountsFailed(exception: alertException));
+    }
+  }
+
+  void createInstagramAccount(
+      CreateInstagramAccount event, Emitter<CompleteCompanyProfileInformationsState> emit) async {
+    try {
+      emit(CreateInstagramAccountLoading());
+      await companyRepository.createInstagramAccount(event.fetchedInstagramAccountId);
+      instagramAccount = await companyRepository.getInstagramAccount();
+      hasInstagramAccount = true;
+      emit(CreateInstagramAccountSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      AlertException alertException = AlertException.fromException(exception);
+      emit(CreateInstagramAccountFailed(exception: alertException));
     }
   }
 }

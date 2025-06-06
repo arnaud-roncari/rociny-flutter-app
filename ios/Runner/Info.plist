@@ -29,6 +29,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>rociny</string>
 				<string>com.googleusercontent.apps.949880046138-cemcrdn12p377o1keg9vn3iiha41bq06</string>
 				<string>com.example.rociny.app</string>
 			</array>

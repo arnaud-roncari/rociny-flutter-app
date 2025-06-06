@@ -41,3 +41,13 @@ class UpdateSocialNetwork extends CompleteCompanyProfileInformationsEvent {
 
   UpdateSocialNetwork({required this.id, required this.url});
 }
+
+class GetFacebookSession extends CompleteCompanyProfileInformationsEvent {}
+
+class GetInstagramAccounts extends CompleteCompanyProfileInformationsEvent {}
+
+class CreateInstagramAccount extends CompleteCompanyProfileInformationsEvent {
+  final String fetchedInstagramAccountId;
+
+  CreateInstagramAccount({required this.fetchedInstagramAccountId});
+}

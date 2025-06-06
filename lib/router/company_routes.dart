@@ -33,6 +33,7 @@ List<RouteBase> kCompanyRoutes = [
     path: '/company/complete_register/complete_profile',
     builder: (context, state) => BlocProvider(
       create: (context) => CompleteCompanyProfileInformationsBloc(
+        authRepository: RepositoryProvider.of<AuthRepository>(context),
         crashRepository: RepositoryProvider.of<CrashRepository>(context),
         companyRepository: RepositoryProvider.of<CompanyRepository>(context),
       ),

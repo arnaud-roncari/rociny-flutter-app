@@ -47,6 +47,10 @@ class _CompleteInfluencerProfileInformationsPageState extends State<CompleteInfl
               state is UpdateSocialNetworkFailed ||
               state is AddSocialNetworkFailed ||
               state is DeleteSocialNetworkFailed ||
+              state is GetFacebookSessionFailed ||
+              state is GetInstagramAccountsFailed ||
+              state is CreateInstagramAccountFailed ||
+              state is CreateInstagramAccountFailed ||
               state is UpdateTargetAudiencesFailed) {
             Alert.showError(context, (state as dynamic).exception.message);
           }
@@ -62,6 +66,17 @@ class _CompleteInfluencerProfileInformationsPageState extends State<CompleteInfl
               state is DeleteSocialNetworkSuccess ||
               state is UpdateTargetAudiencesSuccess) {
             Alert.showSuccess(context, "changes_saved".translate());
+          }
+
+          if (state is CreateInstagramAccountSuccess) {
+            Alert.showSuccess(context, "instagram_account_added_successfully".translate());
+          }
+
+          if (state is GetFacebookSessionSuccess) {
+            CompleteInfluencerProfileInformationsBloc bloc = context.read<CompleteInfluencerProfileInformationsBloc>();
+            if (bloc.hasFacebookSession) {
+              bloc.add(GetInstagramAccounts());
+            }
           }
         },
         builder: (context, state) {

@@ -59,3 +59,39 @@ class UpdateSocialNetworkFailed extends CompleteCompanyProfileInformationsState 
 }
 
 class UpdateSocialNetworkSuccess extends CompleteCompanyProfileInformationsState {}
+
+// ---
+
+class GetFacebookSessionLoading extends CompleteCompanyProfileInformationsState {}
+
+class GetFacebookSessionSuccess extends CompleteCompanyProfileInformationsState {}
+
+class GetFacebookSessionFailed extends CompleteCompanyProfileInformationsState {
+  final AlertException exception;
+
+  GetFacebookSessionFailed({required this.exception});
+}
+
+/// ---
+
+class GetInstagramAccountsLoading extends CompleteCompanyProfileInformationsState {}
+
+class GetInstagramAccountsSuccess extends CompleteCompanyProfileInformationsState {}
+
+class GetInstagramAccountsFailed extends CompleteCompanyProfileInformationsState {
+  final AlertException exception;
+
+  GetInstagramAccountsFailed({required this.exception});
+}
+
+/// ---
+
+class CreateInstagramAccountLoading extends CompleteCompanyProfileInformationsState {}
+
+class CreateInstagramAccountSuccess extends CompleteCompanyProfileInformationsState {}
+
+class CreateInstagramAccountFailed extends CompleteCompanyProfileInformationsState {
+  final AlertException exception;
+
+  CreateInstagramAccountFailed({required this.exception});
+}

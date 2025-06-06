@@ -33,6 +33,7 @@ List<RouteBase> kInfluencerRoutes = [
     path: '/influencer/complete_register/complete_profile',
     builder: (context, state) => BlocProvider(
       create: (context) => CompleteInfluencerProfileInformationsBloc(
+        authRepository: RepositoryProvider.of<AuthRepository>(context),
         crashRepository: RepositoryProvider.of<CrashRepository>(context),
         influencerRepository: RepositoryProvider.of<InfluencerRepository>(context),
       ),

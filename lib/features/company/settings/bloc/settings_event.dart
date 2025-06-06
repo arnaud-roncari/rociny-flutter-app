@@ -41,3 +41,15 @@ class UpdateLegalDocument extends SettingsEvent {
 class GetLegalDocumentsStatus extends SettingsEvent {}
 
 class CreateSetupIntent extends SettingsEvent {}
+
+class GetFacebookSession extends SettingsEvent {}
+
+class GetInstagramAccounts extends SettingsEvent {}
+
+class CreateInstagramAccount extends SettingsEvent {
+  final String fetchedInstagramAccountId;
+
+  CreateInstagramAccount({required this.fetchedInstagramAccountId});
+}
+
+class LogoutFacebook extends SettingsEvent {}

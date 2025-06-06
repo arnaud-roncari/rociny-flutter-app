@@ -83,3 +83,39 @@ class UpdateSocialNetworkFailed extends CompleteInfluencerProfileInformationsSta
 }
 
 class UpdateSocialNetworkSuccess extends CompleteInfluencerProfileInformationsState {}
+
+// ---
+
+class GetFacebookSessionLoading extends CompleteInfluencerProfileInformationsState {}
+
+class GetFacebookSessionSuccess extends CompleteInfluencerProfileInformationsState {}
+
+class GetFacebookSessionFailed extends CompleteInfluencerProfileInformationsState {
+  final AlertException exception;
+
+  GetFacebookSessionFailed({required this.exception});
+}
+
+/// ---
+
+class GetInstagramAccountsLoading extends CompleteInfluencerProfileInformationsState {}
+
+class GetInstagramAccountsSuccess extends CompleteInfluencerProfileInformationsState {}
+
+class GetInstagramAccountsFailed extends CompleteInfluencerProfileInformationsState {
+  final AlertException exception;
+
+  GetInstagramAccountsFailed({required this.exception});
+}
+
+/// ---
+
+class CreateInstagramAccountLoading extends CompleteInfluencerProfileInformationsState {}
+
+class CreateInstagramAccountSuccess extends CompleteInfluencerProfileInformationsState {}
+
+class CreateInstagramAccountFailed extends CompleteInfluencerProfileInformationsState {
+  final AlertException exception;
+
+  CreateInstagramAccountFailed({required this.exception});
+}

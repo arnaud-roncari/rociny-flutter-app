@@ -2,8 +2,9 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
-import 'package:rociny/features/auth/data/dto/login_with_google_dto.dart';
+import 'package:rociny/features/auth/data/dto/login_with_provider_dto.dart';
 import 'package:rociny/features/auth/data/enums/account_type.dart';
+import 'package:rociny/features/auth/data/models/fetched_instagram_account.dart';
 
 class AuthRepository {
   Future<String> login(String email, String password) async {
@@ -277,6 +278,52 @@ class AuthRepository {
       Uri.parse("$kEndpoint/user/auth/delete-user"),
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      Map<String, dynamic> body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+  }
+
+  Future<List<FetchedInstagramAccount>> getInstagramAccounts() async {
+    final Response response = await get(
+      Uri.parse("$kEndpoint/user/auth/facebook/instagram-accounts"),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      Map<String, dynamic> body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+    List<dynamic> body = jsonDecode(response.body);
+    return FetchedInstagramAccount.fromMaps(body);
+  }
+
+  Future<bool> hasFacebookSession() async {
+    final Response response = await get(
+      Uri.parse("$kEndpoint/user/auth/facebook/has-session"),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      Map<String, dynamic> body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+    Map<String, dynamic> body = jsonDecode(response.body);
+    return (body["has_session"]);
+  }
+
+  Future<void> logoutFacebook() async {
+    final Response response = await delete(
+      Uri.parse("$kEndpoint/user/auth/facebook/logout"),
+      headers: {
         'Authorization': 'Bearer $kJwt',
       },
     );

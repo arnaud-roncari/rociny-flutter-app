@@ -1,4 +1,4 @@
-String kEndpoint = "http://localhost:3000";
+String kEndpoint = "https://9df1-2a01-cb1d-905e-7f00-a41d-9a5a-cf51-d2e0.ngrok-free.app";
 String kAppVersion = "1.0.0";
 // String kEndpoint = "http://127.0.0.1:3000";
 
@@ -11,3 +11,7 @@ late bool kFirstLaunch;
 late List<String> kDepartments;
 late List<String> kTargetAudiences;
 late List<String> kThemes;
+
+/// TODO comment ouvrir la page internent comme un gogole auth, venant du bas ?
+/// developer@rociny.com
+/// hstm090716)

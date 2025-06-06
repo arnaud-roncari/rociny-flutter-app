@@ -121,3 +121,51 @@ class GetStripeLoginLinkFailed extends SettingsState {
 // ---
 
 class StripeAccountCompleted extends SettingsState {}
+
+// ---
+
+class GetFacebookSessionLoading extends SettingsState {}
+
+class GetFacebookSessionSuccess extends SettingsState {}
+
+class GetFacebookSessionFailed extends SettingsState {
+  final AlertException exception;
+
+  GetFacebookSessionFailed({required this.exception});
+}
+
+/// ---
+
+class GetInstagramAccountsLoading extends SettingsState {}
+
+class GetInstagramAccountsSuccess extends SettingsState {}
+
+class GetInstagramAccountsFailed extends SettingsState {
+  final AlertException exception;
+
+  GetInstagramAccountsFailed({required this.exception});
+}
+
+/// ---
+
+class CreateInstagramAccountLoading extends SettingsState {}
+
+class CreateInstagramAccountSuccess extends SettingsState {}
+
+class CreateInstagramAccountFailed extends SettingsState {
+  final AlertException exception;
+
+  CreateInstagramAccountFailed({required this.exception});
+}
+
+/// ---
+
+class LogoutFacebookLoading extends SettingsState {}
+
+class LogoutFacebookSuccess extends SettingsState {}
+
+class LogoutFacebookFailed extends SettingsState {
+  final AlertException exception;
+
+  LogoutFacebookFailed({required this.exception});
+}

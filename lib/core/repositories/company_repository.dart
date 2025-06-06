@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart';
 import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
+import 'package:rociny/features/auth/data/models/instagram_account.dart';
 import 'package:rociny/features/company/complete_register/data/dtos/setup_intent_dto.dart';
 import 'package:rociny/features/influencer/complete_register/data/enums/legal_document_status.dart';
 import 'package:rociny/features/influencer/complete_register/data/enums/legal_document_type.dart';
@@ -260,5 +261,53 @@ class CompanyRepository {
     }
     String url = jsonDecode(response.body)['url'];
     return url;
+  }
+
+  Future<bool> hasInstagramAccount() async {
+    final response = await get(
+      Uri.parse('$kEndpoint/company/has-instagram-account'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+
+    bool hasCompleted = jsonDecode(response.body)['has_instagram_account'];
+    return hasCompleted;
+  }
+
+  Future<InstagramAccount> getInstagramAccount() async {
+    final response = await get(
+      Uri.parse('$kEndpoint/company/instagram'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+
+    Map<String, dynamic> body = jsonDecode(response.body);
+    return InstagramAccount.fromMap(body);
+  }
+
+  Future<void> createInstagramAccount(String fetchedInstagramAccountId) async {
+    final response = await get(
+      Uri.parse('$kEndpoint/company/instagram/$fetchedInstagramAccountId'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
   }
 }

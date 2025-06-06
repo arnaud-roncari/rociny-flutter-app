@@ -16,11 +16,13 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:rociny/router/routes.dart';
 import 'package:rociny/shared/decorations/theme.dart';
 
-/// TODO faire doc pour mise ne prod
+/// NOTE : Pour mise en prod:
 /// - changer les apikey stripe front et back
 /// - mettre leystore de production avec le sha1 (nécésasire pour le googlesign)
 /// - maj le fichier apple google oauth (pour sigin google)
 /// - changer app version dans environnement
+/// - changer l'url de redirection dans developer.facebook (debug avec ngrok en attendant)
+/// - setup insta en version prod (faire soumission, changer redirect_url sur site, front et back)
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

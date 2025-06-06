@@ -7,7 +7,7 @@ import 'package:rociny/core/constants/storage_keys.dart';
 import 'package:rociny/core/repositories/crash_repository.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
-import 'package:rociny/features/auth/data/dto/login_with_google_dto.dart';
+import 'package:rociny/features/auth/data/dto/login_with_provider_dto.dart';
 import 'package:rociny/features/auth/data/enums/account_type.dart';
 import 'package:rociny/features/auth/data/repositories/auth_repository.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';

@@ -10,6 +10,8 @@ import 'package:rociny/core/repositories/company_repository.dart';
 import 'package:rociny/core/repositories/crash_repository.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
+import 'package:rociny/features/auth/data/models/fetched_instagram_account.dart';
+import 'package:rociny/features/auth/data/models/instagram_account.dart';
 import 'package:rociny/features/auth/data/repositories/auth_repository.dart';
 import 'package:rociny/features/company/complete_register/data/dtos/setup_intent_dto.dart';
 import 'package:rociny/features/influencer/complete_register/data/enums/legal_document_status.dart';
@@ -32,6 +34,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<UpdateLegalDocument>(updateLegalDocument);
     on<GetLegalDocumentsStatus>(getLegalDocumentsStatus);
     on<CreateSetupIntent>(createSetupIntent);
+    on<GetFacebookSession>(getFacebookSession);
+    on<GetInstagramAccounts>(getInstagramAccounts);
+    on<CreateInstagramAccount>(createInstagramAccount);
+    on<LogoutFacebook>(logoutFacebook);
   }
   final CrashRepository crashRepository;
   final CompanyRepository companyRepository;
@@ -45,6 +51,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   late LegalDocumentStatus debugStatus;
 
   String? stripeBillingPortalSessionUrl;
+
+  bool hasFacebookSession = false;
+  late List<FetchedInstagramAccount> instagramAccounts;
+  InstagramAccount? instagramAccount;
+  bool hasInstagramAccount = false;
 
   void getIsRegisteredLocally(GetIsRegisteredLocally event, Emitter<SettingsState> emit) async {
     try {
@@ -240,6 +251,79 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       /// Format exception to be displayed.
       AlertException alertException = AlertException.fromException(exception);
       emit(CreateSetupIntentFailed(exception: alertException));
+    }
+  }
+
+  void getFacebookSession(GetFacebookSession event, Emitter<SettingsState> emit) async {
+    try {
+      emit(GetFacebookSessionLoading());
+      hasFacebookSession = await authRepository.hasFacebookSession();
+
+      if (hasFacebookSession) {
+        hasInstagramAccount = await companyRepository.hasInstagramAccount();
+        if (hasInstagramAccount) {
+          instagramAccount = await companyRepository.getInstagramAccount();
+        }
+      }
+
+      emit(GetFacebookSessionSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      AlertException alertException = AlertException.fromException(exception);
+      emit(GetFacebookSessionFailed(exception: alertException));
+    }
+  }
+
+  void getInstagramAccounts(GetInstagramAccounts event, Emitter<SettingsState> emit) async {
+    try {
+      emit(GetInstagramAccountsLoading());
+      instagramAccounts = await authRepository.getInstagramAccounts();
+      emit(GetInstagramAccountsSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      AlertException alertException = AlertException.fromException(exception);
+      emit(GetInstagramAccountsFailed(exception: alertException));
+    }
+  }
+
+  void createInstagramAccount(CreateInstagramAccount event, Emitter<SettingsState> emit) async {
+    try {
+      emit(CreateInstagramAccountLoading());
+      await companyRepository.createInstagramAccount(event.fetchedInstagramAccountId);
+      instagramAccount = await companyRepository.getInstagramAccount();
+      hasInstagramAccount = true;
+      emit(CreateInstagramAccountSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      AlertException alertException = AlertException.fromException(exception);
+      emit(CreateInstagramAccountFailed(exception: alertException));
+    }
+  }
+
+  void logoutFacebook(LogoutFacebook event, Emitter<SettingsState> emit) async {
+    try {
+      emit(LogoutFacebookLoading());
+      hasFacebookSession = false;
+      instagramAccount = null;
+      hasInstagramAccount = false;
+      await authRepository.logoutFacebook();
+      emit(LogoutFacebookSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      AlertException alertException = AlertException.fromException(exception);
+      emit(LogoutFacebookFailed(exception: alertException));
     }
   }
 }

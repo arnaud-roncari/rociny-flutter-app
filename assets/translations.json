@@ -35,6 +35,12 @@
     "es": "Contraseña o correo electrónico incorrectos."
   },
 
+  "instagram_not_found": {
+    "fr": "Aucun compte Instagram trouvé",
+    "en": "No Instagram account found",
+    "es": "No se encontró ninguna cuenta de Instagram"
+  },
+
   "advanced_search": {
     "fr": "Recherche avancée",
     "en": "Advanced search",
@@ -147,6 +153,11 @@
     "fr": "Le document existe déjà.",
     "en": "The document already exists.",
     "es": "La documento ya existe."
+  },
+  "instagram_already_exists": {
+    "fr": "le compte instagram existe déjà",
+    "en": "Instagram already exists.",
+    "es": "Instagram ya existe."
   },
   "file_required": {
     "fr": "Un fichier est nécessaire.",
@@ -744,5 +755,41 @@
     "fr": "Ici, vous pouvez mettre à jour toutes vos informations légales. Assurez-vous que vos informations sont à jour avant de commencer une mission.",
     "en": "Here you can update all your legal information. Make sure your information is up to date before starting a mission.",
     "es": "Aquí puede actualizar toda su información legal. Asegúrese de que su información esté actualizada antes de comenzar una misión."
+  },
+
+  "instagram_account_added_successfully": {
+    "fr": "Compte Instagram ajouté avec succès.",
+    "en": "Instagram account added successfully.",
+    "es": "Cuenta de Instagram añadida con éxito."
+  },
+  "connected_to_facebook_with_instagram": {
+    "fr": "Vous êtes connecté à Facebook et avez un compte Instagram associé.",
+    "en": "You are connected to Facebook and have an associated Instagram account.",
+    "es": "Estás conectado a Facebook y tienes una cuenta de Instagram asociada."
+  },
+  "no_instagram_account_found": {
+    "fr": "Aucun compte Instagram trouvé.",
+    "en": "No Instagram account found.",
+    "es": "No se encontró ninguna cuenta de Instagram."
+  },
+  "connected_to_facebook_select_instagram": {
+    "fr": "Vous êtes connecté à Facebook. Veuillez sélectionner votre compte Instagram.",
+    "en": "You are connected to Facebook. Please select your Instagram account.",
+    "es": "Estás conectado a Facebook. Por favor, selecciona tu cuenta de Instagram."
+  },
+  "rociny_needs_instagram_access": {
+    "fr": "Rociny a besoin d'accéder à vos statistiques Instagram. Veuillez vous connecter.",
+    "en": "Rociny needs access to your Instagram statistics. Please log in.",
+    "es": "Rociny necesita acceso a tus estadísticas de Instagram. Por favor, inicia sesión."
+  },
+  "disconnect_facebook_warning": {
+    "fr": "Vous êtes sur le point de vous déconnecter de Facebook. Toutes vos statistiques Instagram seront alors supprimées.",
+    "en": "You are about to disconnect from Facebook. All your Instagram statistics will be deleted.",
+    "es": "Estás a punto de desconectarte de Facebook. Todas tus estadísticas de Instagram serán eliminadas."
+  },
+  "followers": {
+    "fr": "Abonnés",
+    "en": "Followers",
+    "es": "Seguidores"
   }
 }
