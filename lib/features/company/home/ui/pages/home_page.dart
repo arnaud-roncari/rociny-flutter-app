@@ -6,7 +6,7 @@ import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/company/home/ui/pages/chat_page.dart';
 import 'package:rociny/features/company/home/ui/pages/collaboration_page.dart';
-import 'package:rociny/features/company/home/ui/pages/profile_page.dart';
+import 'package:rociny/features/company/profile/ui/pages/profile_page.dart';
 import 'package:rociny/features/company/home/ui/pages/search_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -30,6 +30,7 @@ class _HomePageState extends State<HomePage> {
             /// Pages
             Expanded(
               child: PageView(
+                physics: const NeverScrollableScrollPhysics(),
                 controller: pageController,
                 children: const [
                   SearchPage(),

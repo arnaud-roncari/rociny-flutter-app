@@ -4,6 +4,7 @@ import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
 
+/// TODO améliorer l'ui
 class Alert {
   static showError(BuildContext context, String text) {
     ScaffoldMessenger.of(context).showSnackBar(

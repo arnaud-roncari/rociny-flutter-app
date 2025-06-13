@@ -9,9 +9,9 @@ import 'package:url_launcher/url_launcher.dart';
 
 class SocialNetworkCard extends StatelessWidget {
   final SocialNetwork socialNetwork;
-  final void Function(SocialNetwork) onDelete;
-  final void Function(SocialNetwork) onUpdate;
-  const SocialNetworkCard({super.key, required this.socialNetwork, required this.onDelete, required this.onUpdate});
+  final void Function(SocialNetwork)? onDelete;
+  final void Function(SocialNetwork)? onUpdate;
+  const SocialNetworkCard({super.key, required this.socialNetwork, this.onDelete, this.onUpdate});
 
   @override
   Widget build(BuildContext context) {
@@ -38,39 +38,40 @@ class SocialNetworkCard extends StatelessWidget {
             const SizedBox(width: kPadding10),
             Text(getDisplayedName(socialNetwork.platform), style: kBody),
             const Spacer(),
-            PopupMenuButton<String>(
-              tooltip: "",
-              color: kWhite,
-              icon: SvgPicture.asset(
-                "assets/svg/menu_vertical.svg",
-                width: 20,
-                height: 20,
+            if (onUpdate != null && onDelete != null)
+              PopupMenuButton<String>(
+                tooltip: "",
+                color: kWhite,
+                icon: SvgPicture.asset(
+                  "assets/svg/menu_vertical.svg",
+                  width: 20,
+                  height: 20,
+                ),
+                itemBuilder: (BuildContext context) {
+                  return [
+                    PopupMenuItem<String>(
+                      value: "update",
+                      child: Text(
+                        "Modifier",
+                        style: kBody,
+                      ),
+                      onTap: () {
+                        onUpdate!(socialNetwork);
+                      },
+                    ),
+                    PopupMenuItem<String>(
+                      value: "delete",
+                      child: Text(
+                        "Supprimer",
+                        style: kBody,
+                      ),
+                      onTap: () {
+                        onDelete!(socialNetwork);
+                      },
+                    ),
+                  ];
+                },
               ),
-              itemBuilder: (BuildContext context) {
-                return [
-                  PopupMenuItem<String>(
-                    value: "update",
-                    child: Text(
-                      "Modifier",
-                      style: kBody,
-                    ),
-                    onTap: () {
-                      onUpdate(socialNetwork);
-                    },
-                  ),
-                  PopupMenuItem<String>(
-                    value: "delete",
-                    child: Text(
-                      "Supprimer",
-                      style: kBody,
-                    ),
-                    onTap: () {
-                      onDelete(socialNetwork);
-                    },
-                  ),
-                ];
-              },
-            ),
             const SizedBox(width: kPadding10),
           ],
         ),

@@ -6,7 +6,6 @@ import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
-/// TODO afficher un warning dans le profil quand insta est outdated
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 

@@ -31,6 +31,17 @@ class Validator {
     return null;
   }
 
+  static String? name(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'empty_field'.translate();
+    }
+    if (value.length < 3) {
+      return "minimum_3_characters".translate();
+    }
+
+    return null;
+  }
+
   static String? confirmPassword(String password, String passwordToConfirm) {
     if (passwordToConfirm.isEmpty) {
       return 'empty_field'.translate();

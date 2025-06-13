@@ -32,5 +32,5 @@ class _CollaborationPageState extends State<CollaborationPage> with AutomaticKee
   }
 
   @override
-  bool get wantKeepAlive => throw UnimplementedError();
+  bool get wantKeepAlive => true;
 }

@@ -4,6 +4,7 @@ import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 
+/// TODO rename
 class SettingsButton extends StatelessWidget {
   final String? svgPath;
   final String label;

@@ -13,7 +13,7 @@ import 'package:rociny/core/utils/error_handling/api_exception.dart';
 import 'package:rociny/features/auth/data/models/fetched_instagram_account.dart';
 import 'package:rociny/features/auth/data/models/instagram_account.dart';
 import 'package:rociny/features/auth/data/repositories/auth_repository.dart';
-import 'package:rociny/features/company/complete_register/data/dtos/setup_intent_dto.dart';
+import 'package:rociny/features/company/complete_profile/data/dtos/setup_intent_dto.dart';
 import 'package:rociny/features/influencer/complete_register/data/enums/legal_document_status.dart';
 import 'package:rociny/features/influencer/complete_register/data/enums/legal_document_type.dart';
 

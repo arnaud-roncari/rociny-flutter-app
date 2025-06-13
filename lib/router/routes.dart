@@ -15,7 +15,6 @@ import 'package:rociny/router/influencer_routes.dart';
 import 'package:rociny/shared/pages/facebook.dart';
 import 'package:rociny/shared/widgets/preview_pdf.dart';
 
-/// TODO Setup deeplink avec stripe (influencer)
 final GoRouter kRouter = GoRouter(
   initialLocation: getLocation(),
   routes: [

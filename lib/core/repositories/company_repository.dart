@@ -5,7 +5,9 @@ import 'package:http/http.dart';
 import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
 import 'package:rociny/features/auth/data/models/instagram_account.dart';
-import 'package:rociny/features/company/complete_register/data/dtos/setup_intent_dto.dart';
+import 'package:rociny/features/company/complete_profile/data/dtos/setup_intent_dto.dart';
+import 'package:rociny/features/company/profile/data/models/company.dart';
+import 'package:rociny/features/company/profile/data/models/profile_completion_status.dart';
 import 'package:rociny/features/influencer/complete_register/data/enums/legal_document_status.dart';
 import 'package:rociny/features/influencer/complete_register/data/enums/legal_document_type.dart';
 import 'package:rociny/features/influencer/complete_register/data/enums/platform_type.dart';
@@ -309,5 +311,53 @@ class CompanyRepository {
       final body = jsonDecode(response.body);
       throw ApiException.fromJson(response.statusCode, body);
     }
+  }
+
+  Future<ProfileCompletionStatus> getProfileCompletionStatus() async {
+    final response = await get(
+      Uri.parse('$kEndpoint/company/get-profile-completion-status'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+    final body = jsonDecode(response.body);
+    return ProfileCompletionStatus.fromMap(body);
+  }
+
+  Future<bool> hasCompletedProfile() async {
+    final response = await get(
+      Uri.parse('$kEndpoint/company/has-completed-profile'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+    final body = jsonDecode(response.body);
+    return body['has_completed_profile'] as bool;
+  }
+
+  Future<Company> getCompany() async {
+    final response = await get(
+      Uri.parse('$kEndpoint/company'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+    final body = jsonDecode(response.body);
+    return Company.fromMap(body);
   }
 }

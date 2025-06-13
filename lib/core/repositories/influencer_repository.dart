@@ -10,7 +10,6 @@ import 'package:rociny/features/influencer/complete_register/data/enums/legal_do
 import 'package:rociny/features/influencer/complete_register/data/enums/platform_type.dart';
 import 'package:rociny/features/influencer/complete_register/data/models/social_network_model.dart';
 
-/// TODO voir avec chagpt comment gérer les routes (sachant qu'on a infleucneur et company, avoir so avis sur la duplication (pas meme shcéma bdd))
 class InfluencerRepository {
   Future<String> updateProfilePicture(File image) async {
     var request = MultipartRequest(

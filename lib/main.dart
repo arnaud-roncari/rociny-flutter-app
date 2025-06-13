@@ -16,6 +16,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:rociny/router/routes.dart';
 import 'package:rociny/shared/decorations/theme.dart';
 
+/// TODO DOC
 /// NOTE : Pour mise en prod:
 /// - changer les apikey stripe front et back
 /// - mettre leystore de production avec le sha1 (nécésasire pour le googlesign)
@@ -23,6 +24,11 @@ import 'package:rociny/shared/decorations/theme.dart';
 /// - changer app version dans environnement
 /// - changer l'url de redirection dans developer.facebook (debug avec ngrok en attendant)
 /// - setup insta en version prod (faire soumission, changer redirect_url sur site, front et back)
+///
+/// Point d'amélioration
+/// - rework le routing du backend, services... (un audit par chagpt)
+/// - Setup deeplink avec stripe
+/// - utiliser même bloc pour complete register et settings (?)
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

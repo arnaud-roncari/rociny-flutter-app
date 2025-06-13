@@ -76,6 +76,9 @@ List<RouteBase> kInfluencerRoutes = [
         child: child,
       );
     },
+
+    /// TODO bouger dans /home
+
     routes: [
       GoRoute(
         path: '/influencer/settings',
