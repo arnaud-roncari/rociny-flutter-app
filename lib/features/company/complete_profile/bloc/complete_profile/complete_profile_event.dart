@@ -2,7 +2,13 @@ part of 'complete_profile_bloc.dart';
 
 sealed class CompleteProfileEvent {}
 
+class GetProfile extends CompleteProfileEvent {}
+
+/// ---
+
 class UpdateProfilePicture extends CompleteProfileEvent {}
+
+/// ---
 
 class UpdateName extends CompleteProfileEvent {
   final String name;
@@ -10,17 +16,23 @@ class UpdateName extends CompleteProfileEvent {
   UpdateName({required this.name});
 }
 
+/// ---
+
+class UpdateGeolocation extends CompleteProfileEvent {
+  final String geolocation;
+
+  UpdateGeolocation({required this.geolocation});
+}
+
+/// ---
+
 class UpdateDescription extends CompleteProfileEvent {
   final String description;
 
   UpdateDescription({required this.description});
 }
 
-class UpdateDepartment extends CompleteProfileEvent {
-  final String department;
-
-  UpdateDepartment({required this.department});
-}
+/// ---
 
 class AddSocialNetwork extends CompleteProfileEvent {
   final PlatformType platform;
@@ -40,16 +52,6 @@ class UpdateSocialNetwork extends CompleteProfileEvent {
   final String url;
 
   UpdateSocialNetwork({required this.id, required this.url});
-}
-
-class GetFacebookSession extends CompleteProfileEvent {}
-
-class GetInstagramAccounts extends CompleteProfileEvent {}
-
-class CreateInstagramAccount extends CompleteProfileEvent {
-  final String fetchedInstagramAccountId;
-
-  CreateInstagramAccount({required this.fetchedInstagramAccountId});
 }
 
 class UpdateDocument extends CompleteProfileEvent {

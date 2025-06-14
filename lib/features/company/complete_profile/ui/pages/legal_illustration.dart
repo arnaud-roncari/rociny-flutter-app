@@ -7,15 +7,15 @@ import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/shared/widgets/button.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+class LegalIllustrationPage extends StatefulWidget {
+  const LegalIllustrationPage({super.key});
 
   @override
-  State<ProfilePage> createState() => ProfilePageState();
+  State<LegalIllustrationPage> createState() => LegalIllustrationPageState();
 }
 
-class ProfilePageState extends State<ProfilePage> {
-  int pageIndex = 0;
+class LegalIllustrationPageState extends State<LegalIllustrationPage> {
+  int pageIndex = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class ProfilePageState extends State<ProfilePage> {
           Expanded(
             child: Align(
               alignment: Alignment.bottomCenter,
-              child: Image.asset("assets/images/complete_profile/3.png"),
+              child: Image.asset("assets/images/complete_profile/4.png"),
             ),
           ),
           Container(
@@ -43,13 +43,13 @@ class ProfilePageState extends State<ProfilePage> {
                   buildIndicator(),
                   const Spacer(),
                   Text(
-                    "my_profile".translate(),
+                    "my_business".translate(),
                     style: kHeadline4Bold,
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: kPadding20),
                   Text(
-                    "company_profile_tip".translate(),
+                    "provide_legal_info_company".translate(),
                     style: kTitle2.copyWith(
                       color: kGrey300,
                     ),
@@ -60,7 +60,7 @@ class ProfilePageState extends State<ProfilePage> {
                     title: "complete".translate(),
                     backgroundColor: kPrimary700,
                     onPressed: () async {
-                      context.push("/company/complete_register/complete_profile");
+                      context.push("/company/complete_profile/legal");
                     },
                   )
                 ],

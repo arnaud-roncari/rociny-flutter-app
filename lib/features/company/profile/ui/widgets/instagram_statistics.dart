@@ -3,11 +3,11 @@ import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/radius.dart';
 import 'package:rociny/core/constants/text_styles.dart';
+import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/company/profile/ui/widgets/bar_chart.dart';
 import 'package:rociny/features/company/profile/ui/widgets/donut_chart.dart';
 
 /// TODO implement algo insta et mettre à jour profil (faire un "je suis disponible" comme malt, qui refresh les stats)
-/// TODO translate
 class InstagramStatistics extends StatelessWidget {
   /// prend des statistiques (doit marcher pour finluecneur et entreprise) = instagram_account model
   const InstagramStatistics({super.key});
@@ -18,11 +18,11 @@ class InstagramStatistics extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Statistiques",
+          "statistics".translate(),
           style: kTitle1Bold,
         ),
         Text(
-          "Statistiques basées sur les 30 derniers jours",
+          "stats_last_30_days".translate(),
           style: kCaption.copyWith(
             color: kGrey300,
           ),
@@ -71,7 +71,7 @@ class InstagramStatistics extends StatelessWidget {
               Text("439", style: kHeadline5Bold),
               const SizedBox(height: kPadding5),
               Text(
-                "Compte touchés",
+                "accounts_reached",
                 style: kCaption.copyWith(color: kGrey300),
               ),
               const SizedBox(height: kPadding10),
@@ -106,7 +106,7 @@ class InstagramStatistics extends StatelessWidget {
                       const SizedBox(height: kPadding5),
                       Row(
                         children: [
-                          Text("Non-Followers", style: kCaption.copyWith(color: kGrey300)),
+                          Text("non_followers".translate(), style: kCaption.copyWith(color: kGrey300)),
                           const SizedBox(width: kPadding5),
                           Container(
                             width: 5,
@@ -149,7 +149,7 @@ class InstagramStatistics extends StatelessWidget {
                 ),
                 const SizedBox(height: kPadding5),
                 Text(
-                  "Impressions",
+                  "impressions".translate(),
                   style: kCaption.copyWith(color: kGrey300),
                 ),
               ],
@@ -173,7 +173,7 @@ class InstagramStatistics extends StatelessWidget {
                 ),
                 const SizedBox(height: kPadding5),
                 Text(
-                  "Interactions",
+                  "Interactions".translate(),
                   style: kCaption.copyWith(color: kGrey300),
                 ),
               ],
@@ -220,7 +220,7 @@ class InstagramStatistics extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        "Hommes",
+                        "men".translate(),
                         style: kCaption.copyWith(color: kGrey300),
                       ),
                       const SizedBox(width: kPadding5),
@@ -254,7 +254,7 @@ class InstagramStatistics extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        "Femmes",
+                        "women".translate(),
                         style: kCaption.copyWith(color: kGrey300),
                       ),
                       const SizedBox(width: kPadding5),
@@ -296,7 +296,7 @@ class InstagramStatistics extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: kPadding20),
               child: Text(
-                "Villes principales",
+                "top_cities".translate(),
                 style: kTitle2Bold,
               ),
             ),
@@ -353,7 +353,7 @@ class InstagramStatistics extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: kPadding20),
               child: Text(
-                "Tranche d'âge",
+                "age_range".translate(),
                 style: kTitle2Bold,
               ),
             ),

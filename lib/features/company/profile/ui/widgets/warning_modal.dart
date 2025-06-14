@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
+import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/company/profile/data/models/profile_completion_status.dart';
 
-/// TODO translate
 class WarningModal extends StatelessWidget {
   final ProfileCompletionStatus status;
   const WarningModal({super.key, required this.status});
@@ -25,10 +25,10 @@ class WarningModal extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Votre compte', style: kTitle1Bold),
+            Text('your_account'.translate(), style: kTitle1Bold),
             const SizedBox(height: kPadding10),
             Text(
-              'Afin de proposer des collaborations, assurez-vous de compléter votre profil et de renseigner les informations juridiques de votre entreprise.',
+              'collab_requirements_info'.translate(),
               style: kBody.copyWith(color: kGrey300),
             ),
             const SizedBox(height: kPadding30),
@@ -36,7 +36,7 @@ class WarningModal extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: kPadding10),
                 child: Text(
-                  "Complétez votre profil.",
+                  "complete_profile".translate(),
                   style: kBody.copyWith(color: kRed500),
                 ),
               ),
@@ -44,7 +44,7 @@ class WarningModal extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: kPadding10),
                 child: Text(
-                  "Complétez vos informations juridiques.",
+                  "complete_legal_info".translate(),
                   style: kBody.copyWith(color: kRed500),
                 ),
               ),
@@ -52,7 +52,7 @@ class WarningModal extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: kPadding10),
                 child: Text(
-                  "Connectez-vous à Instagram.",
+                  "connect_instagram".translate(),
                   style: kBody.copyWith(color: kRed500),
                 ),
               ),

@@ -23,9 +23,9 @@ class CompleteAccountTypePage extends StatelessWidget {
           listener: (context, state) {
             if (state is CompleteAccountTypeSuccess) {
               if (state.accountType == AccountType.influencer) {
-                context.go('/influencer/complete_register/my_profile');
+                context.go('/influencer/complete_profile/profile_illustration');
               } else {
-                context.go('/company/complete_register/my_profile');
+                context.go('/company/complete_profile/profile_illustration');
               }
             }
 

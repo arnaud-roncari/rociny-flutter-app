@@ -7,20 +7,21 @@ import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/company/complete_profile/bloc/complete_profile/complete_profile_bloc.dart';
-import 'package:rociny/features/company/complete_profile/ui/widgets/legal_documents.dart';
-import 'package:rociny/features/company/complete_profile/ui/widgets/stripe.dart';
+import 'package:rociny/features/company/complete_profile/ui/widgets/update_legal_documents_form.dart';
+import 'package:rociny/features/company/complete_profile/ui/widgets/update_stripe_payment_method_form.dart';
+import 'package:rociny/features/influencer/complete_register/data/enums/legal_document_type.dart';
 
 import 'package:rociny/shared/widgets/button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
-class CompleteCompanyLegalInformationsPage extends StatefulWidget {
-  const CompleteCompanyLegalInformationsPage({super.key});
+class CompleteLegalPage extends StatefulWidget {
+  const CompleteLegalPage({super.key});
 
   @override
-  State<CompleteCompanyLegalInformationsPage> createState() => _CompleteCompanyLegalInformationsPageState();
+  State<CompleteLegalPage> createState() => _CompleteLegalPageState();
 }
 
-class _CompleteCompanyLegalInformationsPageState extends State<CompleteCompanyLegalInformationsPage> {
+class _CompleteLegalPageState extends State<CompleteLegalPage> {
   int index = 0;
   PageController pageController = PageController(initialPage: 0);
 
@@ -35,11 +36,12 @@ class _CompleteCompanyLegalInformationsPageState extends State<CompleteCompanyLe
             Alert.showError(context, (state as dynamic).exception.message);
           }
 
-          if (state is UpdateDocumentSuccess) {
+          if (state is ProfileUpdated) {
             Alert.showSuccess(context, "changes_saved".translate());
           }
         },
         builder: (context, state) {
+          final bloc = context.read<CompleteProfileBloc>();
           return Padding(
             padding: const EdgeInsets.all(kPadding20),
             child: Column(
@@ -83,7 +85,19 @@ class _CompleteCompanyLegalInformationsPageState extends State<CompleteCompanyLe
                   child: PageView(
                     physics: const NeverScrollableScrollPhysics(),
                     controller: pageController,
-                    children: const [LegalDocuments(), Stripe()],
+                    children: [
+                      UpdateLegalDocumentsForm(
+                        documents: {
+                          LegalDocumentType.debug: bloc.debugStatus,
+                        },
+                        onUpdated: (type) {
+                          bloc.add(UpdateDocument(type: type));
+                        },
+                      ),
+                      UpdateStripePaymentMethodForm(onUpdated: () {
+                        bloc.add(CreateSetupIntent());
+                      }),
+                    ],
                   ),
                 ),
                 Button(

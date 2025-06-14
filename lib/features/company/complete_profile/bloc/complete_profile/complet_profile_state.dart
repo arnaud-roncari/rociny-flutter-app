@@ -2,7 +2,26 @@ part of 'complete_profile_bloc.dart';
 
 sealed class CompleteProfileState {}
 
-class CompleteProfileInitial extends CompleteProfileState {}
+/// ---
+
+class ProfileUpdated extends CompleteProfileState {}
+
+/// ---
+class GetProfileLoading extends CompleteProfileState {}
+
+class GetProfileSuccess extends CompleteProfileState {}
+
+class GetProfileFailed extends CompleteProfileState {
+  final AlertException exception;
+
+  GetProfileFailed({required this.exception});
+}
+
+/// ---
+
+class UpdateProfilePictureLoading extends CompleteProfileState {}
+
+class UpdateProfilePictureSuccess extends CompleteProfileState {}
 
 class UpdateProfilePictureFailed extends CompleteProfileState {
   final AlertException exception;
@@ -10,7 +29,9 @@ class UpdateProfilePictureFailed extends CompleteProfileState {
   UpdateProfilePictureFailed({required this.exception});
 }
 
-class UpdateProfilePictureSuccess extends CompleteProfileState {}
+// ---
+
+class UpdateNameLoading extends CompleteProfileState {}
 
 class UpdateNameFailed extends CompleteProfileState {
   final AlertException exception;
@@ -18,7 +39,19 @@ class UpdateNameFailed extends CompleteProfileState {
   UpdateNameFailed({required this.exception});
 }
 
-class UpdateNameSuccess extends CompleteProfileState {}
+// ---
+
+class UpdateGeolocationLoading extends CompleteProfileState {}
+
+class UpdateGeolocationFailed extends CompleteProfileState {
+  final AlertException exception;
+
+  UpdateGeolocationFailed({required this.exception});
+}
+
+// ---
+
+class UpdateDescriptionLoading extends CompleteProfileState {}
 
 class UpdateDescriptionFailed extends CompleteProfileState {
   final AlertException exception;
@@ -26,31 +59,11 @@ class UpdateDescriptionFailed extends CompleteProfileState {
   UpdateDescriptionFailed({required this.exception});
 }
 
-class UpdateDescriptionSuccess extends CompleteProfileState {}
+// ---
 
-class UpdateDepartmentFailed extends CompleteProfileState {
-  final AlertException exception;
+class UpdateSocialNetworkLoading extends CompleteProfileState {}
 
-  UpdateDepartmentFailed({required this.exception});
-}
-
-class UpdateDepartmentSuccess extends CompleteProfileState {}
-
-class AddSocialNetworkFailed extends CompleteProfileState {
-  final AlertException exception;
-
-  AddSocialNetworkFailed({required this.exception});
-}
-
-class AddSocialNetworkSuccess extends CompleteProfileState {}
-
-class DeleteSocialNetworkFailed extends CompleteProfileState {
-  final AlertException exception;
-
-  DeleteSocialNetworkFailed({required this.exception});
-}
-
-class DeleteSocialNetworkSuccess extends CompleteProfileState {}
+class UpdateSocialNetworkSuccess extends CompleteProfileState {}
 
 class UpdateSocialNetworkFailed extends CompleteProfileState {
   final AlertException exception;
@@ -58,48 +71,27 @@ class UpdateSocialNetworkFailed extends CompleteProfileState {
   UpdateSocialNetworkFailed({required this.exception});
 }
 
-class UpdateSocialNetworkSuccess extends CompleteProfileState {}
+class AddSocialNetworkLoading extends CompleteProfileState {}
 
-// ---
+class AddSocialNetworkSuccess extends CompleteProfileState {}
 
-class GetFacebookSessionLoading extends CompleteProfileState {}
-
-class GetFacebookSessionSuccess extends CompleteProfileState {}
-
-class GetFacebookSessionFailed extends CompleteProfileState {
+class AddSocialNetworkFailed extends CompleteProfileState {
   final AlertException exception;
 
-  GetFacebookSessionFailed({required this.exception});
+  AddSocialNetworkFailed({required this.exception});
+}
+
+class DeleteSocialNetworkLoading extends CompleteProfileState {}
+
+class DeleteSocialNetworkSuccess extends CompleteProfileState {}
+
+class DeleteSocialNetworkFailed extends CompleteProfileState {
+  final AlertException exception;
+
+  DeleteSocialNetworkFailed({required this.exception});
 }
 
 /// ---
-
-class GetInstagramAccountsLoading extends CompleteProfileState {}
-
-class GetInstagramAccountsSuccess extends CompleteProfileState {}
-
-class GetInstagramAccountsFailed extends CompleteProfileState {
-  final AlertException exception;
-
-  GetInstagramAccountsFailed({required this.exception});
-}
-
-/// ---
-
-class CreateInstagramAccountLoading extends CompleteProfileState {}
-
-class CreateInstagramAccountSuccess extends CompleteProfileState {}
-
-class CreateInstagramAccountFailed extends CompleteProfileState {
-  final AlertException exception;
-
-  CreateInstagramAccountFailed({required this.exception});
-}
-
-/// ---
-
-class CompleteLegalInitial extends CompleteProfileState {}
-
 class UpdateDocumentFailed extends CompleteProfileState {
   final AlertException exception;
 

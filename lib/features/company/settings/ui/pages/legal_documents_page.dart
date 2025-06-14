@@ -6,9 +6,9 @@ import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
+import 'package:rociny/features/company/complete_profile/ui/widgets/update_legal_documents_form.dart';
 import 'package:rociny/features/influencer/complete_register/data/enums/legal_document_type.dart';
 import 'package:rociny/features/company/settings/bloc/settings_bloc.dart';
-import 'package:rociny/shared/widgets/legal_document_card.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
 class LegalDocumentsPage extends StatefulWidget {
@@ -65,22 +65,14 @@ class _LegalDocumentsPageState extends State<LegalDocumentsPage> {
                   ],
                 ),
                 const SizedBox(height: kPadding30),
-                Text(
-                  "documents".translate(),
-                  style: kTitle1Bold,
-                ),
-                const SizedBox(height: kPadding10),
-                Text(
-                  "provide_documents",
-                  style: kBody.copyWith(color: kGrey300),
-                ),
-                const SizedBox(height: kPadding20),
-                LegalDocumentCard(
-                  onTap: () {
-                    bloc.add(UpdateLegalDocument(type: LegalDocumentType.debug));
-                  },
-                  status: bloc.debugStatus,
-                  type: LegalDocumentType.debug,
+                Expanded(
+                  child: UpdateLegalDocumentsForm(
+                      documents: {
+                        LegalDocumentType.debug: bloc.debugStatus,
+                      },
+                      onUpdated: (type) {
+                        bloc.add(UpdateLegalDocument(type: type));
+                      }),
                 ),
               ],
             );

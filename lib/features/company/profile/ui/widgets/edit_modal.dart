@@ -4,10 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
+import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/company/profile/bloc/profile_bloc.dart';
-import 'package:rociny/features/influencer/settings/ui/widgets/settings_button.dart';
+import 'package:rociny/features/influencer/settings/ui/widgets/navigation_button.dart';
 
-/// TODO translate
 class EditModal extends StatelessWidget {
   const EditModal({super.key});
 
@@ -30,56 +30,56 @@ class EditModal extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Profil', style: kTitle1Bold),
+            Text('profile'.translate(), style: kTitle1Bold),
             const SizedBox(height: kPadding10),
             Text(
-              'Complétez votre profil.',
+              'complete_profile'.translate(),
               style: kBody.copyWith(color: kGrey300),
             ),
             const SizedBox(height: kPadding10),
-            SettingsButton(
-              label: "Photo de profil",
+            NavigationButton(
+              label: "profile_picture".translate(),
               onPressed: () {
                 bloc.add(UpdateProfilePicture());
                 context.pop();
               },
             ),
-            SettingsButton(
-              label: "Nom",
+            NavigationButton(
+              label: "name".translate(),
               onPressed: () {
                 context.pop();
 
                 context.push("/company/home/profile/name");
               },
             ),
-            SettingsButton(
-              label: "Géolocalisation",
+            NavigationButton(
+              label: "geolocation".translate(),
               onPressed: () {
                 context.pop();
 
                 context.push("/company/home/profile/geolocation");
               },
             ),
-            SettingsButton(
-              label: "Description",
+            NavigationButton(
+              label: "description".translate(),
               onPressed: () {
                 context.pop();
 
                 context.push("/company/home/profile/description");
               },
             ),
-            SettingsButton(
-              label: "Réseaux sociaux",
+            NavigationButton(
+              label: "social_networks".translate(),
               onPressed: () {
                 context.pop();
                 context.push("/company/home/profile/social_networks");
               },
             ),
-            SettingsButton(
+            NavigationButton(
               label: "Instagram",
               onPressed: () async {
                 context.pop();
-                await context.push('/company/settings/credentials');
+                await context.push('/company/home/settings/credentials');
                 bloc.add(GetProfile());
               },
             ),
@@ -89,6 +89,4 @@ class EditModal extends StatelessWidget {
       ),
     );
   }
-
-  /// TODO réduire la taille de la barre de navigation
 }

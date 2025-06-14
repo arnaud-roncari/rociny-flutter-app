@@ -4,12 +4,11 @@ import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 
-/// TODO rename
-class SettingsButton extends StatelessWidget {
+class NavigationButton extends StatelessWidget {
   final String? svgPath;
   final String label;
   final void Function() onPressed;
-  const SettingsButton({super.key, this.svgPath, required this.label, required this.onPressed});
+  const NavigationButton({super.key, this.svgPath, required this.label, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {

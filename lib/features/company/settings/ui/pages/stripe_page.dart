@@ -4,9 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
-import 'package:rociny/core/utils/extensions/translate.dart';
+import 'package:rociny/features/company/complete_profile/ui/widgets/update_stripe_payment_method_form.dart';
 import 'package:rociny/features/company/settings/bloc/settings_bloc.dart';
-import 'package:rociny/shared/widgets/chip_button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
 class StripePage extends StatefulWidget {
@@ -49,41 +48,14 @@ class _StripePageState extends State<StripePage> {
                   ],
                 ),
                 const SizedBox(height: kPadding30),
-                Text(
-                  "Stripe",
-                  style: kTitle1Bold,
-                ),
-                const SizedBox(height: kPadding10),
-                Text(
-                  getText(),
-                  style: kBody.copyWith(color: kGrey300),
-                ),
-                const SizedBox(height: kPadding20),
-                ChipButton(
-                  label: getChipText(),
-                  onTap: () async {
-                    SettingsBloc bloc = context.read<SettingsBloc>();
-                    if (state is CreateSetupIntentLoading) {
-                      return;
-                    }
-
-                    bloc.add(CreateSetupIntent());
-                  },
-                ),
-                const Spacer(),
+                Expanded(child: UpdateStripePaymentMethodForm(onUpdated: () {
+                  context.read<SettingsBloc>().add(CreateSetupIntent());
+                })),
               ],
             );
           },
         ),
       )),
     );
-  }
-
-  String getText() {
-    return "rociny_stripe_payment".translate();
-  }
-
-  String getChipText() {
-    return "Ajouter un moyen de paiement";
   }
 }

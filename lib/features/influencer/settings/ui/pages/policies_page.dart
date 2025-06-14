@@ -5,7 +5,7 @@ import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
-import 'package:rociny/features/influencer/settings/ui/widgets/settings_button.dart';
+import 'package:rociny/features/influencer/settings/ui/widgets/navigation_button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
 class PoliciesPage extends StatelessWidget {
@@ -40,14 +40,14 @@ class PoliciesPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: kPadding30),
-            SettingsButton(
+            NavigationButton(
               label: "terms_of_service".translate(),
               onPressed: () {
                 context.push("/preview_pdf", extra: "$kEndpoint/policy/privacy-policy");
               },
             ),
             const SizedBox(height: kPadding5),
-            SettingsButton(
+            NavigationButton(
               label: "privacy_policy".translate(),
               onPressed: () {
                 context.push("/preview_pdf", extra: "$kEndpoint/policy/terms-of-use");

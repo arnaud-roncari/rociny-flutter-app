@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:rociny/core/constants/colors.dart';
+import 'package:rociny/core/constants/radius.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
 
-/// TODO améliorer l'ui
+/// TODO faire profil inf (copier bloc et page, ajouter 2 widget manqunats puis faire complete)
 class Alert {
   static showError(BuildContext context, String text) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: kRed500,
-        content: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: kBody.copyWith(color: Colors.white),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        content: Container(
+          height: 50,
+          width: double.infinity,
+          decoration: BoxDecoration(color: kRed700, borderRadius: BorderRadius.circular(kRadius10)),
+          child: Center(
+            child: Text(
+              text,
+              textAlign: TextAlign.center,
+              style: kBody.copyWith(color: Colors.white),
+            ),
+          ),
         ),
       ),
     );
@@ -22,11 +31,19 @@ class Alert {
   static showSuccess(BuildContext context, String text) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: kGreen500,
-        content: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: kBody.copyWith(color: Colors.white),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        content: Container(
+          height: 50,
+          width: double.infinity,
+          decoration: BoxDecoration(color: kPrimary700, borderRadius: BorderRadius.circular(kRadius10)),
+          child: Center(
+            child: Text(
+              text,
+              textAlign: TextAlign.center,
+              style: kBody.copyWith(color: Colors.white),
+            ),
+          ),
         ),
       ),
     );

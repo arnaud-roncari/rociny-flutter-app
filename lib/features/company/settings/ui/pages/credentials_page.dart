@@ -6,7 +6,7 @@ import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/company/settings/bloc/settings_bloc.dart';
-import 'package:rociny/features/influencer/settings/ui/widgets/settings_button.dart';
+import 'package:rociny/features/influencer/settings/ui/widgets/navigation_button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
 class CredentialsPage extends StatefulWidget {
@@ -46,28 +46,28 @@ class _CredentialsPageState extends State<CredentialsPage> {
               ],
             ),
             const SizedBox(height: kPadding30),
-            SettingsButton(
+            NavigationButton(
               svgPath: "assets/svg/email.svg",
               label: "email_address".translate(),
               onPressed: () {
-                context.push("/company/settings/credentials/email");
+                context.push("/company/home/settings/credentials/email");
               },
             ),
             const SizedBox(height: kPadding5),
-            SettingsButton(
+            NavigationButton(
               svgPath: "assets/svg/lock.svg",
               label: "password".translate(),
               onPressed: () {
-                context.push("/company/settings/credentials/password");
+                context.push("/company/home/settings/credentials/password");
               },
             ),
             const SizedBox(height: kPadding5),
-            SettingsButton(
+            NavigationButton(
               svgPath: "assets/svg/instagram.svg",
               label: "Instagram",
               onPressed: () {
                 context.read<SettingsBloc>().add(GetFacebookSession());
-                context.push("/company/settings/credentials/instagram");
+                context.push("/company/home/settings/credentials/instagram");
               },
             ),
           ],

@@ -8,7 +8,7 @@ import 'package:rociny/core/constants/radius.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/company/settings/bloc/settings_bloc.dart';
-import 'package:rociny/features/influencer/settings/ui/widgets/settings_button.dart';
+import 'package:rociny/features/influencer/settings/ui/widgets/navigation_button.dart';
 import 'package:rociny/shared/widgets/button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
@@ -44,40 +44,40 @@ class SettingsPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: kPadding30),
-            SettingsButton(
+            NavigationButton(
               svgPath: "assets/svg/people.svg",
               label: "login_information".translate(),
               onPressed: () {
-                context.push("/company/settings/credentials");
+                context.push("/company/home/settings/credentials");
               },
             ),
             const SizedBox(height: kPadding5),
-            SettingsButton(
+            NavigationButton(
               svgPath: "assets/svg/suitcase.svg",
               label: "my_company".translate(),
               onPressed: () {
                 context.read<SettingsBloc>().add(GetCompanySectionsStatus());
-                context.push("/company/settings/company");
+                context.push("/company/home/settings/company");
               },
             ),
             const SizedBox(height: kPadding5),
-            SettingsButton(
+            NavigationButton(
               svgPath: "assets/svg/bell.svg",
               label: "notifications".translate(),
               onPressed: () {
-                context.push("/company/settings/notifications");
+                context.push("/company/home/settings/notifications");
               },
             ),
             const SizedBox(height: kPadding5),
-            SettingsButton(
+            NavigationButton(
               svgPath: "assets/svg/file.svg",
               label: "legal_documents".translate(),
               onPressed: () {
-                context.push("/company/settings/policies");
+                context.push("/company/home/settings/policies");
               },
             ),
             const SizedBox(height: kPadding5),
-            SettingsButton(
+            NavigationButton(
               svgPath: "assets/svg/logout.svg",
               label: "logout".translate(),
               onPressed: () {
@@ -85,7 +85,7 @@ class SettingsPage extends StatelessWidget {
               },
             ),
             const SizedBox(height: kPadding5),
-            SettingsButton(
+            NavigationButton(
               svgPath: "assets/svg/trash.svg",
               label: "delete_account".translate(),
               onPressed: () {

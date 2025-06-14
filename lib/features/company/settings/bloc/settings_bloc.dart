@@ -244,6 +244,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       await Stripe.instance.presentPaymentSheet();
       emit(CreateSetupIntentSuccess());
     } catch (exception, stack) {
+      if (exception is StripeException) {
+        return;
+      }
       if (exception is! ApiException) {
         crashRepository.registerCrash(exception, stack);
       }

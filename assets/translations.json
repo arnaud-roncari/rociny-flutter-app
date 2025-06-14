@@ -791,5 +791,138 @@
     "fr": "Abonnés",
     "en": "Followers",
     "es": "Seguidores"
+  },
+  "photo": {
+    "fr": "Photo",
+    "en": "Photo",
+    "es": "Foto"
+  },
+  "publish_profile_photo": {
+    "fr": "Publiez votre photo de profil.",
+    "en": "Upload your profile photo.",
+    "es": "Sube tu foto de perfil."
+  },
+  "profile_photo": {
+    "fr": "Photo de profil",
+    "en": "Profile photo",
+    "es": "Foto de perfil"
+  },
+
+  "set_company_name": {
+    "fr": "Définissez votre nom d'entreprise.",
+    "en": "Set your company name.",
+    "es": "Define el nombre de tu empresa."
+  },
+  "define": {
+    "fr": "Définir",
+    "en": "Set",
+    "es": "Definir"
+  },
+
+  "set_geolocation": {
+    "fr": "Définissez votre géolocalisation.",
+    "en": "Set your geolocation.",
+    "es": "Define tu geolocalización."
+  },
+  "set_description": {
+    "fr": "Définissez votre description.",
+    "en": "Set your description.",
+    "es": "Define tu descripción."
+  },
+
+  "highlight_social_networks": {
+    "fr": "Mettez en avant vos différents réseaux sociaux.",
+    "en": "Highlight your different social networks.",
+    "es": "Destaca tus diferentes redes sociales."
+  },
+  "statistics": {
+    "fr": "Statistiques",
+    "en": "Statistics",
+    "es": "Estadísticas"
+  },
+  "link_instagram": {
+    "fr": "Lier votre compte Instagram à Rociny, pour récupérer vos statistiques.",
+    "en": "Link your Instagram account to Rociny to fetch your statistics.",
+    "es": "Vincula tu cuenta de Instagram a Rociny para recuperar tus estadísticas."
+  },
+  "comments": {
+    "fr": "Commentaires",
+    "en": "Comments",
+    "es": "Comentarios"
+  },
+  "collaborate_for_comments": {
+    "fr": "Collaborez avec des influenceurs pour recevoir des commentaires.",
+    "en": "Collaborate with influencers to receive comments.",
+    "es": "Colabora con influencers para recibir comentarios."
+  },
+  "complete_profile": {
+    "fr": "Complétez votre profil.",
+    "en": "Complete your profile.",
+    "es": "Completa tu perfil."
+  },
+  "stats_last_30_days": {
+    "fr": "Statistiques basées sur les 30 derniers jours",
+    "en": "Statistics based on the last 30 days",
+    "es": "Estadísticas basadas en los últimos 30 días"
+  },
+  "accounts_reached": {
+    "fr": "Comptes touchés",
+    "en": "Accounts reached",
+    "es": "Cuentas alcanzadas"
+  },
+  "non_followers": {
+    "fr": "Non-Followers",
+    "en": "Non-followers",
+    "es": "No seguidores"
+  },
+  "impressions": {
+    "fr": "Impressions",
+    "en": "Impressions",
+    "es": "Impresiones"
+  },
+  "interactions": {
+    "fr": "Interactions",
+    "en": "Interactions",
+    "es": "Interacciones"
+  },
+  "men": {
+    "fr": "Hommes",
+    "en": "Men",
+    "es": "Hombres"
+  },
+  "women": {
+    "fr": "Femmes",
+    "en": "Women",
+    "es": "Mujeres"
+  },
+  "top_cities": {
+    "fr": "Villes principales",
+    "en": "Top cities",
+    "es": "Ciudades principales"
+  },
+  "age_range": {
+    "fr": "Tranche d'âge",
+    "en": "Age range",
+    "es": "Rango de edad"
+  },
+  "your_account": {
+    "fr": "Votre compte",
+    "en": "Your account",
+    "es": "Tu cuenta"
+  },
+  "collab_requirements_info": {
+    "fr": "Afin de proposer des collaborations, assurez-vous de compléter votre profil et de renseigner les informations juridiques de votre entreprise.",
+    "en": "To offer collaborations, make sure to complete your profile and provide your company’s legal information.",
+    "es": "Para ofrecer colaboraciones, asegúrate de completar tu perfil y proporcionar la información legal de tu empresa."
+  },
+  "complete_legal_info": {
+    "fr": "Complétez vos informations juridiques.",
+    "en": "Complete your legal information.",
+    "es": "Completa tu información legal."
+  },
+  "connect_instagram": {
+    "fr": "Connectez-vous à Instagram",
+    "en": "Connect to Instagram",
+    "es": "Conéctate a Instagram"
   }
 }

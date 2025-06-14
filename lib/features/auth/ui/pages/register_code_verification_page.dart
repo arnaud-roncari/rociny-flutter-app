@@ -36,9 +36,9 @@ class _RegisterCodeVerificationPageState extends State<RegisterCodeVerificationP
             if (state is RegisterCodeVerificationSuccess) {
               AccountType accountType = context.read<AuthBloc>().accountTypeToRegister!;
               if (accountType == AccountType.influencer) {
-                context.go('/influencer/complete_register/my_profile');
+                context.go('/influencer/complete_profile/profile_illustration');
               } else {
-                context.go('/company/complete_register/my_profile');
+                context.go('/company/complete_profile/profile_illustration');
               }
             }
           },

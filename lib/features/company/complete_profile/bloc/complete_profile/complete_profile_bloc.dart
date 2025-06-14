@@ -8,31 +8,27 @@ import 'package:rociny/core/repositories/company_repository.dart';
 import 'package:rociny/core/repositories/crash_repository.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
-import 'package:rociny/features/auth/data/models/fetched_instagram_account.dart';
-import 'package:rociny/features/auth/data/models/instagram_account.dart';
 import 'package:rociny/features/auth/data/repositories/auth_repository.dart';
 import 'package:rociny/features/company/complete_profile/data/dtos/setup_intent_dto.dart';
+import 'package:rociny/features/company/profile/data/models/company.dart';
 import 'package:rociny/features/influencer/complete_register/data/enums/legal_document_status.dart';
 import 'package:rociny/features/influencer/complete_register/data/enums/legal_document_type.dart';
 import 'package:rociny/features/influencer/complete_register/data/enums/platform_type.dart';
-import 'package:rociny/features/influencer/complete_register/data/models/social_network_model.dart';
 
 part 'complete_profile_event.dart';
 part 'complet_profile_state.dart';
 
 class CompleteProfileBloc extends Bloc<CompleteProfileEvent, CompleteProfileState> {
   CompleteProfileBloc({required this.crashRepository, required this.companyRepository, required this.authRepository})
-      : super(CompleteProfileInitial()) {
+      : super(GetProfileLoading()) {
+    on<GetProfile>(getProfile);
     on<UpdateProfilePicture>(updateProfilePicture);
     on<UpdateName>(updateName);
+    on<UpdateGeolocation>(updateGeolocation);
     on<UpdateDescription>(updateDescription);
-    on<UpdateDepartment>(updateDepartment);
     on<AddSocialNetwork>(addSocialNetwork);
     on<UpdateSocialNetwork>(updateSocialNetwork);
     on<DeleteSocialNetwork>(deleteSocialNetwork);
-    on<GetFacebookSession>(getFacebookSession);
-    on<GetInstagramAccounts>(getInstagramAccounts);
-    on<CreateInstagramAccount>(createInstagramAccount);
     on<UpdateDocument>(updateDocument);
     on<CreateSetupIntent>(createSetupIntent);
   }
@@ -40,32 +36,37 @@ class CompleteProfileBloc extends Bloc<CompleteProfileEvent, CompleteProfileStat
   final CompanyRepository companyRepository;
   final AuthRepository authRepository;
 
-  /// TODO mettre les var dans model Company
-  String? profilePicture;
-  String? name;
-  String? description;
-  String? department;
-  List<SocialNetwork> socialNetworks = [];
+  late Company company;
 
-  bool hasFacebookSession = false;
-  late List<FetchedInstagramAccount> instagramAccounts;
-  InstagramAccount? instagramAccount;
-  bool hasInstagramAccount = false;
-
-  /// Documents status (add more)
   LegalDocumentStatus debugStatus = LegalDocumentStatus.missing;
+
+  void getProfile(GetProfile event, Emitter<CompleteProfileState> emit) async {
+    try {
+      emit(GetProfileLoading());
+      company = await companyRepository.getCompany();
+      emit(GetProfileSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(GetProfileFailed(exception: alertException));
+    }
+  }
 
   void updateProfilePicture(UpdateProfilePicture event, Emitter<CompleteProfileState> emit) async {
     try {
       final ImagePicker picker = ImagePicker();
-
       final XFile? ximage = await picker.pickImage(source: ImageSource.gallery);
       if (ximage == null) {
         return;
       }
       File image = File(ximage.path);
-      profilePicture = await companyRepository.updateProfilePicture(image);
-      emit(UpdateProfilePictureSuccess());
+      await companyRepository.updateProfilePicture(image);
+      company = await companyRepository.getCompany();
+      emit(ProfileUpdated());
     } catch (exception, stack) {
       if (exception is! ApiException) {
         crashRepository.registerCrash(exception, stack);
@@ -79,9 +80,10 @@ class CompleteProfileBloc extends Bloc<CompleteProfileEvent, CompleteProfileStat
 
   void updateName(UpdateName event, Emitter<CompleteProfileState> emit) async {
     try {
-      name = event.name;
-      await companyRepository.updateName(name!);
-      emit(UpdateNameSuccess());
+      emit(UpdateNameLoading());
+      await companyRepository.updateName(event.name);
+      company = await companyRepository.getCompany();
+      emit(ProfileUpdated());
     } catch (exception, stack) {
       if (exception is! ApiException) {
         crashRepository.registerCrash(exception, stack);
@@ -93,11 +95,29 @@ class CompleteProfileBloc extends Bloc<CompleteProfileEvent, CompleteProfileStat
     }
   }
 
+  void updateGeolocation(UpdateGeolocation event, Emitter<CompleteProfileState> emit) async {
+    try {
+      emit(UpdateGeolocationLoading());
+      await companyRepository.updateDepartment(event.geolocation);
+      company = await companyRepository.getCompany();
+      emit(ProfileUpdated());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(UpdateGeolocationFailed(exception: alertException));
+    }
+  }
+
   void updateDescription(UpdateDescription event, Emitter<CompleteProfileState> emit) async {
     try {
-      description = event.description;
-      await companyRepository.updateDescription(description!);
-      emit(UpdateDescriptionSuccess());
+      emit(UpdateDescriptionLoading());
+      await companyRepository.updateDescription(event.description);
+      company = await companyRepository.getCompany();
+      emit(ProfileUpdated());
     } catch (exception, stack) {
       if (exception is! ApiException) {
         crashRepository.registerCrash(exception, stack);
@@ -109,27 +129,12 @@ class CompleteProfileBloc extends Bloc<CompleteProfileEvent, CompleteProfileStat
     }
   }
 
-  void updateDepartment(UpdateDepartment event, Emitter<CompleteProfileState> emit) async {
-    try {
-      department = event.department;
-      await companyRepository.updateDepartment(department!);
-      emit(UpdateDepartmentSuccess());
-    } catch (exception, stack) {
-      if (exception is! ApiException) {
-        crashRepository.registerCrash(exception, stack);
-      }
-
-      /// Format exception to be displayed.
-      AlertException alertException = AlertException.fromException(exception);
-      emit(UpdateDepartmentFailed(exception: alertException));
-    }
-  }
-
   void addSocialNetwork(AddSocialNetwork event, Emitter<CompleteProfileState> emit) async {
     try {
+      emit(AddSocialNetworkLoading());
       await companyRepository.addSocialNetwork(event.platform, event.url);
-      socialNetworks = await companyRepository.getSocialNetworks();
-      emit(AddSocialNetworkSuccess());
+      company = await companyRepository.getCompany();
+      emit(ProfileUpdated());
     } catch (exception, stack) {
       if (exception is! ApiException) {
         crashRepository.registerCrash(exception, stack);
@@ -143,9 +148,11 @@ class CompleteProfileBloc extends Bloc<CompleteProfileEvent, CompleteProfileStat
 
   void updateSocialNetwork(UpdateSocialNetwork event, Emitter<CompleteProfileState> emit) async {
     try {
+      emit(UpdateSocialNetworkLoading());
+
       await companyRepository.updateSocialNetwork(event.id, event.url);
-      socialNetworks = await companyRepository.getSocialNetworks();
-      emit(UpdateSocialNetworkSuccess());
+      company = await companyRepository.getCompany();
+      emit(ProfileUpdated());
     } catch (exception, stack) {
       if (exception is! ApiException) {
         crashRepository.registerCrash(exception, stack);
@@ -159,9 +166,10 @@ class CompleteProfileBloc extends Bloc<CompleteProfileEvent, CompleteProfileStat
 
   void deleteSocialNetwork(DeleteSocialNetwork event, Emitter<CompleteProfileState> emit) async {
     try {
-      await companyRepository.deleteSocialNetwork(event.id);
-      socialNetworks = await companyRepository.getSocialNetworks();
       emit(DeleteSocialNetworkSuccess());
+      await companyRepository.deleteSocialNetwork(event.id);
+      company = await companyRepository.getCompany();
+      emit(ProfileUpdated());
     } catch (exception, stack) {
       if (exception is! ApiException) {
         crashRepository.registerCrash(exception, stack);
@@ -170,61 +178,6 @@ class CompleteProfileBloc extends Bloc<CompleteProfileEvent, CompleteProfileStat
       /// Format exception to be displayed.
       AlertException alertException = AlertException.fromException(exception);
       emit(DeleteSocialNetworkFailed(exception: alertException));
-    }
-  }
-
-  void getFacebookSession(GetFacebookSession event, Emitter<CompleteProfileState> emit) async {
-    try {
-      emit(GetFacebookSessionLoading());
-      hasFacebookSession = await authRepository.hasFacebookSession();
-
-      if (hasFacebookSession) {
-        hasInstagramAccount = await companyRepository.hasInstagramAccount();
-        if (hasInstagramAccount) {
-          instagramAccount = await companyRepository.getInstagramAccount();
-        }
-      }
-
-      emit(GetFacebookSessionSuccess());
-    } catch (exception, stack) {
-      if (exception is! ApiException) {
-        crashRepository.registerCrash(exception, stack);
-      }
-
-      AlertException alertException = AlertException.fromException(exception);
-      emit(GetFacebookSessionFailed(exception: alertException));
-    }
-  }
-
-  void getInstagramAccounts(GetInstagramAccounts event, Emitter<CompleteProfileState> emit) async {
-    try {
-      emit(GetInstagramAccountsLoading());
-      instagramAccounts = await authRepository.getInstagramAccounts();
-      emit(GetInstagramAccountsSuccess());
-    } catch (exception, stack) {
-      if (exception is! ApiException) {
-        crashRepository.registerCrash(exception, stack);
-      }
-
-      AlertException alertException = AlertException.fromException(exception);
-      emit(GetInstagramAccountsFailed(exception: alertException));
-    }
-  }
-
-  void createInstagramAccount(CreateInstagramAccount event, Emitter<CompleteProfileState> emit) async {
-    try {
-      emit(CreateInstagramAccountLoading());
-      await companyRepository.createInstagramAccount(event.fetchedInstagramAccountId);
-      instagramAccount = await companyRepository.getInstagramAccount();
-      hasInstagramAccount = true;
-      emit(CreateInstagramAccountSuccess());
-    } catch (exception, stack) {
-      if (exception is! ApiException) {
-        crashRepository.registerCrash(exception, stack);
-      }
-
-      AlertException alertException = AlertException.fromException(exception);
-      emit(CreateInstagramAccountFailed(exception: alertException));
     }
   }
 
@@ -242,7 +195,8 @@ class CompleteProfileBloc extends Bloc<CompleteProfileEvent, CompleteProfileStat
 
       await companyRepository.addLegalDocument(event.type, pdf);
       debugStatus = await companyRepository.getLegalDocumentStatus(event.type);
-      emit(UpdateDocumentSuccess());
+
+      emit(ProfileUpdated());
     } catch (exception, stack) {
       if (exception is! ApiException) {
         crashRepository.registerCrash(exception, stack);
@@ -273,13 +227,14 @@ class CompleteProfileBloc extends Bloc<CompleteProfileEvent, CompleteProfileStat
         ),
       );
       await Stripe.instance.presentPaymentSheet();
-      emit(CreateSetupIntentSuccess());
+      emit(ProfileUpdated());
     } catch (exception, stack) {
+      if (exception is StripeException) {
+        return;
+      }
       if (exception is! ApiException) {
         crashRepository.registerCrash(exception, stack);
       }
-
-      /// Format exception to be displayed.
       AlertException alertException = AlertException.fromException(exception);
       emit(CreateSetupIntentFailed(exception: alertException));
     }

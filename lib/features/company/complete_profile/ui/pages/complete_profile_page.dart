@@ -7,23 +7,23 @@ import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/company/complete_profile/bloc/complete_profile/complete_profile_bloc.dart';
-import 'package:rociny/features/company/complete_profile/ui/widgets/department.dart';
-import 'package:rociny/features/company/complete_profile/ui/widgets/description.dart';
-import 'package:rociny/features/company/complete_profile/ui/widgets/instagram.dart';
-import 'package:rociny/features/company/complete_profile/ui/widgets/name.dart';
-import 'package:rociny/features/company/complete_profile/ui/widgets/profile_picture.dart';
-import 'package:rociny/features/company/complete_profile/ui/widgets/social_networks.dart';
+import 'package:rociny/features/company/complete_profile/ui/widgets/update_profile_picture_form.dart';
+import 'package:rociny/features/company/profile/data/models/company.dart';
+import 'package:rociny/features/company/profile/ui/widgets/update_description_form.dart';
+import 'package:rociny/features/company/profile/ui/widgets/update_geolocation_form.dart';
+import 'package:rociny/features/company/profile/ui/widgets/update_name_form.dart';
+import 'package:rociny/features/company/profile/ui/widgets/update_social_networks_form.dart';
 import 'package:rociny/shared/widgets/button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
-class CompleteCompanyProfileInformationsPage extends StatefulWidget {
-  const CompleteCompanyProfileInformationsPage({super.key});
+class CompleteProfilePage extends StatefulWidget {
+  const CompleteProfilePage({super.key});
 
   @override
-  State<CompleteCompanyProfileInformationsPage> createState() => _CompleteCompanyProfileInformationsPageState();
+  State<CompleteProfilePage> createState() => _CompleteProfilePageState();
 }
 
-class _CompleteCompanyProfileInformationsPageState extends State<CompleteCompanyProfileInformationsPage> {
+class _CompleteProfilePageState extends State<CompleteProfilePage> {
   int index = 0;
   PageController pageController = PageController(initialPage: 0);
 
@@ -36,40 +36,32 @@ class _CompleteCompanyProfileInformationsPageState extends State<CompleteCompany
         listener: (context, state) {
           if (state is UpdateProfilePictureFailed ||
               state is UpdateNameFailed ||
+              state is GetProfileFailed ||
               state is UpdateDescriptionFailed ||
-              state is UpdateDepartmentFailed ||
+              state is UpdateGeolocationFailed ||
               state is UpdateSocialNetworkFailed ||
               state is AddSocialNetworkFailed ||
-              state is GetFacebookSessionFailed ||
-              state is GetInstagramAccountsFailed ||
-              state is CreateInstagramAccountFailed ||
-              state is CreateInstagramAccountFailed ||
+              state is UpdateDocumentFailed ||
+              state is CreateSetupIntentFailed ||
               state is DeleteSocialNetworkFailed) {
             Alert.showError(context, (state as dynamic).exception.message);
           }
 
-          if (state is UpdateProfilePictureSuccess ||
-              state is UpdateNameSuccess ||
-              state is UpdateDescriptionSuccess ||
-              state is UpdateDepartmentSuccess ||
-              state is UpdateSocialNetworkSuccess ||
-              state is AddSocialNetworkSuccess ||
-              state is DeleteSocialNetworkSuccess) {
+          if (state is ProfileUpdated) {
             Alert.showSuccess(context, "changes_saved".translate());
-          }
-
-          if (state is CreateInstagramAccountSuccess) {
-            Alert.showSuccess(context, "instagram_account_added_successfully".translate());
-          }
-
-          if (state is GetFacebookSessionSuccess) {
-            CompleteProfileBloc bloc = context.read<CompleteProfileBloc>();
-            if (bloc.hasFacebookSession) {
-              bloc.add(GetInstagramAccounts());
-            }
           }
         },
         builder: (context, state) {
+          if (state is GetProfileLoading) {
+            return Center(
+              child: CircularProgressIndicator(
+                color: kPrimary500,
+              ),
+            );
+          }
+
+          final bloc = context.read<CompleteProfileBloc>();
+          final Company company = bloc.company;
           return Padding(
             padding: const EdgeInsets.all(kPadding20),
             child: Column(
@@ -104,7 +96,7 @@ class _CompleteCompanyProfileInformationsPageState extends State<CompleteCompany
                 ),
                 Center(
                   child: Text(
-                    "${"step".translate()} ${index + 1} ${"out_of".translate()} 6",
+                    "${"step".translate()} ${index + 1} ${"out_of".translate()} 5",
                     style: kCaption.copyWith(color: kGrey300),
                   ),
                 ),
@@ -113,26 +105,59 @@ class _CompleteCompanyProfileInformationsPageState extends State<CompleteCompany
                   child: PageView(
                     physics: const NeverScrollableScrollPhysics(),
                     controller: pageController,
-                    children: const [
-                      ProfilePicture(),
-                      Name(),
-                      Department(),
-                      Description(),
-                      SocialNetworks(),
-                      Instagram(),
+                    children: [
+                      UpdateProfilePictureForm(
+                        onUpdated: () {
+                          bloc.add(UpdateProfilePicture());
+                        },
+                        initialValue: company.profilePicture,
+                        full: false,
+                      ),
+                      UpdateNameForm(
+                        onUpdated: (name) {
+                          bloc.add(UpdateName(name: name));
+                        },
+                        initialValue: company.name,
+                      ),
+                      UpdateGeolocationForm(
+                        onUpdated: (department) {
+                          bloc.add(UpdateGeolocation(geolocation: department));
+                        },
+                        initialValue: company.department,
+                      ),
+                      UpdateDescriptionForm(
+                        onUpdated: (description) {
+                          bloc.add(UpdateDescription(description: description));
+                        },
+                        initialValue: company.description,
+                      ),
+                      UpdateSocialNetworksForm(
+                        initialValue: company.socialNetworks,
+                        onUpdated: (id, url) {
+                          bloc.add(UpdateSocialNetwork(id: id, url: url));
+                        },
+                        onAdded: (platform, url) {
+                          bloc.add(AddSocialNetwork(platform: platform, url: url));
+                        },
+                        onDeleted: (id) {
+                          bloc.add(DeleteSocialNetwork(id: id));
+                        },
+                      ),
                     ],
                   ),
                 ),
+                const SizedBox(height: kPadding20),
                 Button(
+                  backgroundColor: kPrimary700,
                   title: "next_step".translate(),
                   onPressed: () {
-                    if (index != 5) {
+                    if (index != 4) {
                       setState(() {
                         index += 1;
                       });
                       pageController.jumpToPage(index);
                     } else {
-                      context.go("/company/complete_register/legal");
+                      context.go("/company/complete_profile/legal_illustration");
                     }
                   },
                 ),

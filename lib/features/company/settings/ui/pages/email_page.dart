@@ -50,7 +50,7 @@ class _EmailPageState extends State<EmailPage> {
               Alert.showError(context, state.exception.message);
             }
             if (state is UpdateEmailSuccess) {
-              context.push("/company/settings/credentials/email/code-verification");
+              context.push("/company/home/settings/credentials/email/code-verification");
             }
           },
           builder: (context, state) {

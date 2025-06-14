@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/radius.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
+import 'package:rociny/features/company/complete_profile/bloc/complete_profile/complete_profile_bloc.dart';
 import 'package:rociny/shared/widgets/button.dart';
 
-class LegalPage extends StatefulWidget {
-  const LegalPage({super.key});
+class ProfileIllustrationPage extends StatefulWidget {
+  const ProfileIllustrationPage({super.key});
 
   @override
-  State<LegalPage> createState() => LegalPageState();
+  State<ProfileIllustrationPage> createState() => ProfileIllustrationPageState();
 }
 
-class LegalPageState extends State<LegalPage> {
-  int pageIndex = 1;
+class ProfileIllustrationPageState extends State<ProfileIllustrationPage> {
+  int pageIndex = 0;
+
+  @override
+  void initState() {
+    context.read<CompleteProfileBloc>().add(GetProfile());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +38,7 @@ class LegalPageState extends State<LegalPage> {
           Expanded(
             child: Align(
               alignment: Alignment.bottomCenter,
-              child: Image.asset("assets/images/complete_profile/4.png"),
+              child: Image.asset("assets/images/complete_profile/3.png"),
             ),
           ),
           Container(
@@ -43,13 +51,13 @@ class LegalPageState extends State<LegalPage> {
                   buildIndicator(),
                   const Spacer(),
                   Text(
-                    "my_business".translate(),
+                    "my_profile".translate(),
                     style: kHeadline4Bold,
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: kPadding20),
                   Text(
-                    "provide_legal_info_company".translate(),
+                    "company_profile_tip".translate(),
                     style: kTitle2.copyWith(
                       color: kGrey300,
                     ),
@@ -60,7 +68,7 @@ class LegalPageState extends State<LegalPage> {
                     title: "complete".translate(),
                     backgroundColor: kPrimary700,
                     onPressed: () async {
-                      context.push("/company/complete_register/complete_legal");
+                      context.push("/company/complete_profile/profile");
                     },
                   )
                 ],

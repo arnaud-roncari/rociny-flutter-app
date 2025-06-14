@@ -17,9 +17,6 @@ import 'package:rociny/features/influencer/complete_register/ui/widgets/social_n
 import 'package:rociny/shared/widgets/chip_button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
-/// TODO fix le scrolling du refresh
-/// TODO (changer le naming des blocs au passage) (utiliser le meme bloc profile ?)
-/// TODO translate
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -44,7 +41,7 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
         }
 
         if (state is ProfileUpdated) {
-          Alert.showSuccess(context, "Profil mis à jour.");
+          Alert.showSuccess(context, "changes_saved".translate());
         }
       },
       builder: (context, state) {
@@ -83,7 +80,7 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
                       path: "assets/svg/settings.svg",
                       color: kBlack,
                       onPressed: () {
-                        context.push("/company/settings");
+                        context.push("/company/home/settings");
                       },
                     ),
                   )
@@ -100,13 +97,14 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
                   }
 
                   return RefreshIndicator(
-                    backgroundColor: Colors.transparent,
+                    backgroundColor: kWhite,
                     elevation: 0,
-                    color: Colors.transparent,
+                    color: kPrimary500,
                     onRefresh: () async {
                       bloc.add(GetProfile());
                     },
                     child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -180,10 +178,10 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Photo", style: kTitle1Bold),
+          Text("photo".translate(), style: kTitle1Bold),
           const SizedBox(height: kPadding10),
           Text(
-            "Publiez votre photo de profil.",
+            "publish_profile_photo".translate(),
             style: kBody.copyWith(color: kGrey300),
           ),
           const SizedBox(height: kPadding20),
@@ -191,7 +189,7 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
             onTap: () {
               bloc.add(UpdateProfilePicture());
             },
-            label: "Photo de profil",
+            label: "profile_photo".translate(),
             svgPath: "assets/svg/cloud_upload.svg",
           ),
           const SizedBox(height: kPadding30),
@@ -242,10 +240,10 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Nom", style: kTitle1Bold),
+          Text("name".translate(), style: kTitle1Bold),
           const SizedBox(height: kPadding10),
           Text(
-            "Définissez votre nom d'entreprise.",
+            "set_company_name".translate(),
             style: kBody.copyWith(color: kGrey300),
           ),
           const SizedBox(height: kPadding20),
@@ -253,7 +251,7 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
             onTap: () {
               context.push("/company/home/profile/name");
             },
-            label: "Définir",
+            label: "define".translate(),
             svgPath: "assets/svg/add.svg",
           ),
           const SizedBox(height: kPadding30),
@@ -282,10 +280,10 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Géolocalisation", style: kTitle1Bold),
+          Text("geolocation".translate(), style: kTitle1Bold),
           const SizedBox(height: kPadding10),
           Text(
-            "Définissez votre géolocalisation.",
+            "set_geolocation".translate(),
             style: kBody.copyWith(color: kGrey300),
           ),
           const SizedBox(height: kPadding20),
@@ -293,7 +291,7 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
             onTap: () {
               context.push("/company/home/profile/geolocation");
             },
-            label: "Définir",
+            label: "define".translate(),
             svgPath: "assets/svg/add.svg",
           ),
           const SizedBox(height: kPadding30),
@@ -331,10 +329,10 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Description", style: kTitle1Bold),
+          Text("description".translate(), style: kTitle1Bold),
           const SizedBox(height: kPadding10),
           Text(
-            "Définissez votre description.",
+            "set_description".translate(),
             style: kBody.copyWith(color: kGrey300),
           ),
           const SizedBox(height: kPadding20),
@@ -342,7 +340,7 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
             onTap: () {
               context.push("/company/home/profile/description");
             },
-            label: "Définir",
+            label: "define".translate(),
             svgPath: "assets/svg/add.svg",
           ),
           const SizedBox(height: kPadding30),
@@ -374,10 +372,10 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Réseaux sociaux", style: kTitle1Bold),
+          Text("social_networks".translate(), style: kTitle1Bold),
           const SizedBox(height: kPadding10),
           Text(
-            "Mettez en avant vos différents réseaux sociaux.",
+            "highlight_social_networks".translate(),
             style: kBody.copyWith(color: kGrey300),
           ),
           const SizedBox(height: kPadding20),
@@ -385,7 +383,7 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
             onTap: () {
               context.push("/company/home/profile/social_networks");
             },
-            label: "Ajouter",
+            label: "add".translate(),
             svgPath: "assets/svg/add.svg",
           ),
           const SizedBox(height: kPadding30),
@@ -419,19 +417,19 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Statistiques", style: kTitle1Bold),
+          Text("statistics".translate(), style: kTitle1Bold),
           const SizedBox(height: kPadding10),
           Text(
-            "Lier votre compte Instagram à Rociny, pour récupérer vos statistiques.",
+            "link_instagram".translate(),
             style: kBody.copyWith(color: kGrey300),
           ),
           const SizedBox(height: kPadding20),
           ChipButton(
             onTap: () async {
-              await context.push('/company/settings/credentials');
+              await context.push('/company/home/settings/credentials');
               bloc.add(GetProfile());
             },
-            label: "Se connecter",
+            label: "login".translate(),
             svgPath: "assets/svg/instagram.svg",
           ),
           const SizedBox(height: kPadding30),
@@ -461,10 +459,10 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Commentaires", style: kTitle1Bold),
+          Text("comments".translate(), style: kTitle1Bold),
           const SizedBox(height: kPadding10),
           Text(
-            "Collaborez avec des influenceurs pour recevoir des commentaires.",
+            "collaborate_for_comments".translate(),
             style: kBody.copyWith(color: kGrey300),
           ),
           const SizedBox(height: kPadding30),

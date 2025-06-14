@@ -78,7 +78,7 @@ class _CompanyPageState extends State<CompanyPage> {
                 CompanySectionButton(
                   onTap: () {
                     bloc.add(GetLegalDocumentsStatus());
-                    context.push("/company/settings/company/legal-documents");
+                    context.push("/company/home/settings/company/legal-documents");
                   },
                   isCompleted: bloc.hasCompletedLegalDocuments,
                   name: "document".translate(),
@@ -86,7 +86,7 @@ class _CompanyPageState extends State<CompanyPage> {
                 const SizedBox(height: kPadding15),
                 CompanySectionButton(
                   onTap: () {
-                    context.push("/company/settings/company/stripe");
+                    context.push("/company/home/settings/company/stripe");
                   },
                   isCompleted: bloc.hasCompletedStripe,
                   name: "Stripe",

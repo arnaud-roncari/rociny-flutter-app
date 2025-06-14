@@ -5,11 +5,11 @@ import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
+import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/company/profile/bloc/profile_bloc.dart';
 import 'package:rociny/features/company/profile/ui/widgets/update_description_form.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
-/// TODO Translate
 class UpdateDescriptionPage extends StatelessWidget {
   const UpdateDescriptionPage({super.key});
 
@@ -52,7 +52,7 @@ class UpdateDescriptionPage extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      "Modifier",
+                      "change".translate(),
                       style: kTitle1Bold,
                     ),
                     const SizedBox(width: kPadding20),

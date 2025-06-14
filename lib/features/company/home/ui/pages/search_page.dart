@@ -26,6 +26,7 @@ class _SearchPageState extends State<SearchPage> with AutomaticKeepAliveClientMi
           ),
           const Spacer(),
           const SizedBox(height: kPadding20),
+          const Spacer(),
         ],
       ),
     );
