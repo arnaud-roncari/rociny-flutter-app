@@ -7,7 +7,7 @@ import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/influencer/home/ui/pages/chat_page.dart';
 import 'package:rociny/features/influencer/home/ui/pages/collaboration_page.dart';
 import 'package:rociny/features/influencer/home/ui/pages/dashboard_page.dart';
-import 'package:rociny/features/influencer/home/ui/pages/profile_page.dart';
+import 'package:rociny/features/influencer/profile/ui/pages/profile_page.dart';
 
 /// TODO update stripe dans settings pour influencer (utiliser le form créé )
 class HomePage extends StatefulWidget {
@@ -31,6 +31,7 @@ class _HomePageState extends State<HomePage> {
             /// Pages
             Expanded(
               child: PageView(
+                physics: const NeverScrollableScrollPhysics(),
                 controller: pageController,
                 children: const [
                   DashboardPage(),
@@ -51,7 +52,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget buildNavigatonIcons() {
     return SizedBox(
-      height: 60,
+      height: 40,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -81,7 +82,7 @@ class _HomePageState extends State<HomePage> {
         }
       },
       child: SizedBox(
-        height: 60,
+        height: 40,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

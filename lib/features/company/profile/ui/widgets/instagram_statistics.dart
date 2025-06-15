@@ -4,8 +4,8 @@ import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/radius.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
-import 'package:rociny/features/company/profile/ui/widgets/bar_chart.dart';
-import 'package:rociny/features/company/profile/ui/widgets/donut_chart.dart';
+import 'package:rociny/shared/widgets/bar_chart.dart';
+import 'package:rociny/shared/widgets/donut_chart.dart';
 
 /// TODO implement algo insta et mettre à jour profil (faire un "je suis disponible" comme malt, qui refresh les stats)
 class InstagramStatistics extends StatelessWidget {

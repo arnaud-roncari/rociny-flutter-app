@@ -48,7 +48,7 @@ class _CredentialsPageState extends State<CredentialsPage> {
               svgPath: "assets/svg/email.svg",
               label: "email_address".translate(),
               onPressed: () {
-                context.push("/influencer/settings/credentials/email");
+                context.push("/influencer/home/settings/credentials/email");
               },
             ),
             const SizedBox(height: kPadding5),
@@ -56,7 +56,7 @@ class _CredentialsPageState extends State<CredentialsPage> {
               svgPath: "assets/svg/lock.svg",
               label: "password".translate(),
               onPressed: () {
-                context.push("/influencer/settings/credentials/password");
+                context.push("/influencer/home/settings/credentials/password");
               },
             ),
             const SizedBox(height: kPadding5),
@@ -64,7 +64,7 @@ class _CredentialsPageState extends State<CredentialsPage> {
               svgPath: "assets/svg/instagram.svg",
               label: "Instagram",
               onPressed: () {
-                context.push("/influencer/settings/credentials/instagram");
+                context.push("/influencer/home/settings/credentials/instagram");
               },
             ),
           ],

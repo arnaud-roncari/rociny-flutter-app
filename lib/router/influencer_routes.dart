@@ -3,6 +3,13 @@ import 'package:go_router/go_router.dart';
 import 'package:rociny/core/repositories/crash_repository.dart';
 import 'package:rociny/core/repositories/influencer_repository.dart';
 import 'package:rociny/features/auth/data/repositories/auth_repository.dart';
+import 'package:rociny/features/influencer/profile/bloc/profile_bloc.dart';
+import 'package:rociny/features/influencer/profile/ui/pages/update_description_page.dart';
+import 'package:rociny/features/influencer/profile/ui/pages/update_geolocation.dart';
+import 'package:rociny/features/influencer/profile/ui/pages/update_name_page.dart';
+import 'package:rociny/features/influencer/profile/ui/pages/update_social_networks_page.dart';
+import 'package:rociny/features/influencer/profile/ui/pages/update_target_audience_page.dart';
+import 'package:rociny/features/influencer/profile/ui/pages/update_themes_page.dart';
 import 'package:rociny/features/influencer/settings/bloc/settings_bloc.dart';
 import 'package:rociny/features/influencer/settings/ui/pages/company_page.dart';
 import 'package:rociny/features/influencer/settings/ui/pages/credentials_page.dart';
@@ -26,11 +33,11 @@ import 'package:rociny/features/influencer/settings/ui/pages/stripe_page.dart';
 
 List<RouteBase> kInfluencerRoutes = [
   GoRoute(
-    path: '/influencer/complete_register/my_profile',
+    path: '/influencer/complete_profile/profile_illustration',
     builder: (context, state) => const MyProfilePage(),
   ),
   GoRoute(
-    path: '/influencer/complete_register/complete_profile',
+    path: '/influencer/complete_profile/profile',
     builder: (context, state) => BlocProvider(
       create: (context) => CompleteInfluencerProfileInformationsBloc(
         authRepository: RepositoryProvider.of<AuthRepository>(context),
@@ -41,15 +48,11 @@ List<RouteBase> kInfluencerRoutes = [
     ),
   ),
   GoRoute(
-    path: '/influencer/complete_register/legal',
+    path: '/influencer/complete_profile/legal_illustration',
     builder: (context, state) => const LegalPage(),
   ),
   GoRoute(
-    path: '/influencer/home',
-    builder: (context, state) => const HomePage(),
-  ),
-  GoRoute(
-    path: '/influencer/complete_register/complete_legal',
+    path: '/influencer/complete_profile/legal',
     builder: (context, state) => BlocProvider(
       create: (context) => CompleteInfluencerLegalInformationsBloc(
         crashRepository: RepositoryProvider.of<CrashRepository>(context),
@@ -58,8 +61,10 @@ List<RouteBase> kInfluencerRoutes = [
       child: const CompleteInfluencerLegalInformationsPage(),
     ),
   ),
+
+  /// TODO vérifier si foncitone dans settings et complete (changer route ?)
   GoRoute(
-    path: '/influencer/complete_register/stripe/webview',
+    path: '/influencer/complete_profile/stripe/webview',
     builder: (context, state) {
       String url = state.extra as String;
       return StripeWebview(url: url);
@@ -67,65 +72,111 @@ List<RouteBase> kInfluencerRoutes = [
   ),
   ShellRoute(
     builder: (context, state, child) {
-      return BlocProvider(
-        create: (_) => SettingsBloc(
-          crashRepository: context.read<CrashRepository>(),
-          influencerRepository: context.read<InfluencerRepository>(),
-          authRepository: context.read<AuthRepository>(),
-        ),
+      return MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) => ProfileBloc(
+              crashRepository: context.read<CrashRepository>(),
+              influencerRepository: context.read<InfluencerRepository>(),
+            ),
+            child: child,
+          ),
+          BlocProvider(
+            create: (_) => SettingsBloc(
+              crashRepository: context.read<CrashRepository>(),
+              influencerRepository: context.read<InfluencerRepository>(),
+              authRepository: context.read<AuthRepository>(),
+            ),
+            child: child,
+          )
+        ],
         child: child,
       );
     },
-
-    /// TODO bouger dans /home
     routes: [
       GoRoute(
-        path: '/influencer/settings',
-        builder: (context, state) => const SettingsPage(),
+        path: '/influencer/home',
+        builder: (context, state) => const HomePage(),
         routes: [
           GoRoute(
-            path: 'credentials',
-            builder: (context, state) => const CredentialsPage(),
+            path: 'profile/name',
+            builder: (context, state) => const UpdateNamePage(),
+          ),
+          GoRoute(
+            path: 'profile/geolocation',
+            builder: (context, state) => const UpdateGeolocationPage(),
+          ),
+          GoRoute(
+            path: 'profile/description',
+            builder: (context, state) => const UpdateDescriptionPage(),
+          ),
+          GoRoute(
+            path: 'profile/social_networks',
+            builder: (context, state) => const UpdateSocialNetworksPage(),
+          ),
+          GoRoute(
+            path: 'profile/themes',
+            builder: (context, state) => const UpdateThemesPage(),
+          ),
+          GoRoute(
+            path: 'profile/target_audience',
+            builder: (context, state) => const UpdateTargetAudiencePage(),
+          ),
+
+          /// Settings
+          GoRoute(
+            path: 'settings',
+            builder: (context, state) => const SettingsPage(),
             routes: [
-              GoRoute(path: 'email', builder: (context, state) => const EmailPage(), routes: [
-                GoRoute(
-                  path: 'code-verification',
-                  builder: (context, state) => const EmailCodeVerificationPage(),
-                ),
-              ]),
               GoRoute(
-                path: 'password',
-                builder: (context, state) => const PasswordPage(),
+                path: 'credentials',
+                builder: (context, state) => const CredentialsPage(),
+                routes: [
+                  GoRoute(path: 'email', builder: (context, state) => const EmailPage(), routes: [
+                    GoRoute(
+                      path: 'code-verification',
+                      builder: (context, state) => const EmailCodeVerificationPage(),
+                    ),
+                  ]),
+                  GoRoute(
+                    path: 'password',
+                    builder: (context, state) => const PasswordPage(),
+                  ),
+                  GoRoute(
+                    path: 'instagram',
+                    builder: (context, state) => const InstagramPage(),
+                  ),
+                ],
               ),
               GoRoute(
-                path: 'instagram',
-                builder: (context, state) => const InstagramPage(),
+                path: 'policies',
+                builder: (context, state) => const PoliciesPage(),
+              ),
+              GoRoute(
+                path: 'notifications',
+                builder: (context, state) => const NotificationsPage(),
+              ),
+              GoRoute(
+                path: 'company',
+                builder: (context, state) => const CompanyPage(),
+                routes: [
+                  GoRoute(
+                    path: 'legal-documents',
+                    builder: (context, state) => const LegalDocumentsPage(),
+                  ),
+                  GoRoute(path: 'stripe', builder: (context, state) => const StripePage(), routes: [
+                    GoRoute(
+                      path: 'webview',
+                      builder: (context, state) {
+                        String url = state.extra as String;
+                        return StripeWebview(url: url);
+                      },
+                    ),
+                  ]),
+                ],
               ),
             ],
           ),
-          GoRoute(
-            path: 'policies',
-            builder: (context, state) => const PoliciesPage(),
-          ),
-          GoRoute(
-            path: 'notifications',
-            builder: (context, state) => const NotificationsPage(),
-          ),
-          GoRoute(path: 'company', builder: (context, state) => const CompanyPage(), routes: [
-            GoRoute(
-              path: 'legal-documents',
-              builder: (context, state) => const LegalDocumentsPage(),
-            ),
-            GoRoute(path: 'stripe', builder: (context, state) => const StripePage(), routes: [
-              GoRoute(
-                path: 'webview',
-                builder: (context, state) {
-                  String url = state.extra as String;
-                  return StripeWebview(url: url);
-                },
-              ),
-            ]),
-          ]),
         ],
       ),
     ],

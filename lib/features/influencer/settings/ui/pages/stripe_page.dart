@@ -33,7 +33,7 @@ class _StripePageState extends State<StripePage> {
 
             if (state is GetStripeAccountLinkSuccess) {
               var bool =
-                  await context.push("/influencer/settings/company/stripe/webview", extra: bloc.stripeAccountUrl!);
+                  await context.push("/influencer/home/settings/company/stripe/webview", extra: bloc.stripeAccountUrl!);
               if (bool != null && bool == true) {
                 bloc.add(SetStripeAccountStatus());
                 Alert.showSuccess(context, "Modifications sauvegardées.");
@@ -43,7 +43,7 @@ class _StripePageState extends State<StripePage> {
             }
 
             if (state is GetStripeLoginLinkSuccess) {
-              await context.push("/influencer/settings/company/stripe/webview", extra: bloc.stripeLoginUrl!);
+              await context.push("/influencer/home/settings/company/stripe/webview", extra: bloc.stripeLoginUrl!);
             }
           },
           builder: (context, state) {

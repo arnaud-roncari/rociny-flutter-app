@@ -48,7 +48,7 @@ class SettingsPage extends StatelessWidget {
               svgPath: "assets/svg/people.svg",
               label: "login_information".translate(),
               onPressed: () {
-                context.push("/influencer/settings/credentials");
+                context.push("/influencer/home/settings/credentials");
               },
             ),
             const SizedBox(height: kPadding5),
@@ -57,7 +57,7 @@ class SettingsPage extends StatelessWidget {
               label: "my_company".translate(),
               onPressed: () {
                 context.read<SettingsBloc>().add(GetCompanySectionsStatus());
-                context.push("/influencer/settings/company");
+                context.push("/influencer/home/settings/company");
               },
             ),
             const SizedBox(height: kPadding5),
@@ -65,7 +65,7 @@ class SettingsPage extends StatelessWidget {
               svgPath: "assets/svg/bell.svg",
               label: "notifications".translate(),
               onPressed: () {
-                context.push("/influencer/settings/notifications");
+                context.push("/influencer/home/settings/notifications");
               },
             ),
             const SizedBox(height: kPadding5),
@@ -73,7 +73,7 @@ class SettingsPage extends StatelessWidget {
               svgPath: "assets/svg/file.svg",
               label: "legal_documents".translate(),
               onPressed: () {
-                context.push("/influencer/settings/policies");
+                context.push("/influencer/home/settings/policies");
               },
             ),
             const SizedBox(height: kPadding5),

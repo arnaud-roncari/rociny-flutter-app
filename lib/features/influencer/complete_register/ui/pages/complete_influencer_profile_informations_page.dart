@@ -103,7 +103,7 @@ class _CompleteInfluencerProfileInformationsPageState extends State<CompleteInfl
                     const Spacer(),
                     GestureDetector(
                       onTap: () {
-                        context.go("/influencer/complete_register/legal");
+                        context.go("/influencer/complete_profile/legal");
                       },
                       child: Text(
                         "ignore".translate(),
@@ -145,7 +145,7 @@ class _CompleteInfluencerProfileInformationsPageState extends State<CompleteInfl
                       });
                       pageController.jumpToPage(index);
                     } else {
-                      context.go("influencer/complete_register/legal");
+                      context.go("influencer/complete_profile/legal");
                     }
                   },
                 ),

@@ -85,7 +85,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                     const Spacer(),
                     GestureDetector(
                       onTap: () {
-                        context.go("/company/complete_register/legal");
+                        context.go("/company/complete_profile/legal");
                       },
                       child: Text(
                         "ignore".translate(),

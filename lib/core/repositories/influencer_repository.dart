@@ -9,6 +9,8 @@ import 'package:rociny/features/influencer/complete_register/data/enums/legal_do
 import 'package:rociny/features/influencer/complete_register/data/enums/legal_document_type.dart';
 import 'package:rociny/features/influencer/complete_register/data/enums/platform_type.dart';
 import 'package:rociny/features/influencer/complete_register/data/models/social_network_model.dart';
+import 'package:rociny/features/influencer/profile/data/models/influencer.dart';
+import 'package:rociny/features/influencer/profile/data/models/profile_completion_status.dart';
 
 class InfluencerRepository {
   Future<String> updateProfilePicture(File image) async {
@@ -366,5 +368,37 @@ class InfluencerRepository {
       final body = jsonDecode(response.body);
       throw ApiException.fromJson(response.statusCode, body);
     }
+  }
+
+  Future<Influencer> getInfluencer() async {
+    final response = await get(
+      Uri.parse('$kEndpoint/influencer'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+    final body = jsonDecode(response.body);
+    return Influencer.fromMap(body);
+  }
+
+  Future<ProfileCompletionStatus> getProfileCompletionStatus() async {
+    final response = await get(
+      Uri.parse('$kEndpoint/influencer/get-profile-completion-status'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+    final body = jsonDecode(response.body);
+    return ProfileCompletionStatus.fromMap(body);
   }
 }
