@@ -3,8 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
-import 'package:rociny/features/influencer/complete_register/data/enums/platform_type.dart';
-import 'package:rociny/features/influencer/complete_register/data/models/social_network_model.dart';
+import 'package:rociny/features/influencer/complete_profile/data/enums/platform_type.dart';
+import 'package:rociny/features/influencer/complete_profile/data/models/social_network_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SocialNetworkCard extends StatelessWidget {

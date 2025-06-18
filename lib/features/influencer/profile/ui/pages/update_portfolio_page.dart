@@ -6,36 +6,30 @@ import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
-import 'package:rociny/features/company/complete_profile/ui/widgets/update_legal_documents_form.dart';
-import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_type.dart';
-import 'package:rociny/features/company/settings/bloc/settings_bloc.dart';
+
+import 'package:rociny/features/influencer/profile/bloc/profile_bloc.dart';
+import 'package:rociny/features/influencer/profile/ui/widgets/update_portfolio_form.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
-class LegalDocumentsPage extends StatefulWidget {
-  const LegalDocumentsPage({super.key});
+class UpdatePorfolioPage extends StatelessWidget {
+  const UpdatePorfolioPage({super.key});
 
-  @override
-  State<LegalDocumentsPage> createState() => _LegalDocumentsPageState();
-}
-
-class _LegalDocumentsPageState extends State<LegalDocumentsPage> {
   @override
   Widget build(BuildContext context) {
+    final bloc = context.read<ProfileBloc>();
     return Scaffold(
       backgroundColor: kWhite,
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.all(kPadding20),
-        child: BlocConsumer<SettingsBloc, SettingsState>(
+        child: BlocConsumer<ProfileBloc, ProfileState>(
           listener: (context, state) {
-            if (state is UpdateLegalDocumentFailed) {
+            if (state is UpdatePortfolioFailed) {
               Alert.showError(context, state.exception.message);
             }
           },
           builder: (context, state) {
-            final bloc = context.read<SettingsBloc>();
-
-            if (state is GetLegalDocumentsStatusLoading) {
+            if (state is UpdatePortfolioLoading) {
               return Center(
                 child: CircularProgressIndicator(
                   color: kPrimary500,
@@ -57,22 +51,20 @@ class _LegalDocumentsPageState extends State<LegalDocumentsPage> {
                     ),
                     const Spacer(),
                     Text(
-                      "documents".translate(),
+                      "change".translate(),
                       style: kTitle1Bold,
                     ),
-                    const Spacer(),
                     const SizedBox(width: kPadding20),
+                    const Spacer(),
                   ],
                 ),
                 const SizedBox(height: kPadding30),
                 Expanded(
-                  child: UpdateLegalDocumentsForm(
-                      documents: {
-                        LegalDocumentType.debug: bloc.debugStatus,
-                      },
-                      onUpdated: (type) {
-                        bloc.add(UpdateLegalDocument(type: type));
-                      }),
+                  child: UpdatePortfolioForm(
+                    initialValue: bloc.influencer.portfolio,
+                    onAdded: () => bloc.add(AddPicturesToPortfolio()),
+                    onRemoved: (pictureUrl) => bloc.add(RemovePictureFromPortfolio(pictureUrl: pictureUrl)),
+                  ),
                 ),
               ],
             );

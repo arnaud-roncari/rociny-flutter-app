@@ -9,7 +9,7 @@ import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/company/complete_profile/bloc/complete_profile/complete_profile_bloc.dart';
 import 'package:rociny/features/company/complete_profile/ui/widgets/update_legal_documents_form.dart';
 import 'package:rociny/features/company/complete_profile/ui/widgets/update_stripe_payment_method_form.dart';
-import 'package:rociny/features/influencer/complete_register/data/enums/legal_document_type.dart';
+import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_type.dart';
 
 import 'package:rociny/shared/widgets/button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';

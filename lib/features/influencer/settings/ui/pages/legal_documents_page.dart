@@ -6,7 +6,7 @@ import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/features/company/complete_profile/ui/widgets/update_legal_documents_form.dart';
-import 'package:rociny/features/influencer/complete_register/data/enums/legal_document_type.dart';
+import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_type.dart';
 import 'package:rociny/features/influencer/settings/bloc/settings_bloc.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 

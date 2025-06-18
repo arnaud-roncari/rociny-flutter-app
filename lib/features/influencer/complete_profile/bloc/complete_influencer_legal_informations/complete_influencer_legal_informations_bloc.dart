@@ -5,8 +5,8 @@ import 'package:rociny/core/repositories/crash_repository.dart';
 import 'package:rociny/core/repositories/influencer_repository.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
-import 'package:rociny/features/influencer/complete_register/data/enums/legal_document_status.dart';
-import 'package:rociny/features/influencer/complete_register/data/enums/legal_document_type.dart';
+import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_status.dart';
+import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_type.dart';
 import 'package:file_picker/file_picker.dart';
 
 part 'complete_influencer_legal_informations_event.dart';

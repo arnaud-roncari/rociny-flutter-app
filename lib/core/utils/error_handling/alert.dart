@@ -5,7 +5,9 @@ import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
 
-/// TODO faire profil inf (copier bloc et page, ajouter 2 widget manqunats puis faire complete)
+/// TODO Mettre à jour complete
+/// TODO implement algo insta et mettre à jour profil (faire un "je suis disponible" comme malt, qui refresh les stats)
+
 class Alert {
   static showError(BuildContext context, String text) {
     ScaffoldMessenger.of(context).showSnackBar(

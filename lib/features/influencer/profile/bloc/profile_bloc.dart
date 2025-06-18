@@ -6,7 +6,7 @@ import 'package:rociny/core/repositories/crash_repository.dart';
 import 'package:rociny/core/repositories/influencer_repository.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
-import 'package:rociny/features/influencer/complete_register/data/enums/platform_type.dart';
+import 'package:rociny/features/influencer/complete_profile/data/enums/platform_type.dart';
 import 'package:rociny/features/influencer/profile/data/models/influencer.dart';
 import 'package:rociny/features/influencer/profile/data/models/profile_completion_status.dart';
 
@@ -25,6 +25,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<DeleteSocialNetwork>(deleteSocialNetwork);
     on<UpdateThemes>(updateThemes);
     on<UpdateTargetAudience>(updateTargetAudience);
+    on<AddPicturesToPortfolio>(addPicturesToPortfolio);
+    on<RemovePictureFromPortfolio>(removePictureFromPortfolio);
   }
   final CrashRepository crashRepository;
   final InfluencerRepository influencerRepository;
@@ -217,6 +219,48 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       /// Format exception to be displayed.
       AlertException alertException = AlertException.fromException(exception);
       emit(UpdateTargetAudienceFailed(exception: alertException));
+    }
+  }
+
+  void addPicturesToPortfolio(AddPicturesToPortfolio event, Emitter<ProfileState> emit) async {
+    try {
+      emit(UpdatePortfolioLoading());
+
+      final ImagePicker picker = ImagePicker();
+      final List<XFile> ximages = await picker.pickMultiImage(limit: 50);
+
+      List<File> images = ximages.map((xfile) => File(xfile.path)).toList();
+      await influencerRepository.addPicturesToPortfolio(images);
+      profileCompletionStatus = await influencerRepository.getProfileCompletionStatus();
+      influencer = await influencerRepository.getInfluencer();
+      emit(UpdatePortfolioSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(UpdatePortfolioFailed(exception: alertException));
+    }
+  }
+
+  void removePictureFromPortfolio(RemovePictureFromPortfolio event, Emitter<ProfileState> emit) async {
+    try {
+      emit(UpdatePortfolioLoading());
+
+      await influencerRepository.removePictureFromPortfolio(event.pictureUrl);
+      profileCompletionStatus = await influencerRepository.getProfileCompletionStatus();
+      influencer = await influencerRepository.getInfluencer();
+      emit(UpdatePortfolioSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(UpdatePortfolioFailed(exception: alertException));
     }
   }
 }

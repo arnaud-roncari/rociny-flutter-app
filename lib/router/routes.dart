@@ -12,7 +12,8 @@ import 'package:rociny/features/auth/ui/pages/register_code_verification_page.da
 import 'package:rociny/features/auth/ui/pages/register_page.dart';
 import 'package:rociny/router/company_routes.dart';
 import 'package:rociny/router/influencer_routes.dart';
-import 'package:rociny/shared/pages/facebook.dart';
+import 'package:rociny/shared/pages/facebook_page.dart';
+import 'package:rociny/shared/pages/preview_picture_page.dart';
 import 'package:rociny/shared/widgets/preview_pdf.dart';
 
 final GoRouter kRouter = GoRouter(
@@ -59,10 +60,24 @@ final GoRouter kRouter = GoRouter(
     ),
     ...kInfluencerRoutes,
     ...kCompanyRoutes,
+
+    /// Shared
     GoRoute(
       path: '/facebook',
       builder: (context, state) => const FacebookPage(),
     ),
+    GoRoute(
+        path: '/preview_picture',
+        builder: (context, state) {
+          Map extra = state.extra as Map;
+          String endpoint = extra["endpoint"] as String;
+          void Function()? onDeleted = extra["onDeleted"] as void Function()?;
+
+          return PreviewPicturePage(
+            endpoint: endpoint,
+            onDeleted: onDeleted,
+          );
+        }),
   ],
 );
 

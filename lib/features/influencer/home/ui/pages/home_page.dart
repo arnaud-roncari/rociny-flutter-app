@@ -9,7 +9,6 @@ import 'package:rociny/features/influencer/home/ui/pages/collaboration_page.dart
 import 'package:rociny/features/influencer/home/ui/pages/dashboard_page.dart';
 import 'package:rociny/features/influencer/profile/ui/pages/profile_page.dart';
 
-/// TODO update stripe dans settings pour influencer (utiliser le form créé )
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 

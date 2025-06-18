@@ -88,6 +88,7 @@ List<RouteBase> kCompanyRoutes = [
         path: '/company/home',
         builder: (context, state) => const HomePage(),
         routes: [
+          /// Profile
           GoRoute(
             path: 'profile/name',
             builder: (context, state) => const UpdateNamePage(),

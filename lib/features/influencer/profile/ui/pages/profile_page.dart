@@ -1,33 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/radius.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
-
-/// TODO bouger dans shared
-import 'package:rociny/features/company/profile/ui/widgets/instagram_statistics.dart';
-
-/// TODO bouger dans shared
-import 'package:rociny/features/influencer/complete_register/ui/widgets/social_network_card.dart';
+import 'package:rociny/shared/widgets/instagram_statistics.dart';
+import 'package:rociny/features/influencer/complete_profile/ui/widgets/social_network_card.dart';
 import 'package:rociny/features/influencer/profile/bloc/profile_bloc.dart';
 import 'package:rociny/features/influencer/profile/data/models/profile_completion_status.dart';
 import 'package:rociny/features/influencer/profile/ui/widgets/edit_modal.dart';
 import 'package:rociny/features/influencer/profile/ui/widgets/warning_modal.dart';
-
 import 'package:rociny/shared/widgets/chip_button.dart';
+import 'package:rociny/shared/widgets/influencer_pictures_card.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
-
-/// TODO profil inf
-/// ajouter thématiques
-/// ajouter cibles
-/// ajouter portfolio (scroll, cliquable > redirection page)
-///  update edit modal
-/// update complete profile
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -78,6 +66,7 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
                       color: kBlack,
                       onPressed: () {
                         showModalBottomSheet(
+                          isScrollControlled: true,
                           context: context,
                           builder: (BuildContext context) {
                             return const EditModal();
@@ -125,6 +114,7 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               buildAddProfilePicture(),
+                              buildAddPortfolio(),
                               buildAddName(),
                               buildAddGeolocation(),
                               buildAddDescription(),
@@ -134,7 +124,7 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
                               buildAddInstagram(),
                             ],
                           ),
-                          buildProfilePicture(),
+                          buildPictures(),
                           buildName(),
                           buildGeolocation(),
                           buildStars(),
@@ -205,7 +195,7 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
             onTap: () {
               bloc.add(UpdateProfilePicture());
             },
-            label: "profile_photo".translate(),
+            label: "add".translate(),
             svgPath: "assets/svg/cloud_upload.svg",
           ),
           const SizedBox(height: kPadding30),
@@ -216,36 +206,44 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
     return Container();
   }
 
-  Widget buildProfilePicture() {
+  Widget buildAddPortfolio() {
     final bloc = context.read<ProfileBloc>();
-    if (!bloc.profileCompletionStatus!.hasProfilePicture) {
+    if (!bloc.profileCompletionStatus!.hasPortofolio) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("add".translate(), style: kTitle1Bold),
+          const SizedBox(height: kPadding10),
+          Text(
+            "publish_portfolio".translate(),
+            style: kBody.copyWith(color: kGrey300),
+          ),
+          const SizedBox(height: kPadding20),
+          ChipButton(
+            onTap: () {
+              context.push("/influencer/home/profile/portfolio");
+            },
+            label: "Portfolio",
+            svgPath: "assets/svg/cloud_upload.svg",
+          ),
+          const SizedBox(height: kPadding30),
+        ],
+      );
+    }
+
+    return Container();
+  }
+
+  Widget buildPictures() {
+    final bloc = context.read<ProfileBloc>();
+    if (!bloc.profileCompletionStatus!.hasProfilePicture && !bloc.profileCompletionStatus!.hasPortofolio) {
       return Container();
     }
 
     return Padding(
       padding: const EdgeInsets.only(bottom: kPadding30),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          return Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(kRadius10),
-            ),
-            width: constraints.maxWidth,
-            height: constraints.maxWidth,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(kRadius10),
-              child: Image(
-                image: NetworkImage(
-                  "$kEndpoint/influencer/get-profile-picture?dummy=${DateTime.now().millisecondsSinceEpoch}",
-                  headers: {
-                    'Authorization': 'Bearer $kJwt',
-                  },
-                ),
-                fit: BoxFit.cover,
-              ),
-            ),
-          );
-        },
+      child: InfluencerPicturesCard(
+        influencer: bloc.influencer,
       ),
     );
   }
@@ -258,10 +256,8 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
         children: [
           Text("name".translate(), style: kTitle1Bold),
           const SizedBox(height: kPadding10),
-
-          /// TODO translate
           Text(
-            "Définissez votre nom d'influenceur",
+            "set_influencer_name".translate(),
             style: kBody.copyWith(color: kGrey300),
           ),
           const SizedBox(height: kPadding20),
@@ -300,10 +296,8 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
         children: [
           Text("themes".translate(), style: kTitle1Bold),
           const SizedBox(height: kPadding10),
-
-          /// TODO translate
           Text(
-            "Définissez les thématiques qui reflètent votre création de contenu.",
+            "set_content_themes".translate(),
             style: kBody.copyWith(color: kGrey300),
           ),
           const SizedBox(height: kPadding20),
@@ -372,13 +366,10 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// TODO translate
-          Text("Cibles", style: kTitle1Bold),
+          Text("targets".translate(), style: kTitle1Bold),
           const SizedBox(height: kPadding10),
-
-          /// TODO translate
           Text(
-            "Définissez vos cibles.",
+            "set_targets".translate(),
             style: kBody.copyWith(color: kGrey300),
           ),
           const SizedBox(height: kPadding20),
@@ -408,9 +399,8 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// TODO Translate
           Text(
-            "Cibles",
+            "targets".translate(),
             style: kTitle1Bold,
           ),
           const SizedBox(height: kPadding20),
@@ -640,16 +630,15 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
 
   /// TODO Implement beginning of cllaborations (?)
   Widget buildBrands() {
-    /// TODO translate
     return Padding(
       padding: const EdgeInsets.only(bottom: kPadding30),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Marques", style: kTitle1Bold),
+          Text("brands".translate(), style: kTitle1Bold),
           const SizedBox(height: kPadding10),
           Text(
-            "Collaborez avec des entreprises afin qu'elles soient mises en avant sur votre profil.",
+            "collab_with_brands".translate(),
             style: kBody.copyWith(color: kGrey300),
           ),
         ],

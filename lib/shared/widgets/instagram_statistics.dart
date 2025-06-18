@@ -7,7 +7,6 @@ import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/shared/widgets/bar_chart.dart';
 import 'package:rociny/shared/widgets/donut_chart.dart';
 
-/// TODO implement algo insta et mettre à jour profil (faire un "je suis disponible" comme malt, qui refresh les stats)
 class InstagramStatistics extends StatelessWidget {
   /// prend des statistiques (doit marcher pour finluecneur et entreprise) = instagram_account model
   const InstagramStatistics({super.key});
@@ -71,7 +70,7 @@ class InstagramStatistics extends StatelessWidget {
               Text("439", style: kHeadline5Bold),
               const SizedBox(height: kPadding5),
               Text(
-                "accounts_reached",
+                "accounts_reached".translate(),
                 style: kCaption.copyWith(color: kGrey300),
               ),
               const SizedBox(height: kPadding10),
@@ -173,7 +172,7 @@ class InstagramStatistics extends StatelessWidget {
                 ),
                 const SizedBox(height: kPadding5),
                 Text(
-                  "Interactions".translate(),
+                  "interactions".translate(),
                   style: kCaption.copyWith(color: kGrey300),
                 ),
               ],

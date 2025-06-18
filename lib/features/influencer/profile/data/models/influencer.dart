@@ -1,4 +1,4 @@
-import 'package:rociny/features/influencer/complete_register/data/models/social_network_model.dart';
+import 'package:rociny/features/influencer/complete_profile/data/models/social_network_model.dart';
 
 class Influencer {
   final int id;

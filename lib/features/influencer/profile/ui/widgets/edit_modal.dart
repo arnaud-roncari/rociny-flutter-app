@@ -8,7 +8,6 @@ import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/influencer/profile/bloc/profile_bloc.dart';
 import 'package:rociny/features/influencer/settings/ui/widgets/navigation_button.dart';
 
-/// TODO adapter taulle (plus que la moitié de l'écran)
 class EditModal extends StatelessWidget {
   const EditModal({super.key});
 

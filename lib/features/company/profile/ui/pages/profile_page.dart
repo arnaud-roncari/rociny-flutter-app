@@ -11,9 +11,9 @@ import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/company/profile/bloc/profile_bloc.dart';
 import 'package:rociny/features/company/profile/data/models/profile_completion_status.dart';
 import 'package:rociny/features/company/profile/ui/widgets/edit_modal.dart';
-import 'package:rociny/features/company/profile/ui/widgets/instagram_statistics.dart';
+import 'package:rociny/shared/widgets/instagram_statistics.dart';
 import 'package:rociny/features/company/profile/ui/widgets/warning_modal.dart';
-import 'package:rociny/features/influencer/complete_register/ui/widgets/social_network_card.dart';
+import 'package:rociny/features/influencer/complete_profile/ui/widgets/social_network_card.dart';
 import 'package:rociny/shared/widgets/chip_button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 

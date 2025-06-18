@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
+import 'package:rociny/features/influencer/settings/bloc/settings_bloc.dart';
 import 'package:rociny/features/influencer/settings/ui/widgets/navigation_button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
@@ -64,6 +66,7 @@ class _CredentialsPageState extends State<CredentialsPage> {
               svgPath: "assets/svg/instagram.svg",
               label: "Instagram",
               onPressed: () {
+                context.read<SettingsBloc>().add(GetFacebookSession());
                 context.push("/influencer/home/settings/credentials/instagram");
               },
             ),

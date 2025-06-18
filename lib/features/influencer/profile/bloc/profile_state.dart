@@ -114,3 +114,15 @@ class UpdateTargetAudienceFailed extends ProfileState {
 
   UpdateTargetAudienceFailed({required this.exception});
 }
+
+/// ---
+
+class UpdatePortfolioLoading extends ProfileState {}
+
+class UpdatePortfolioSuccess extends ProfileState {}
+
+class UpdatePortfolioFailed extends ProfileState {
+  final AlertException exception;
+
+  UpdatePortfolioFailed({required this.exception});
+}

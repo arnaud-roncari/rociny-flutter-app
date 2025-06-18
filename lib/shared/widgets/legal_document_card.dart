@@ -3,8 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
-import 'package:rociny/features/influencer/complete_register/data/enums/legal_document_status.dart' as lds;
-import 'package:rociny/features/influencer/complete_register/data/enums/legal_document_type.dart';
+import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_status.dart' as lds;
+import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_type.dart';
 
 class LegalDocumentCard extends StatelessWidget {
   final void Function() onTap;

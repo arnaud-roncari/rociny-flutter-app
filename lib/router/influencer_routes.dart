@@ -7,6 +7,7 @@ import 'package:rociny/features/influencer/profile/bloc/profile_bloc.dart';
 import 'package:rociny/features/influencer/profile/ui/pages/update_description_page.dart';
 import 'package:rociny/features/influencer/profile/ui/pages/update_geolocation.dart';
 import 'package:rociny/features/influencer/profile/ui/pages/update_name_page.dart';
+import 'package:rociny/features/influencer/profile/ui/pages/update_portfolio_page.dart';
 import 'package:rociny/features/influencer/profile/ui/pages/update_social_networks_page.dart';
 import 'package:rociny/features/influencer/profile/ui/pages/update_target_audience_page.dart';
 import 'package:rociny/features/influencer/profile/ui/pages/update_themes_page.dart';
@@ -21,13 +22,13 @@ import 'package:rociny/features/influencer/settings/ui/pages/notifications_page.
 import 'package:rociny/features/influencer/settings/ui/pages/password_page.dart';
 import 'package:rociny/features/influencer/settings/ui/pages/policies_page.dart';
 import 'package:rociny/features/influencer/settings/ui/pages/settings_page.dart';
-import 'package:rociny/features/influencer/complete_register/bloc/complete_influencer_legal_informations/complete_influencer_legal_informations_bloc.dart';
-import 'package:rociny/features/influencer/complete_register/bloc/complete_influencer_profile_informations/complete_influencer_profile_informations_bloc.dart';
-import 'package:rociny/features/influencer/complete_register/ui/pages/complete_influencer_legal_informations_page.dart';
-import 'package:rociny/features/influencer/complete_register/ui/pages/complete_influencer_profile_informations_page.dart';
-import 'package:rociny/features/influencer/complete_register/ui/pages/legal.dart';
-import 'package:rociny/features/influencer/complete_register/ui/pages/my_profile_page.dart';
-import 'package:rociny/features/influencer/complete_register/ui/widgets/stripe_webview.dart';
+import 'package:rociny/features/influencer/complete_profile/bloc/complete_influencer_legal_informations/complete_influencer_legal_informations_bloc.dart';
+import 'package:rociny/features/influencer/complete_profile/bloc/complete_influencer_profile_informations/complete_influencer_profile_informations_bloc.dart';
+import 'package:rociny/features/influencer/complete_profile/ui/pages/complete_influencer_legal_informations_page.dart';
+import 'package:rociny/features/influencer/complete_profile/ui/pages/complete_influencer_profile_informations_page.dart';
+import 'package:rociny/features/influencer/complete_profile/ui/pages/legal.dart';
+import 'package:rociny/features/influencer/complete_profile/ui/pages/my_profile_page.dart';
+import 'package:rociny/features/influencer/complete_profile/ui/widgets/stripe_webview.dart';
 import 'package:rociny/features/influencer/home/ui/pages/home_page.dart';
 import 'package:rociny/features/influencer/settings/ui/pages/stripe_page.dart';
 
@@ -61,8 +62,6 @@ List<RouteBase> kInfluencerRoutes = [
       child: const CompleteInfluencerLegalInformationsPage(),
     ),
   ),
-
-  /// TODO vérifier si foncitone dans settings et complete (changer route ?)
   GoRoute(
     path: '/influencer/complete_profile/stripe/webview',
     builder: (context, state) {
@@ -98,6 +97,7 @@ List<RouteBase> kInfluencerRoutes = [
         path: '/influencer/home',
         builder: (context, state) => const HomePage(),
         routes: [
+          /// Profile
           GoRoute(
             path: 'profile/name',
             builder: (context, state) => const UpdateNamePage(),
@@ -121,6 +121,10 @@ List<RouteBase> kInfluencerRoutes = [
           GoRoute(
             path: 'profile/target_audience',
             builder: (context, state) => const UpdateTargetAudiencePage(),
+          ),
+          GoRoute(
+            path: 'profile/portfolio',
+            builder: (context, state) => const UpdatePorfolioPage(),
           ),
 
           /// Settings

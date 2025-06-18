@@ -4,7 +4,7 @@ import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/radius.dart';
 import 'package:rociny/core/constants/text_styles.dart';
-import 'package:rociny/features/influencer/complete_register/data/enums/platform_type.dart';
+import 'package:rociny/features/influencer/complete_profile/data/enums/platform_type.dart';
 
 class SupportedPlatformChip extends StatefulWidget {
   final void Function() onTap;

@@ -27,10 +27,8 @@ class WarningModal extends StatelessWidget {
           children: [
             Text('your_account'.translate(), style: kTitle1Bold),
             const SizedBox(height: kPadding10),
-
-            /// TODO translate
             Text(
-              'Pour recevoir vos premières collaborations, assurez-vous de compléter votre profil et de renseigner les informations juridiques de votre entreprise.',
+              'complete_profile_tip'.translate(),
               style: kBody.copyWith(color: kGrey300),
             ),
             const SizedBox(height: kPadding30),

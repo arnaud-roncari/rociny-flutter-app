@@ -1,4 +1,4 @@
-import 'package:rociny/features/influencer/complete_register/data/enums/platform_type.dart';
+import 'package:rociny/features/influencer/complete_profile/data/enums/platform_type.dart';
 
 PlatformType platformTypeFromString(String value) {
   return PlatformType.values.firstWhere(

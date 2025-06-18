@@ -5,7 +5,7 @@ import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
-import 'package:rociny/features/influencer/complete_register/bloc/complete_influencer_profile_informations/complete_influencer_profile_informations_bloc.dart';
+import 'package:rociny/features/influencer/complete_profile/bloc/complete_influencer_profile_informations/complete_influencer_profile_informations_bloc.dart';
 import 'package:rociny/shared/widgets/button.dart';
 import 'package:rociny/shared/widgets/fetched_instagram_account_card.dart';
 import 'package:rociny/shared/widgets/instagram_account_card.dart';

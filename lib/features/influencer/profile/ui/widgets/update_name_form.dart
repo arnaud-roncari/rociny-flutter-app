@@ -34,15 +34,12 @@ class _UpdateNameFormState extends State<UpdateNameForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            /// TODO translate
-            "Nom d'influenceur",
+            "influencer_name".translate(),
             style: kTitle1Bold,
           ),
           const SizedBox(height: kPadding10),
           Text(
-            /// TODO translate
-
-            "Renseignez votre nom d'influenceur. Vous pouvez utiliser un pseudonyme ou votre prénom et nom.",
+            "influencer_name_description".translate(),
             style: kBody.copyWith(color: kGrey300),
           ),
           const SizedBox(height: kPadding20),
@@ -55,7 +52,7 @@ class _UpdateNameFormState extends State<UpdateNameForm> {
           const SizedBox(height: kPadding30),
           const Spacer(),
           Button(
-            title: "Modifier",
+            title: "change".translate(),
             onPressed: () {
               if (formKey.currentState!.validate()) {
                 widget.onUpdated(controller.text);

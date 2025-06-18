@@ -924,5 +924,56 @@
     "fr": "Connectez-vous à Instagram",
     "en": "Connect to Instagram",
     "es": "Conéctate a Instagram"
+  },
+  "publish_portfolio": {
+    "fr": "Publiez votre portfolio.",
+    "en": "Publish your portfolio.",
+    "es": "Publica tu portafolio."
+  },
+  "set_influencer_name": {
+    "fr": "Définissez votre nom d'influenceur.",
+    "en": "Set your influencer name.",
+    "es": "Define tu nombre de influencer."
+  },
+  "set_content_themes": {
+    "fr": "Définissez les thématiques qui reflètent votre création de contenu.",
+    "en": "Set the themes that reflect your content creation.",
+    "es": "Define las temáticas que reflejan tu contenido."
+  },
+  "set_targets": {
+    "fr": "Définissez vos cibles.",
+    "en": "Define your target audience.",
+    "es": "Define tu público objetivo."
+  },
+  "collab_with_brands": {
+    "fr": "Collaborez avec des entreprises afin qu'elles soient mises en avant sur votre profil.",
+    "en": "Collaborate with brands so they get featured on your profile.",
+    "es": "Colabora con marcas para que aparezcan en tu perfil."
+  },
+  "targets": {
+    "fr": "Cibles",
+    "en": "Targets",
+    "es": "Público objetivo"
+  },
+  "brands": {
+    "fr": "Marques",
+    "en": "Brands",
+    "es": "Marcas"
+  },
+
+  "influencer_name_description": {
+    "fr": "Renseignez votre nom d'influenceur. Vous pouvez utiliser un pseudonyme ou votre prénom et nom.",
+    "en": "Enter your influencer name. You can use a pseudonym or your first and last name.",
+    "es": "Indica tu nombre de influencer. Puedes usar un seudónimo o tu nombre y apellido."
+  },
+  "edit_portfolio": {
+    "fr": "Modifiez votre portfolio.",
+    "en": "Edit your portfolio.",
+    "es": "Edita tu portafolio."
+  },
+  "complete_profile_tip": {
+    "fr": "Pour recevoir vos premières collaborations, assurez-vous de compléter votre profil et de renseigner les informations juridiques de votre entreprise.",
+    "en": "To receive your first collaborations, make sure to complete your profile and provide your company's legal information.",
+    "es": "Para recibir tus primeras colaboraciones, asegúrate de completar tu perfil y proporcionar la información legal de tu empresa."
   }
 }

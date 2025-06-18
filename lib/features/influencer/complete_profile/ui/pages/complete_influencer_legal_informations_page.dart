@@ -6,9 +6,9 @@ import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
-import 'package:rociny/features/influencer/complete_register/bloc/complete_influencer_legal_informations/complete_influencer_legal_informations_bloc.dart';
-import 'package:rociny/features/influencer/complete_register/ui/widgets/legal_documents.dart';
-import 'package:rociny/features/influencer/complete_register/ui/widgets/stripe.dart';
+import 'package:rociny/features/influencer/complete_profile/bloc/complete_influencer_legal_informations/complete_influencer_legal_informations_bloc.dart';
+import 'package:rociny/features/influencer/complete_profile/ui/widgets/legal_documents.dart';
+import 'package:rociny/features/influencer/complete_profile/ui/widgets/stripe.dart';
 import 'package:rociny/shared/widgets/button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 

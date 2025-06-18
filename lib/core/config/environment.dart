@@ -1,4 +1,4 @@
-String kEndpoint = "https://9966-2a01-cb1d-905e-7f00-3139-7845-bddc-c207.ngrok-free.app";
+String kEndpoint = "https://7ba1-2a01-cb1d-905e-7f00-b978-fc7e-2ac1-207f.ngrok-free.app";
 String kAppVersion = "1.0.0";
 // String kEndpoint = "http://127.0.0.1:3000";
 

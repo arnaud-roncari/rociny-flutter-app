@@ -5,10 +5,10 @@ import 'package:http/http.dart';
 import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
 import 'package:rociny/features/auth/data/models/instagram_account.dart';
-import 'package:rociny/features/influencer/complete_register/data/enums/legal_document_status.dart';
-import 'package:rociny/features/influencer/complete_register/data/enums/legal_document_type.dart';
-import 'package:rociny/features/influencer/complete_register/data/enums/platform_type.dart';
-import 'package:rociny/features/influencer/complete_register/data/models/social_network_model.dart';
+import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_status.dart';
+import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_type.dart';
+import 'package:rociny/features/influencer/complete_profile/data/enums/platform_type.dart';
+import 'package:rociny/features/influencer/complete_profile/data/models/social_network_model.dart';
 import 'package:rociny/features/influencer/profile/data/models/influencer.dart';
 import 'package:rociny/features/influencer/profile/data/models/profile_completion_status.dart';
 
@@ -60,6 +60,43 @@ class InfluencerRepository {
 
     Map<String, dynamic> body = jsonDecode(stringifiedBody);
     return List<String>.from(body["portfolio"]);
+  }
+
+  Future<void> addPicturesToPortfolio(List<File> images) async {
+    var request = MultipartRequest(
+      'PUT',
+      Uri.parse('$kEndpoint/influencer/add-pictures-to-portfolio'),
+    );
+
+    for (var image in images) {
+      request.files.add(
+        await MultipartFile.fromPath('files', image.path),
+      );
+    }
+
+    request.headers['Authorization'] = 'Bearer $kJwt';
+
+    StreamedResponse response = await request.send();
+
+    if (response.statusCode >= 400) {
+      String stringifiedBody = await response.stream.bytesToString();
+      Map<String, dynamic> body = jsonDecode(stringifiedBody);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+  }
+
+  Future<void> removePictureFromPortfolio(String pictureUrl) async {
+    var response = await delete(
+      Uri.parse('$kEndpoint/influencer/remove-picture-from-portfolio/$pictureUrl'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      Map<String, dynamic> body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
   }
 
   Future<void> updateName(String name) async {

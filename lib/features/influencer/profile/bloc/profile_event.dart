@@ -69,3 +69,13 @@ class UpdateTargetAudience extends ProfileEvent {
 
   UpdateTargetAudience({required this.targetAudience});
 }
+
+/// ---
+
+class AddPicturesToPortfolio extends ProfileEvent {}
+
+class RemovePictureFromPortfolio extends ProfileEvent {
+  final String pictureUrl;
+
+  RemovePictureFromPortfolio({required this.pictureUrl});
+}

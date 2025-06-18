@@ -6,7 +6,7 @@ import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/radius.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
-import 'package:rociny/features/influencer/complete_register/bloc/complete_influencer_profile_informations/complete_influencer_profile_informations_bloc.dart';
+import 'package:rociny/features/influencer/complete_profile/bloc/complete_influencer_profile_informations/complete_influencer_profile_informations_bloc.dart';
 import 'package:rociny/shared/widgets/chip_button.dart';
 
 class ProfilePicture extends StatefulWidget {
