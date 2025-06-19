@@ -31,9 +31,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<GetCompanySectionsStatus>(getCompanySectionsStatus);
     on<UpdateLegalDocument>(updateLegalDocument);
     on<GetLegalDocumentsStatus>(getLegalDocumentsStatus);
-    on<GetStripeAccountLink>(getStripeAccountLink);
-    on<GetStripeLoginLink>(getStripeLoginLink);
-    on<SetStripeAccountStatus>(setStripeAccountStatus);
+    on<CreateStripeAccount>(createStripeAccount);
+    on<GetStripeAccount>(getStripeAccount);
+    on<GetStripeCompletionStatus>(getStripeCompletionStatus);
     on<GetFacebookSession>(getFacebookSession);
     on<GetInstagramAccounts>(getInstagramAccounts);
     on<CreateInstagramAccount>(createInstagramAccount);
@@ -43,21 +43,23 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   final InfluencerRepository influencerRepository;
   final AuthRepository authRepository;
 
+  /// Auth
   bool? isRegisteredLocally;
   String? newEmail;
-  late bool hasCompletedStripe;
-  late bool hasCompletedLegalDocuments;
 
+  /// Documents
   late LegalDocumentStatus debugStatus;
 
-  /// Stripe webview url
-  String? stripeAccountUrl;
-  String? stripeLoginUrl;
-
+  /// Instagram
   bool hasFacebookSession = false;
   late List<FetchedInstagramAccount> instagramAccounts;
   InstagramAccount? instagramAccount;
   bool hasInstagramAccount = false;
+
+  /// Stripe (And legal)
+  late bool hasCompletedStripe;
+  late bool hasCompletedLegalDocuments;
+
   void getIsRegisteredLocally(GetIsRegisteredLocally event, Emitter<SettingsState> emit) async {
     try {
       emit(GetIsRegisteredLocallyLoading());
@@ -223,45 +225,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     }
   }
 
-  void getStripeAccountLink(GetStripeAccountLink event, Emitter<SettingsState> emit) async {
-    try {
-      emit(GetStripeAccountLinkLoading());
-
-      stripeAccountUrl = await influencerRepository.getStripeAccountUrl();
-      emit(GetStripeAccountLinkSuccess());
-    } catch (exception, stack) {
-      if (exception is! ApiException) {
-        crashRepository.registerCrash(exception, stack);
-      }
-
-      /// Format exception to be displayed.
-      AlertException alertException = AlertException.fromException(exception);
-      emit(GetStripeAccountLinkFailed(exception: alertException));
-    }
-  }
-
-  void getStripeLoginLink(GetStripeLoginLink event, Emitter<SettingsState> emit) async {
-    try {
-      emit(GetStripeLoginLinkLoading());
-
-      stripeLoginUrl = await influencerRepository.getStripeLoginUrl();
-      emit(GetStripeLoginLinkSuccess());
-    } catch (exception, stack) {
-      if (exception is! ApiException) {
-        crashRepository.registerCrash(exception, stack);
-      }
-
-      /// Format exception to be displayed.
-      AlertException alertException = AlertException.fromException(exception);
-      emit(GetStripeLoginLinkFailed(exception: alertException));
-    }
-  }
-
-  void setStripeAccountStatus(SetStripeAccountStatus event, Emitter<SettingsState> emit) async {
-    hasCompletedStripe = true;
-    emit(StripeAccountCompleted());
-  }
-
   void getFacebookSession(GetFacebookSession event, Emitter<SettingsState> emit) async {
     try {
       emit(GetFacebookSessionLoading());
@@ -332,6 +295,54 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
       AlertException alertException = AlertException.fromException(exception);
       emit(LogoutFacebookFailed(exception: alertException));
+    }
+  }
+
+  void createStripeAccount(CreateStripeAccount event, Emitter<SettingsState> emit) async {
+    try {
+      emit(UpdateStripeLoading());
+      String url = await influencerRepository.getStripeAccountUrl();
+      emit(StripeUrlFetched(url: url));
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(UpdateStripeFailed(exception: alertException));
+    }
+  }
+
+  void getStripeAccount(GetStripeAccount event, Emitter<SettingsState> emit) async {
+    try {
+      emit(UpdateStripeLoading());
+      String url = await influencerRepository.getStripeLoginUrl();
+      emit(StripeUrlFetched(url: url));
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(UpdateStripeFailed(exception: alertException));
+    }
+  }
+
+  void getStripeCompletionStatus(GetStripeCompletionStatus event, Emitter<SettingsState> emit) async {
+    try {
+      emit(GetStripeCompletionStatusLoading());
+      hasCompletedStripe = await influencerRepository.hasCompletedStripe();
+      emit(GetStripeCompletionStatusSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(GetStripeCompletionStatusFailed(exception: alertException));
     }
   }
 }

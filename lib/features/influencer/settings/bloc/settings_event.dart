@@ -40,12 +40,6 @@ class UpdateLegalDocument extends SettingsEvent {
 
 class GetLegalDocumentsStatus extends SettingsEvent {}
 
-class GetStripeAccountLink extends SettingsEvent {}
-
-class GetStripeLoginLink extends SettingsEvent {}
-
-class SetStripeAccountStatus extends SettingsEvent {}
-
 class GetFacebookSession extends SettingsEvent {}
 
 class GetInstagramAccounts extends SettingsEvent {}
@@ -57,3 +51,9 @@ class CreateInstagramAccount extends SettingsEvent {
 }
 
 class LogoutFacebook extends SettingsEvent {}
+
+class GetStripeAccount extends SettingsEvent {}
+
+class CreateStripeAccount extends SettingsEvent {}
+
+class GetStripeCompletionStatus extends SettingsEvent {}

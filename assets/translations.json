@@ -521,9 +521,9 @@
     "es": "Para recibir colaboraciones, debe proporcionarnos los documentos necesarios."
   },
   "rociny_stripe_payment": {
-    "fr": "Rociny utilise Stripe pour le traitement des paiements. Il est donc nécessaire de fournir vos informations bancaires via Stripe pour finaliser la configuration.",
-    "en": "Rociny uses Stripe for payment processing. Therefore, it is necessary to provide your banking information via Stripe to complete the setup.",
-    "es": "Rociny usa Stripe para el procesamiento de pagos. Por lo tanto, es necesario proporcionar su información bancaria a través de Stripe para completar la configuración."
+    "fr": "Rociny utilise Stripe pour le traitement des paiements.",
+    "en": "Rociny uses Stripe for payment processing.",
+    "es": "Rociny usa Stripe para el procesamiento de pagos."
   },
   "start": {
     "fr": "Commencer",
@@ -628,15 +628,16 @@
     "es": "Panel de control"
   },
   "stripe_payment_info_completed": {
-    "fr": "Rociny utilise Stripe pour le traitement des paiements. Votre profil de paiement a bien été complété via Stripe.",
-    "en": "Rociny uses Stripe to process payments. Your payment profile has been successfully completed via Stripe.",
-    "es": "Rociny utiliza Stripe para procesar los pagos. Su perfil de pago ha sido completado correctamente a través de Stripe."
+    "fr": "Votre profil de paiement a bien été complété via Stripe.",
+    "en": "Your payment profile has been successfully completed via Stripe.",
+    "es": "Su perfil de pago ha sido completado correctamente a través de Stripe."
   },
   "my_account": {
     "fr": "Mon compte",
     "en": "My account",
     "es": "Mi cuenta"
   },
+
   "my_company": {
     "fr": "Mon entreprise",
     "en": "My company",

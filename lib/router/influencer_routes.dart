@@ -22,52 +22,41 @@ import 'package:rociny/features/influencer/settings/ui/pages/notifications_page.
 import 'package:rociny/features/influencer/settings/ui/pages/password_page.dart';
 import 'package:rociny/features/influencer/settings/ui/pages/policies_page.dart';
 import 'package:rociny/features/influencer/settings/ui/pages/settings_page.dart';
-import 'package:rociny/features/influencer/complete_profile/bloc/complete_influencer_legal_informations/complete_influencer_legal_informations_bloc.dart';
-import 'package:rociny/features/influencer/complete_profile/bloc/complete_influencer_profile_informations/complete_influencer_profile_informations_bloc.dart';
-import 'package:rociny/features/influencer/complete_profile/ui/pages/complete_influencer_legal_informations_page.dart';
-import 'package:rociny/features/influencer/complete_profile/ui/pages/complete_influencer_profile_informations_page.dart';
-import 'package:rociny/features/influencer/complete_profile/ui/pages/legal.dart';
-import 'package:rociny/features/influencer/complete_profile/ui/pages/my_profile_page.dart';
-import 'package:rociny/features/influencer/complete_profile/ui/widgets/stripe_webview.dart';
+import 'package:rociny/features/influencer/complete_profile/bloc/complete_profile/complete_profile_bloc.dart';
+import 'package:rociny/features/influencer/complete_profile/ui/pages/complete_legal_page.dart';
+import 'package:rociny/features/influencer/complete_profile/ui/pages/complete_profile_page.dart';
+import 'package:rociny/features/influencer/complete_profile/ui/pages/legal_illustration_page.dart';
+import 'package:rociny/features/influencer/complete_profile/ui/pages/profile_illustration_page.dart';
 import 'package:rociny/features/influencer/home/ui/pages/home_page.dart';
 import 'package:rociny/features/influencer/settings/ui/pages/stripe_page.dart';
 
 List<RouteBase> kInfluencerRoutes = [
-  GoRoute(
-    path: '/influencer/complete_profile/profile_illustration',
-    builder: (context, state) => const MyProfilePage(),
-  ),
-  GoRoute(
-    path: '/influencer/complete_profile/profile',
-    builder: (context, state) => BlocProvider(
-      create: (context) => CompleteInfluencerProfileInformationsBloc(
-        authRepository: RepositoryProvider.of<AuthRepository>(context),
-        crashRepository: RepositoryProvider.of<CrashRepository>(context),
-        influencerRepository: RepositoryProvider.of<InfluencerRepository>(context),
-      ),
-      child: const CompleteInfluencerProfileInformationsPage(),
-    ),
-  ),
-  GoRoute(
-    path: '/influencer/complete_profile/legal_illustration',
-    builder: (context, state) => const LegalPage(),
-  ),
-  GoRoute(
-    path: '/influencer/complete_profile/legal',
-    builder: (context, state) => BlocProvider(
-      create: (context) => CompleteInfluencerLegalInformationsBloc(
-        crashRepository: RepositoryProvider.of<CrashRepository>(context),
-        influencerRepository: RepositoryProvider.of<InfluencerRepository>(context),
-      ),
-      child: const CompleteInfluencerLegalInformationsPage(),
-    ),
-  ),
-  GoRoute(
-    path: '/influencer/complete_profile/stripe/webview',
-    builder: (context, state) {
-      String url = state.extra as String;
-      return StripeWebview(url: url);
+  ShellRoute(
+    builder: (context, state, child) {
+      return BlocProvider(
+        create: (_) => CompleteProfileBloc(
+          authRepository: RepositoryProvider.of<AuthRepository>(context),
+          crashRepository: RepositoryProvider.of<CrashRepository>(context),
+          influencerRepository: RepositoryProvider.of<InfluencerRepository>(context),
+        ),
+        child: child,
+      );
     },
+    routes: [
+      GoRoute(
+        path: '/influencer/complete_profile/profile_illustration',
+        builder: (context, state) => const ProfileIllustrationPage(),
+      ),
+      GoRoute(
+        path: '/influencer/complete_profile/profile',
+        builder: (context, state) => const CompleteProfilPage(),
+      ),
+      GoRoute(
+        path: '/influencer/complete_profile/legal_illustration',
+        builder: (context, state) => const LegalIllustrationPage(),
+      ),
+      GoRoute(path: '/influencer/complete_profile/legal', builder: (context, state) => const CompleteLegalPage()),
+    ],
   ),
   ShellRoute(
     builder: (context, state, child) {
@@ -168,15 +157,7 @@ List<RouteBase> kInfluencerRoutes = [
                     path: 'legal-documents',
                     builder: (context, state) => const LegalDocumentsPage(),
                   ),
-                  GoRoute(path: 'stripe', builder: (context, state) => const StripePage(), routes: [
-                    GoRoute(
-                      path: 'webview',
-                      builder: (context, state) {
-                        String url = state.extra as String;
-                        return StripeWebview(url: url);
-                      },
-                    ),
-                  ]),
+                  GoRoute(path: 'stripe', builder: (context, state) => const StripePage(), routes: const []),
                 ],
               ),
             ],

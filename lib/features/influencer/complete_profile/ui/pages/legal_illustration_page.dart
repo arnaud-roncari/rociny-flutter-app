@@ -7,14 +7,14 @@ import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/shared/widgets/button.dart';
 
-class LegalPage extends StatefulWidget {
-  const LegalPage({super.key});
+class LegalIllustrationPage extends StatefulWidget {
+  const LegalIllustrationPage({super.key});
 
   @override
-  State<LegalPage> createState() => LegalPageState();
+  State<LegalIllustrationPage> createState() => LegalIllustrationPageState();
 }
 
-class LegalPageState extends State<LegalPage> {
+class LegalIllustrationPageState extends State<LegalIllustrationPage> {
   int pageIndex = 1;
 
   @override
@@ -60,7 +60,7 @@ class LegalPageState extends State<LegalPage> {
                     title: "complete".translate(),
                     backgroundColor: kPrimary700,
                     onPressed: () async {
-                      context.push("/influencer/complete_register/complete_legal");
+                      context.push("/influencer/complete_profile/legal");
                     },
                   )
                 ],

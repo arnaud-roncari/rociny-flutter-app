@@ -6,20 +6,22 @@ import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
-import 'package:rociny/features/influencer/complete_profile/bloc/complete_influencer_legal_informations/complete_influencer_legal_informations_bloc.dart';
-import 'package:rociny/features/influencer/complete_profile/ui/widgets/legal_documents.dart';
-import 'package:rociny/features/influencer/complete_profile/ui/widgets/stripe.dart';
+import 'package:rociny/features/company/complete_profile/ui/widgets/update_legal_documents_form.dart';
+import 'package:rociny/features/influencer/complete_profile/bloc/complete_profile/complete_profile_bloc.dart';
+import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_type.dart';
+import 'package:rociny/features/influencer/complete_profile/ui/widgets/stripe_form.dart';
+import 'package:rociny/shared/widgets/stripe_modal.dart';
 import 'package:rociny/shared/widgets/button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
-class CompleteInfluencerLegalInformationsPage extends StatefulWidget {
-  const CompleteInfluencerLegalInformationsPage({super.key});
+class CompleteLegalPage extends StatefulWidget {
+  const CompleteLegalPage({super.key});
 
   @override
-  State<CompleteInfluencerLegalInformationsPage> createState() => _CompleteInfluencerLegalInformationsPageState();
+  State<CompleteLegalPage> createState() => _CompleteLegaltate();
 }
 
-class _CompleteInfluencerLegalInformationsPageState extends State<CompleteInfluencerLegalInformationsPage> {
+class _CompleteLegaltate extends State<CompleteLegalPage> {
   int index = 0;
   PageController pageController = PageController(initialPage: 0);
 
@@ -28,17 +30,40 @@ class _CompleteInfluencerLegalInformationsPageState extends State<CompleteInflue
     return Scaffold(
       backgroundColor: kWhite,
       body: SafeArea(
-          child: BlocConsumer<CompleteInfluencerLegalInformationsBloc, CompleteInfluencerLegalInformationsState>(
-        listener: (context, state) {
-          if (state is UpdateDocumentFailed) {
+          child: BlocConsumer<CompleteProfileBloc, CompleteProfileState>(
+        listener: (context, state) async {
+          final bloc = context.read<CompleteProfileBloc>();
+
+          if (state is UpdateDocumentFailed ||
+              state is GetStripeCompletionStatusFailed ||
+              state is UpdateStripeFailed) {
             Alert.showError(context, (state as dynamic).exception.message);
           }
 
-          if (state is UpdateDocumentSuccess) {
+          if (state is ProfileUpdated) {
             Alert.showSuccess(context, "changes_saved".translate());
+          }
+
+          if (state is StripeUrlFetched) {
+            String url = state.url;
+            await showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              enableDrag: false,
+              backgroundColor: kWhite,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.zero,
+              ),
+              builder: (context) {
+                return StripeModal(url: url);
+              },
+            );
+
+            bloc.add(GetStripeCompletionStatus());
           }
         },
         builder: (context, state) {
+          final bloc = context.read<CompleteProfileBloc>();
           return Padding(
             padding: const EdgeInsets.all(kPadding20),
             child: Column(
@@ -82,12 +107,29 @@ class _CompleteInfluencerLegalInformationsPageState extends State<CompleteInflue
                   child: PageView(
                     physics: const NeverScrollableScrollPhysics(),
                     controller: pageController,
-                    children: const [
-                      LegalDocuments(),
-                      Stripe(),
+                    children: [
+                      UpdateLegalDocumentsForm(
+                        documents: {
+                          LegalDocumentType.debug: bloc.debugStatus,
+                        },
+                        onUpdated: (type) {
+                          bloc.add(UpdateDocument(type: type));
+                        },
+                      ),
+                      StripeForm(
+                        isStripeCompleted: bloc.isStripeCompleted,
+                        onPressed: (isStripeCompleted) {
+                          if (isStripeCompleted) {
+                            bloc.add(GetStripeAccount());
+                          } else {
+                            bloc.add(CreateStripeAccount());
+                          }
+                        },
+                      ),
                     ],
                   ),
                 ),
+                const SizedBox(height: kPadding20),
                 Button(
                   title: index == 1 ? "finish".translate() : "next_step".translate(),
                   onPressed: () {

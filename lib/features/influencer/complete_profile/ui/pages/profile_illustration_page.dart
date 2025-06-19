@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/radius.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
+import 'package:rociny/features/influencer/complete_profile/bloc/complete_profile/complete_profile_bloc.dart';
 import 'package:rociny/shared/widgets/button.dart';
 
-class MyProfilePage extends StatefulWidget {
-  const MyProfilePage({super.key});
+class ProfileIllustrationPage extends StatefulWidget {
+  const ProfileIllustrationPage({super.key});
 
   @override
-  State<MyProfilePage> createState() => MyProfilePageState();
+  State<ProfileIllustrationPage> createState() => ProfileIllustrationPageState();
 }
 
-class MyProfilePageState extends State<MyProfilePage> {
+class ProfileIllustrationPageState extends State<ProfileIllustrationPage> {
   int pageIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<CompleteProfileBloc>().add(GetProfile());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +68,7 @@ class MyProfilePageState extends State<MyProfilePage> {
                     title: "complete".translate(),
                     backgroundColor: kPrimary700,
                     onPressed: () async {
-                      context.push("/influencer/complete_register/complete_profile");
+                      context.push("/influencer/complete_profile/profile");
                     },
                   )
                 ],

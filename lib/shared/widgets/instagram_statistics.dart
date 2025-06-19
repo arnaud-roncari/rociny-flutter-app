@@ -8,7 +8,6 @@ import 'package:rociny/shared/widgets/bar_chart.dart';
 import 'package:rociny/shared/widgets/donut_chart.dart';
 
 class InstagramStatistics extends StatelessWidget {
-  /// prend des statistiques (doit marcher pour finluecneur et entreprise) = instagram_account model
   const InstagramStatistics({super.key});
 
   @override

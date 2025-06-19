@@ -92,36 +92,6 @@ class GetLegalDocumentsStatusSuccess extends SettingsState {}
 
 class GetLegalDocumentsStatusLoading extends SettingsState {}
 
-class GetStripeAccountStatus extends SettingsState {}
-
-// ---
-
-class GetStripeAccountLinkSuccess extends SettingsState {}
-
-class GetStripeAccountLinkLoading extends SettingsState {}
-
-class GetStripeAccountLinkFailed extends SettingsState {
-  final AlertException exception;
-
-  GetStripeAccountLinkFailed({required this.exception});
-}
-
-// ---
-
-class GetStripeLoginLinkSuccess extends SettingsState {}
-
-class GetStripeLoginLinkLoading extends SettingsState {}
-
-class GetStripeLoginLinkFailed extends SettingsState {
-  final AlertException exception;
-
-  GetStripeLoginLinkFailed({required this.exception});
-}
-
-// ---
-
-class StripeAccountCompleted extends SettingsState {}
-
 // ---
 
 class GetFacebookSessionLoading extends SettingsState {}
@@ -168,4 +138,34 @@ class LogoutFacebookFailed extends SettingsState {
   final AlertException exception;
 
   LogoutFacebookFailed({required this.exception});
+}
+
+/// ---
+
+class UpdateStripeLoading extends SettingsState {}
+
+class StripeUrlFetched extends SettingsState {
+  final String url;
+
+  StripeUrlFetched({required this.url});
+}
+
+class UpdateStripeSuccess extends SettingsState {}
+
+class UpdateStripeFailed extends SettingsState {
+  final AlertException exception;
+
+  UpdateStripeFailed({required this.exception});
+}
+
+/// ---
+
+class GetStripeCompletionStatusLoading extends SettingsState {}
+
+class GetStripeCompletionStatusSuccess extends SettingsState {}
+
+class GetStripeCompletionStatusFailed extends SettingsState {
+  final AlertException exception;
+
+  GetStripeCompletionStatusFailed({required this.exception});
 }

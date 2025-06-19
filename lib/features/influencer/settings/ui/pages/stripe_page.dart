@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -7,9 +5,9 @@ import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
-import 'package:rociny/core/utils/extensions/translate.dart';
+import 'package:rociny/features/influencer/complete_profile/ui/widgets/stripe_form.dart';
 import 'package:rociny/features/influencer/settings/bloc/settings_bloc.dart';
-import 'package:rociny/shared/widgets/chip_button.dart';
+import 'package:rociny/shared/widgets/stripe_modal.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
 class StripePage extends StatefulWidget {
@@ -31,22 +29,31 @@ class _StripePageState extends State<StripePage> {
           listener: (context, state) async {
             final bloc = context.read<SettingsBloc>();
 
-            if (state is GetStripeAccountLinkSuccess) {
-              var bool =
-                  await context.push("/influencer/home/settings/company/stripe/webview", extra: bloc.stripeAccountUrl!);
-              if (bool != null && bool == true) {
-                bloc.add(SetStripeAccountStatus());
-                Alert.showSuccess(context, "Modifications sauvegardées.");
-              } else {
-                Alert.showError(context, "Votre compte Stripe est incomplet.");
-              }
+            if (state is GetStripeCompletionStatusFailed || state is UpdateStripeFailed) {
+              Alert.showError(context, (state as dynamic).exception.message);
             }
 
-            if (state is GetStripeLoginLinkSuccess) {
-              await context.push("/influencer/home/settings/company/stripe/webview", extra: bloc.stripeLoginUrl!);
+            if (state is StripeUrlFetched) {
+              String url = state.url;
+              await showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                enableDrag: false,
+                backgroundColor: kWhite,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.zero,
+                ),
+                builder: (context) {
+                  return StripeModal(url: url);
+                },
+              );
+
+              bloc.add(GetStripeCompletionStatus());
             }
           },
           builder: (context, state) {
+            final bloc = context.read<SettingsBloc>();
+
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -69,57 +76,23 @@ class _StripePageState extends State<StripePage> {
                   ],
                 ),
                 const SizedBox(height: kPadding30),
-                Text(
-                  "Stripe",
-                  style: kTitle1Bold,
+                Expanded(
+                  child: StripeForm(
+                    isStripeCompleted: bloc.hasCompletedStripe,
+                    onPressed: (isStripeCompleted) {
+                      if (isStripeCompleted) {
+                        bloc.add(GetStripeAccount());
+                      } else {
+                        bloc.add(CreateStripeAccount());
+                      }
+                    },
+                  ),
                 ),
-                const SizedBox(height: kPadding10),
-                Text(
-                  getText(),
-                  style: kBody.copyWith(color: kGrey300),
-                ),
-                const SizedBox(height: kPadding20),
-                ChipButton(
-                  label: getChipText(),
-                  onTap: () async {
-                    SettingsBloc bloc = context.read<SettingsBloc>();
-                    if (state is GetStripeAccountLinkLoading || state is GetStripeLoginLinkLoading) {
-                      return;
-                    }
-
-                    if (bloc.hasCompletedStripe) {
-                      bloc.add(GetStripeLoginLink());
-                    } else {
-                      bloc.add(GetStripeAccountLink());
-                    }
-                  },
-                ),
-                const Spacer(),
               ],
             );
           },
         ),
       )),
     );
-  }
-
-  String getText() {
-    SettingsBloc bloc = context.read<SettingsBloc>();
-
-    if (bloc.hasCompletedStripe) {
-      return "stripe_payment_info_completed".translate();
-    }
-
-    return "rociny_stripe_payment".translate();
-  }
-
-  String getChipText() {
-    SettingsBloc bloc = context.read<SettingsBloc>();
-
-    if (bloc.hasCompletedStripe) {
-      return "my_account".translate();
-    }
-
-    return "start".translate();
   }
 }

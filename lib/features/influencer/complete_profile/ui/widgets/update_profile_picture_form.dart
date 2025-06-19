@@ -51,12 +51,12 @@ class _UpdateProfilePictureFormState extends State<UpdateProfilePictureForm> {
                 borderRadius: BorderRadius.circular(kRadius10),
               ),
               width: constraints.maxWidth,
-              height: constraints.maxWidth / 2,
+              height: constraints.maxWidth,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(kRadius10),
                 child: Image(
                   image: NetworkImage(
-                    "$kEndpoint/company/get-profile-picture?dummy=${DateTime.now().millisecondsSinceEpoch}",
+                    "$kEndpoint/influencer/get-profile-picture?dummy=${DateTime.now().millisecondsSinceEpoch}",
                     headers: {
                       'Authorization': 'Bearer $kJwt',
                     },

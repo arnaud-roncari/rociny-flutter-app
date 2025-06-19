@@ -6,24 +6,27 @@ import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
-import 'package:rociny/features/company/complete_profile/bloc/complete_profile/complete_profile_bloc.dart';
-import 'package:rociny/features/company/complete_profile/ui/widgets/update_profile_picture_form.dart';
-import 'package:rociny/features/company/profile/data/models/company.dart';
 import 'package:rociny/features/company/profile/ui/widgets/update_description_form.dart';
 import 'package:rociny/features/company/profile/ui/widgets/update_geolocation_form.dart';
-import 'package:rociny/features/company/profile/ui/widgets/update_name_form.dart';
 import 'package:rociny/features/company/profile/ui/widgets/update_social_networks_form.dart';
+import 'package:rociny/features/influencer/complete_profile/bloc/complete_profile/complete_profile_bloc.dart';
+import 'package:rociny/features/influencer/complete_profile/ui/widgets/update_profile_picture_form.dart';
+import 'package:rociny/features/influencer/profile/ui/widgets/update_name_form.dart';
+import 'package:rociny/features/influencer/profile/ui/widgets/update_portfolio_form.dart';
+import 'package:rociny/features/influencer/profile/ui/widgets/update_target_audience_form.dart';
+import 'package:rociny/features/influencer/profile/ui/widgets/update_themes_form.dart';
 import 'package:rociny/shared/widgets/button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
-class CompleteProfilePage extends StatefulWidget {
-  const CompleteProfilePage({super.key});
+/// TODO mettre les form de profilepicture dans les profiles (inf / company)
+class CompleteProfilPage extends StatefulWidget {
+  const CompleteProfilPage({super.key});
 
   @override
-  State<CompleteProfilePage> createState() => _CompleteProfilePageState();
+  State<CompleteProfilPage> createState() => _CompleteProfilPageState();
 }
 
-class _CompleteProfilePageState extends State<CompleteProfilePage> {
+class _CompleteProfilPageState extends State<CompleteProfilPage> {
   int index = 0;
   PageController pageController = PageController(initialPage: 0);
 
@@ -34,15 +37,16 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
       body: SafeArea(
           child: BlocConsumer<CompleteProfileBloc, CompleteProfileState>(
         listener: (context, state) {
-          if (state is UpdateProfilePictureFailed ||
+          if (state is GetProfileFailed ||
+              state is UpdateProfilePictureFailed ||
+              state is UpdatePortfolioFailed ||
               state is UpdateNameFailed ||
-              state is GetProfileFailed ||
               state is UpdateDescriptionFailed ||
               state is UpdateGeolocationFailed ||
+              state is UpdateThemesFailed ||
+              state is UpdateTargetAudienceFailed ||
               state is UpdateSocialNetworkFailed ||
               state is AddSocialNetworkFailed ||
-              state is UpdateDocumentFailed ||
-              state is CreateSetupIntentFailed ||
               state is DeleteSocialNetworkFailed) {
             Alert.showError(context, (state as dynamic).exception.message);
           }
@@ -61,7 +65,8 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
           }
 
           final bloc = context.read<CompleteProfileBloc>();
-          final Company company = bloc.company;
+          final influencer = bloc.influencer;
+
           return Padding(
             padding: const EdgeInsets.all(kPadding20),
             child: Column(
@@ -85,7 +90,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                     const Spacer(),
                     GestureDetector(
                       onTap: () {
-                        context.go("/company/complete_profile/legal");
+                        context.go("/influencer/complete_profile/legal");
                       },
                       child: Text(
                         "ignore".translate(),
@@ -96,7 +101,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                 ),
                 Center(
                   child: Text(
-                    "${"step".translate()} ${index + 1} ${"out_of".translate()} 5",
+                    "${"step".translate()} ${index + 1} ${"out_of".translate()} 8",
                     style: kCaption.copyWith(color: kGrey300),
                   ),
                 ),
@@ -107,31 +112,40 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                     controller: pageController,
                     children: [
                       UpdateProfilePictureForm(
+                        initialValue: influencer.profilePicture,
                         onUpdated: () {
                           bloc.add(UpdateProfilePicture());
                         },
-                        initialValue: company.profilePicture,
+                      ),
+                      UpdatePortfolioForm(
+                        initialValue: influencer.portfolio,
+                        onAdded: () {
+                          bloc.add(AddPicturesToPortfolio());
+                        },
+                        onRemoved: (pictureUrl) {
+                          bloc.add(RemovePictureFromPortfolio(pictureUrl: pictureUrl));
+                        },
                       ),
                       UpdateNameForm(
                         onUpdated: (name) {
                           bloc.add(UpdateName(name: name));
                         },
-                        initialValue: company.name,
-                      ),
-                      UpdateGeolocationForm(
-                        onUpdated: (department) {
-                          bloc.add(UpdateGeolocation(geolocation: department));
-                        },
-                        initialValue: company.department,
+                        initialValue: influencer.name,
                       ),
                       UpdateDescriptionForm(
                         onUpdated: (description) {
                           bloc.add(UpdateDescription(description: description));
                         },
-                        initialValue: company.description,
+                        initialValue: influencer.description,
+                      ),
+                      UpdateGeolocationForm(
+                        onUpdated: (geolocation) {
+                          bloc.add(UpdateGeolocation(geolocation: geolocation));
+                        },
+                        initialValue: influencer.department,
                       ),
                       UpdateSocialNetworksForm(
-                        initialValue: company.socialNetworks,
+                        initialValue: influencer.socialNetworks,
                         onUpdated: (id, url) {
                           bloc.add(UpdateSocialNetwork(id: id, url: url));
                         },
@@ -142,21 +156,32 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                           bloc.add(DeleteSocialNetwork(id: id));
                         },
                       ),
+                      UpdateThemesForm(
+                        onUpdated: (themes) {
+                          bloc.add(UpdateThemes(themes: themes));
+                        },
+                        initialValue: influencer.themes,
+                      ),
+                      UpdateTargetAudienceForm(
+                        onUpdated: (targetAudience) {
+                          bloc.add(UpdateTargetAudience(targetAudience: targetAudience));
+                        },
+                        initialValue: influencer.targetAudience,
+                      ),
                     ],
                   ),
                 ),
                 const SizedBox(height: kPadding20),
                 Button(
-                  backgroundColor: kPrimary700,
                   title: "next_step".translate(),
                   onPressed: () {
-                    if (index != 4) {
+                    if (index != 7) {
                       setState(() {
                         index += 1;
                       });
                       pageController.jumpToPage(index);
                     } else {
-                      context.go("/company/complete_profile/legal_illustration");
+                      context.go("/influencer/complete_profile/legal");
                     }
                   },
                 ),
