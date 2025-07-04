@@ -4,11 +4,14 @@ import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/radius.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
+import 'package:rociny/features/auth/data/models/instagram_account.dart';
 import 'package:rociny/shared/widgets/bar_chart.dart';
 import 'package:rociny/shared/widgets/donut_chart.dart';
+import 'package:rociny/shared/widgets/horizontal_chart.dart';
 
 class InstagramStatistics extends StatelessWidget {
-  const InstagramStatistics({super.key});
+  final InstagramAccount instagramAccount;
+  const InstagramStatistics({super.key, required this.instagramAccount});
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +22,7 @@ class InstagramStatistics extends StatelessWidget {
           "statistics".translate(),
           style: kTitle1Bold,
         ),
+        const SizedBox(height: kPadding10),
         Text(
           "stats_last_30_days".translate(),
           style: kCaption.copyWith(
@@ -28,7 +32,15 @@ class InstagramStatistics extends StatelessWidget {
         const SizedBox(height: kPadding20),
         buildFollowers(),
         const SizedBox(height: kPadding20),
-        buildImpressions(),
+        buildViews(),
+        const SizedBox(height: kPadding20),
+        buildInterest(),
+        const SizedBox(height: kPadding20),
+        buildEngagment(),
+        const SizedBox(height: kPadding20),
+        buildInteractions(),
+        const SizedBox(height: kPadding20),
+        buildPercentageContent(),
         const SizedBox(height: kPadding20),
         buildGender(),
         const SizedBox(height: kPadding20),
@@ -39,7 +51,86 @@ class InstagramStatistics extends StatelessWidget {
     );
   }
 
-  Widget buildFollowers() {
+  Widget buildInterest() {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        border: Border.all(width: 0.5, color: kGrey100),
+        borderRadius: BorderRadius.circular(kRadius10),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(kPadding20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Text(
+              "profile_interest".translate(),
+              style: kBodyBold,
+            ),
+            const SizedBox(height: kPadding20),
+            Row(
+              children: [
+                Text(
+                  "profile_view_rate".translate(),
+                  style: kCaption.copyWith(color: kGrey300),
+                ),
+                const Spacer(),
+                Text(
+                  "${instagramAccount.profileViewRate!.toStringAsFixed(0)} %",
+                  style: kCaption,
+                ),
+              ],
+            ),
+            const SizedBox(height: kPadding20),
+            Row(
+              children: [
+                Text(
+                  "profile_views".translate(),
+                  style: kCaption.copyWith(color: kGrey300),
+                ),
+                const Spacer(),
+                Text(
+                  instagramAccount.profileViews.toString(),
+                  style: kCaption,
+                ),
+              ],
+            ),
+            const SizedBox(height: kPadding20),
+            Row(
+              children: [
+                Text(
+                  "website_clicks".translate(),
+                  style: kCaption.copyWith(color: kGrey300),
+                ),
+                const Spacer(),
+                Text(
+                  instagramAccount.websiteClicks.toString(),
+                  style: kCaption,
+                ),
+              ],
+            ),
+            const SizedBox(height: kPadding20),
+            Row(
+              children: [
+                Text(
+                  "link_clicks".translate(),
+                  style: kCaption.copyWith(color: kGrey300),
+                ),
+                const Spacer(),
+                Text(
+                  instagramAccount.linkClicks.toString(),
+                  style: kCaption,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildInteractions() {
     return Container(
       height: 120,
       width: double.infinity,
@@ -54,7 +145,7 @@ class InstagramStatistics extends StatelessWidget {
             height: 80,
             width: 80,
             child: DonutChart(
-              percent: 0.50,
+              percent: instagramAccount.interactionPercentagePosts! / 100,
               primaryColor: kPrimary500,
               secondaryColor: kGrey100,
               gapDegree: 5,
@@ -66,10 +157,10 @@ class InstagramStatistics extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("439", style: kHeadline5Bold),
+              Text(instagramAccount.totalInteractions.toString(), style: kHeadline5Bold),
               const SizedBox(height: kPadding5),
               Text(
-                "accounts_reached".translate(),
+                "total_interactions".translate(),
                 style: kCaption.copyWith(color: kGrey300),
               ),
               const SizedBox(height: kPadding10),
@@ -78,11 +169,17 @@ class InstagramStatistics extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("51,2%", style: kBodyBold),
+                      Text(
+                        "${instagramAccount.interactionPercentagePosts!.toStringAsFixed(0)} %",
+                        style: kBodyBold,
+                      ),
                       const SizedBox(height: kPadding5),
                       Row(
                         children: [
-                          Text("Followers", style: kCaption.copyWith(color: kGrey300)),
+                          Text(
+                            "Posts",
+                            style: kCaption.copyWith(color: kGrey300),
+                          ),
                           const SizedBox(width: kPadding5),
                           Container(
                             width: 5,
@@ -96,15 +193,15 @@ class InstagramStatistics extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(width: kPadding10),
+                  const SizedBox(width: kPadding20),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("48,8%", style: kBodyBold),
+                      Text("${instagramAccount.interactionPercentageReels!.toStringAsFixed(0)} %", style: kBodyBold),
                       const SizedBox(height: kPadding5),
                       Row(
                         children: [
-                          Text("non_followers".translate(), style: kCaption.copyWith(color: kGrey300)),
+                          Text("Reels", style: kCaption.copyWith(color: kGrey300)),
                           const SizedBox(width: kPadding5),
                           Container(
                             width: 5,
@@ -128,7 +225,7 @@ class InstagramStatistics extends StatelessWidget {
     );
   }
 
-  Widget buildImpressions() {
+  Widget buildViews() {
     return Row(
       children: [
         Expanded(
@@ -142,12 +239,12 @@ class InstagramStatistics extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "1300",
+                  instagramAccount.views.toString(),
                   style: kHeadline5Bold,
                 ),
                 const SizedBox(height: kPadding5),
                 Text(
-                  "impressions".translate(),
+                  "views".translate(),
                   style: kCaption.copyWith(color: kGrey300),
                 ),
               ],
@@ -166,12 +263,12 @@ class InstagramStatistics extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "650",
+                  instagramAccount.reach.toString(),
                   style: kHeadline5Bold,
                 ),
                 const SizedBox(height: kPadding5),
                 Text(
-                  "interactions".translate(),
+                  "reach".translate(),
                   style: kCaption.copyWith(color: kGrey300),
                 ),
               ],
@@ -179,6 +276,56 @@ class InstagramStatistics extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget buildFollowers() {
+    return Container(
+      height: 75,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        border: Border.all(width: 0.5, color: kGrey100),
+        borderRadius: BorderRadius.circular(kRadius10),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            instagramAccount.followersCount.toString(),
+            style: kHeadline5Bold,
+          ),
+          const SizedBox(height: kPadding5),
+          Text(
+            "followers".translate(),
+            style: kCaption.copyWith(color: kGrey300),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildEngagment() {
+    return Container(
+      height: 75,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: kPrimary500,
+        borderRadius: BorderRadius.circular(kRadius10),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "${instagramAccount.engagementRate!.toStringAsFixed(0)} %",
+            style: kHeadline5Bold.copyWith(color: kWhite),
+          ),
+          const SizedBox(height: kPadding5),
+          Text(
+            "engagement_rate".translate(),
+            style: kCaption.copyWith(color: kWhite),
+          ),
+        ],
+      ),
     );
   }
 
@@ -197,7 +344,7 @@ class InstagramStatistics extends StatelessWidget {
             height: 80,
             width: 80,
             child: BarChart(
-              percent: 0.74,
+              percent: instagramAccount.genderMalePercentage! / 100,
               primaryColor: kPrimary500,
               secondaryColor: kPrimary400,
             ),
@@ -211,7 +358,7 @@ class InstagramStatistics extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "74 %",
+                    "${instagramAccount.genderMalePercentage!.toStringAsFixed(0)} %",
                     style: kHeadline5Bold,
                   ),
                   const SizedBox(height: kPadding5),
@@ -245,7 +392,7 @@ class InstagramStatistics extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "26 %",
+                    "${instagramAccount.genderFemalePercentage!.toStringAsFixed(0)} %",
                     style: kHeadline5Bold,
                   ),
                   const SizedBox(height: kPadding5),
@@ -278,7 +425,7 @@ class InstagramStatistics extends StatelessWidget {
   }
 
   Widget buildCities() {
-    List<String> cities = ["Paris", "Mante-la-jolie", "Limay", "Yvelines", "Bondoufle"];
+    List<String> cities = instagramAccount.topCities!;
     return Container(
       height: 120,
       width: double.infinity,
@@ -335,7 +482,7 @@ class InstagramStatistics extends StatelessWidget {
   }
 
   Widget buildAgeRanges() {
-    List<String> ranges = ["13-17", "18-24", "25-34", "35-44", "45-54"];
+    List<String> ranges = instagramAccount.topAgeRanges!;
     return Container(
       height: 120,
       width: double.infinity,
@@ -384,6 +531,81 @@ class InstagramStatistics extends StatelessWidget {
                   );
                 },
               ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildPercentageContent() {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        border: Border.all(width: 0.5, color: kGrey100),
+        borderRadius: BorderRadius.circular(kRadius10),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(kPadding20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Text(
+              "content_type".translate(),
+              style: kBodyBold,
+            ),
+            const SizedBox(height: kPadding20),
+            Text(
+              "Posts",
+              style: kCaption,
+            ),
+            const SizedBox(height: kPadding10),
+            Row(
+              children: [
+                Expanded(
+                  child: HorizontalChart(
+                    percent: instagramAccount.postPercentage! / 100,
+                  ),
+                ),
+                const SizedBox(width: kPadding20),
+                SizedBox(
+                  width: 40,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      "${instagramAccount.postPercentage!.toStringAsFixed(0)} %",
+                      style: kCaption,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: kPadding20),
+            Text(
+              "Reels",
+              style: kCaption,
+            ),
+            const SizedBox(height: kPadding10),
+            Row(
+              children: [
+                Expanded(
+                  child: HorizontalChart(
+                    percent: instagramAccount.reelPercentage! / 100,
+                  ),
+                ),
+                const SizedBox(width: kPadding20),
+                SizedBox(
+                  width: 40,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      "${instagramAccount.reelPercentage!.toStringAsFixed(0)} %",
+                      style: kCaption,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

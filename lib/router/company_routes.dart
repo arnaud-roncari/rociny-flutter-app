@@ -14,6 +14,7 @@ import 'package:rociny/features/company/profile/ui/pages/update_description_page
 import 'package:rociny/features/company/profile/ui/pages/update_name_geolocation.dart';
 import 'package:rociny/features/company/profile/ui/pages/update_name_page.dart';
 import 'package:rociny/features/company/profile/ui/pages/update_social_networks_page.dart';
+import 'package:rociny/features/company/search/bloc/search_bloc.dart';
 import 'package:rociny/features/company/settings/bloc/settings_bloc.dart';
 import 'package:rociny/features/company/settings/ui/pages/company_page.dart';
 import 'package:rociny/features/company/settings/ui/pages/credentials_page.dart';
@@ -76,6 +77,13 @@ List<RouteBase> kCompanyRoutes = [
               crashRepository: context.read<CrashRepository>(),
               companyRepository: context.read<CompanyRepository>(),
               authRepository: context.read<AuthRepository>(),
+            ),
+            child: child,
+          ),
+          BlocProvider(
+            create: (_) => SearchBloc(
+              crashRepository: context.read<CrashRepository>(),
+              companyRepository: context.read<CompanyRepository>(),
             ),
             child: child,
           ),

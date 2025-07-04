@@ -47,7 +47,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void login(OnLogin event, Emitter<AuthState> emit) async {
     try {
       emit(LoginLoading());
-      await Future.delayed(const Duration(seconds: 1));
       kJwt = await authRepository.login(event.email, event.password);
 
       /// The JWT is saved in the client's keystore.

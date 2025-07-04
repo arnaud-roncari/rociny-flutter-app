@@ -7,7 +7,7 @@ import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/company/home/ui/pages/chat_page.dart';
 import 'package:rociny/features/company/home/ui/pages/collaboration_page.dart';
 import 'package:rociny/features/company/profile/ui/pages/profile_page.dart';
-import 'package:rociny/features/company/home/ui/pages/search_page.dart';
+import 'package:rociny/features/company/search/ui/pages/search_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

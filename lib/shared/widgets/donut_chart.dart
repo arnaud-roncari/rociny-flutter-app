@@ -21,6 +21,7 @@ class DonutChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
+      size: const Size.square(100), // ou un size dynamique selon le besoin
       painter: _DonutChartPainter(
         percent: percent,
         primaryColor: primaryColor,
@@ -51,8 +52,7 @@ class _DonutChartPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final radius = (size.width / 2) - strokeWidth / 2;
     final center = size.center(Offset.zero);
-
-    final gapRadians = degToRad(gapDegree);
+    const fullCircle = 2 * pi;
 
     final paintPrimary = Paint()
       ..color = primaryColor
@@ -66,19 +66,23 @@ class _DonutChartPainter extends CustomPainter {
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.butt;
 
-    const fullCircle = 2 * pi;
-
-    final sweepPrimary = fullCircle * percent - gapRadians;
-    final sweepSecondary = fullCircle * (1 - percent) - gapRadians;
-
-    final startPrimary = -pi / 2 + gapRadians / 2;
-    final startSecondary = startPrimary + sweepPrimary + gapRadians;
-
     final rect = Rect.fromCircle(center: center, radius: radius);
 
-    canvas.drawArc(rect, startPrimary, sweepPrimary, false, paintPrimary);
+    if (percent >= 1.0) {
+      canvas.drawArc(rect, -pi / 2, fullCircle, false, paintPrimary);
+    } else if (percent <= 0.0) {
+      canvas.drawArc(rect, -pi / 2, fullCircle, false, paintSecondary);
+    } else {
+      final gapRadians = degToRad(gapDegree);
+      final sweepPrimary = fullCircle * percent - gapRadians;
+      final sweepSecondary = fullCircle * (1 - percent) - gapRadians;
 
-    canvas.drawArc(rect, startSecondary, sweepSecondary, false, paintSecondary);
+      final startPrimary = -pi / 2 + gapRadians / 2;
+      final startSecondary = startPrimary + sweepPrimary + gapRadians;
+
+      canvas.drawArc(rect, startPrimary, sweepPrimary, false, paintPrimary);
+      canvas.drawArc(rect, startSecondary, sweepSecondary, false, paintSecondary);
+    }
   }
 
   double degToRad(double deg) => deg * pi / 180;

@@ -17,6 +17,7 @@ import 'package:rociny/features/influencer/complete_profile/ui/widgets/social_ne
 import 'package:rociny/shared/widgets/chip_button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
+/// TODO Implement in profil : review, collabs, influencers..
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -220,7 +221,7 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
               borderRadius: BorderRadius.circular(kRadius10),
               child: Image(
                 image: NetworkImage(
-                  "$kEndpoint/company/get-profile-picture?dummy=${DateTime.now().millisecondsSinceEpoch}",
+                  "$kEndpoint/company/get-profile-picture?uuid=${bloc.company.profilePicture!}",
                   headers: {
                     'Authorization': 'Bearer $kJwt',
                   },
@@ -316,7 +317,6 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
     );
   }
 
-  /// TODO Implement review (with collaborations ?) (et padding)
   Widget buildStars() {
     /// And  amount of collaboration
     // return Text("0 Collaborations", style: kBody);
@@ -446,13 +446,14 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
       return Container();
     }
 
-    return const Padding(
-      padding: EdgeInsets.only(bottom: kPadding30),
-      child: InstagramStatistics(),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: kPadding30),
+      child: InstagramStatistics(
+        instagramAccount: bloc.instagramAccount!,
+      ),
     );
   }
 
-  /// TODO Implement beginning of review (collabs)
   Widget buildComments() {
     return Padding(
       padding: const EdgeInsets.only(bottom: kPadding30),
@@ -471,7 +472,6 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
     );
   }
 
-  /// TODO Implement beginning of cllaborations (?)
   Widget buildCollaborations() {
     return Container();
   }

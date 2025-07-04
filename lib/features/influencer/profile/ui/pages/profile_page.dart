@@ -17,6 +17,7 @@ import 'package:rociny/shared/widgets/chip_button.dart';
 import 'package:rociny/shared/widgets/influencer_pictures_card.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
+/// TODO afficher portfolio quand on clique sur une photo
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -474,7 +475,6 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
     );
   }
 
-  /// TODO Implement review (with collaborations ?) (et padding)
   Widget buildStars() {
     /// And  amount of collaboration
     // return Text("0 Collaborations", style: kBody);
@@ -604,13 +604,14 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
       return Container();
     }
 
-    return const Padding(
-      padding: EdgeInsets.only(bottom: kPadding30),
-      child: InstagramStatistics(),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: kPadding30),
+      child: InstagramStatistics(
+        instagramAccount: bloc.instagramAccount!,
+      ),
     );
   }
 
-  /// TODO Implement beginning of review (collabs)
   Widget buildComments() {
     return Padding(
       padding: const EdgeInsets.only(bottom: kPadding30),
@@ -628,7 +629,6 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
     );
   }
 
-  /// TODO Implement beginning of cllaborations (?)
   Widget buildBrands() {
     return Padding(
       padding: const EdgeInsets.only(bottom: kPadding30),

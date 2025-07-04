@@ -18,7 +18,6 @@ import 'package:rociny/features/influencer/profile/ui/widgets/update_themes_form
 import 'package:rociny/shared/widgets/button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
-/// TODO mettre les form de profilepicture dans les profiles (inf / company)
 class CompleteProfilPage extends StatefulWidget {
   const CompleteProfilPage({super.key});
 

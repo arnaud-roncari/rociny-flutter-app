@@ -7,7 +7,7 @@ import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/influencer/settings/ui/widgets/notification_button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
-/// TODO Implement notification settings
+/// TODO Implement notification settings (company/influencer)
 class NotificationsPage extends StatelessWidget {
   const NotificationsPage({super.key});
 

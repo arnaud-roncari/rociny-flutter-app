@@ -976,5 +976,55 @@
     "fr": "Pour recevoir vos premières collaborations, assurez-vous de compléter votre profil et de renseigner les informations juridiques de votre entreprise.",
     "en": "To receive your first collaborations, make sure to complete your profile and provide your company's legal information.",
     "es": "Para recibir tus primeras colaboraciones, asegúrate de completar tu perfil y proporcionar la información legal de tu empresa."
+  },
+  "profile_interest": {
+    "fr": "Intérêt pour le profil",
+    "en": "Profile interest",
+    "es": "Interés por el perfil"
+  },
+  "profile_view_rate": {
+    "fr": "Taux de consultation du profil",
+    "en": "Profile view rate",
+    "es": "Tasa de visualización del perfil"
+  },
+  "profile_views": {
+    "fr": "Visites du profil",
+    "en": "Profile visits",
+    "es": "Visitas al perfil"
+  },
+  "website_clicks": {
+    "fr": "Clics sur le site web",
+    "en": "Website clicks",
+    "es": "Clics en el sitio web"
+  },
+  "link_clicks": {
+    "fr": "Clics sur les liens",
+    "en": "Link clicks",
+    "es": "Clics en los enlaces"
+  },
+  "total_interactions": {
+    "fr": "Total des interactions",
+    "en": "Total interactions",
+    "es": "Interacciones totales"
+  },
+  "views": {
+    "fr": "Vues",
+    "en": "Views",
+    "es": "Vistas"
+  },
+  "reach": {
+    "fr": "Comptes touchés",
+    "en": "Reach",
+    "es": "Cuentas alcanzadas"
+  },
+  "engagement_rate": {
+    "fr": "Taux d'engagement",
+    "en": "Engagement rate",
+    "es": "Tasa de interacción"
+  },
+  "content_type": {
+    "fr": "Type de contenu publié",
+    "en": "Type of content published",
+    "es": "Tipo de contenido publicado"
   }
 }

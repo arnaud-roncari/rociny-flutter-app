@@ -6,6 +6,7 @@ import 'package:rociny/core/repositories/company_repository.dart';
 import 'package:rociny/core/repositories/crash_repository.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
+import 'package:rociny/features/auth/data/models/instagram_account.dart';
 import 'package:rociny/features/company/profile/data/models/company.dart';
 import 'package:rociny/features/company/profile/data/models/profile_completion_status.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/platform_type.dart';
@@ -29,6 +30,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   ProfileCompletionStatus? profileCompletionStatus;
   late Company company;
+  InstagramAccount? instagramAccount;
 
   void getProfile(GetProfile event, Emitter<ProfileState> emit) async {
     try {
@@ -36,6 +38,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
       profileCompletionStatus = await companyRepository.getProfileCompletionStatus();
       company = await companyRepository.getCompany();
+      if (profileCompletionStatus!.hasInstagramAccount) {
+        instagramAccount = await companyRepository.getInstagramAccount();
+      }
 
       emit(GetProfileSuccess());
     } catch (exception, stack) {

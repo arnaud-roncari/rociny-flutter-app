@@ -6,6 +6,7 @@ import 'package:rociny/core/repositories/crash_repository.dart';
 import 'package:rociny/core/repositories/influencer_repository.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
+import 'package:rociny/features/auth/data/models/instagram_account.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/platform_type.dart';
 import 'package:rociny/features/influencer/profile/data/models/influencer.dart';
 import 'package:rociny/features/influencer/profile/data/models/profile_completion_status.dart';
@@ -33,14 +34,16 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   ProfileCompletionStatus? profileCompletionStatus;
   late Influencer influencer;
+  InstagramAccount? instagramAccount;
 
   void getProfile(GetProfile event, Emitter<ProfileState> emit) async {
     try {
       emit(GetProfileLoading());
-
       profileCompletionStatus = await influencerRepository.getProfileCompletionStatus();
       influencer = await influencerRepository.getInfluencer();
-
+      if (profileCompletionStatus!.hasInstagramAccount) {
+        instagramAccount = await influencerRepository.getInstagramAccount();
+      }
       emit(GetProfileSuccess());
     } catch (exception, stack) {
       if (exception is! ApiException) {
@@ -252,6 +255,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       await influencerRepository.removePictureFromPortfolio(event.pictureUrl);
       profileCompletionStatus = await influencerRepository.getProfileCompletionStatus();
       influencer = await influencerRepository.getInfluencer();
+
       emit(UpdatePortfolioSuccess());
     } catch (exception, stack) {
       if (exception is! ApiException) {
