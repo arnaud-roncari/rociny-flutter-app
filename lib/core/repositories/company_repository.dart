@@ -7,10 +7,14 @@ import 'package:rociny/features/auth/data/models/instagram_account.dart';
 import 'package:rociny/features/company/complete_profile/data/dtos/setup_intent_dto.dart';
 import 'package:rociny/features/company/profile/data/models/company.dart';
 import 'package:rociny/features/company/profile/data/models/profile_completion_status.dart';
+import 'package:rociny/features/company/search/data/models/influencer_summary_model.dart';
+import 'package:rociny/features/company/search/data/models/inlfuencer_filters.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_status.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_type.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/platform_type.dart';
 import 'package:rociny/features/influencer/complete_profile/data/models/social_network_model.dart';
+import 'package:rociny/features/influencer/profile/data/models/influencer.dart';
+import 'package:rociny/features/influencer/profile/data/models/profile_completion_status.dart' as i;
 
 class CompanyRepository {
   Future<String> updateProfilePicture(File image) async {
@@ -358,5 +362,106 @@ class CompanyRepository {
     }
     final body = jsonDecode(response.body);
     return Company.fromMap(body);
+  }
+
+  Future<List<InfluencerSummary>> searchInfluencersByTheme({String? theme}) async {
+    final uri = Uri.parse('$kEndpoint/company/search-influencers-by-theme');
+
+    final response = await post(
+      uri,
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'theme': theme,
+      }),
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+
+    final body = jsonDecode(response.body) as List;
+    return body.map((e) => InfluencerSummary.fromJson(e)).toList();
+  }
+
+  Future<List<InfluencerSummary>> searchInfluencersByFilters(InfluencerFilters filters) async {
+    final uri = Uri.parse('$kEndpoint/company/search-influencers-by-filters');
+
+    final response = await post(
+      uri,
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'themes': filters.themes,
+        'departments': filters.departments,
+        'ages': filters.ages,
+        'targets': filters.targets,
+        'followers_range': filters.followersRange,
+        'engagement_rate_range': filters.engagementRateRange,
+      }),
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+
+    final body = jsonDecode(response.body) as List;
+    return body.map((e) => InfluencerSummary.fromJson(e)).toList();
+  }
+
+  Future<i.ProfileCompletionStatus> getInfluencerCompletionStatus(int userId) async {
+    final response = await get(
+      Uri.parse('$kEndpoint/company/get-influencer-completion-status/$userId'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+    final body = jsonDecode(response.body);
+    return i.ProfileCompletionStatus.fromMap(body);
+  }
+
+  Future<Influencer> getInfluencer(int userId) async {
+    final response = await get(
+      Uri.parse('$kEndpoint/company/get-influencer/$userId'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+    final body = jsonDecode(response.body);
+    return Influencer.fromMap(body);
+  }
+
+  Future<InstagramAccount> getInfluencerInstagramAccount(int userId) async {
+    final response = await get(
+      Uri.parse('$kEndpoint/company/get-influencer-instagram-statistics/$userId'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+    final body = jsonDecode(response.body);
+    return InstagramAccount.fromMap(body);
   }
 }

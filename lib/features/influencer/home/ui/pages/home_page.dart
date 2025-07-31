@@ -51,7 +51,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget buildNavigatonIcons() {
     return SizedBox(
-      height: 40,
+      height: 50,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [

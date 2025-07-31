@@ -1026,5 +1026,133 @@
     "fr": "Type de contenu publié",
     "en": "Type of content published",
     "es": "Tipo de contenido publicado"
+  },
+  "propose_collaboration": {
+    "fr": "Proposer une collaboration",
+    "en": "Propose a collaboration",
+    "es": "Proponer una colaboración"
+  },
+  "search": {
+    "fr": "Recherche",
+    "en": "Search",
+    "es": "Buscar"
+  },
+  "topic": {
+    "fr": "Thématique",
+    "en": "Topic",
+    "es": "Temática"
+  },
+  "choose_topics": {
+    "fr": "Choisissez les thématiques qui correspondent à vos besoins.",
+    "en": "Choose the topics that match your needs.",
+    "es": "Elige las temáticas que se ajustan a tus necesidades."
+  },
+  "region": {
+    "fr": "Région",
+    "en": "Region",
+    "es": "Región"
+  },
+  "target_department": {
+    "fr": "Ciblez le département où vous souhaitez trouver votre influenceur.",
+    "en": "Target the department where you want to find your influencer.",
+    "es": "Selecciona el departamento donde deseas encontrar a tu influencer."
+  },
+
+  "age_ranges": {
+    "fr": "Tranches d'âge",
+    "en": "Age ranges",
+    "es": "Rangos de edad"
+  },
+  "choose_age_ranges": {
+    "fr": "Choisissez les tranches d'âge de votre cible.",
+    "en": "Choose the age ranges of your target.",
+    "es": "Elige los rangos de edad de tu público objetivo."
+  },
+
+  "choose_targets": {
+    "fr": "Choisissez les cibles qui correspondent à vos besoins.",
+    "en": "Choose the targets that match your needs.",
+    "es": "Elige los públicos que se ajustan a tus necesidades."
+  },
+  "audience": {
+    "fr": "Audience",
+    "en": "Audience",
+    "es": "Audiencia"
+  },
+  "define_audience": {
+    "fr": "Déterminez l'audience de votre influenceur.",
+    "en": "Determine your influencer's audience.",
+    "es": "Determina la audiencia de tu influencer."
+  },
+  "define_engagement_rate": {
+    "fr": "Déterminez le taux d'engagement de votre influenceur.",
+    "en": "Determine your influencer's engagement rate.",
+    "es": "Determina la tasa de compromiso de tu influencer."
+  },
+  "no_results": {
+    "fr": "Aucun résultats",
+    "en": "No results",
+    "es": "Sin resultados"
+  },
+  "no_matching_influencer": {
+    "fr": "Aucun influenceur ne répond à vos critères.",
+    "en": "No influencer matches your criteria.",
+    "es": "Ningún influencer coincide con tus criterios."
+  },
+  "find_influencer": {
+    "fr": "Trouve ton influenceur",
+    "en": "Find your influencer",
+    "es": "Encuentra tu influencer"
+  },
+  "billing": {
+    "fr": "Facturation",
+    "en": "Billing",
+    "es": "Facturación"
+  },
+  "verify_company_info": {
+    "fr": "Vérifiez les informations de votre entreprise. Ces détails seront inclus dans les factures.",
+    "en": "Check your company information. These details will be included in the invoices.",
+    "es": "Verifica la información de tu empresa. Estos datos se incluirán en las facturas."
+  },
+
+  "incomplete_profile": {
+    "fr": "Profil incomplet",
+    "en": "Incomplete profile",
+    "es": "Perfil incompleto"
+  },
+  "complete_profile_to_collab": {
+    "fr": "Veuillez compléter votre profil pour pouvoir proposer une collaboration à un influenceur.",
+    "en": "Please complete your profile to propose a collaboration to an influencer.",
+    "es": "Por favor, completa tu perfil para poder proponer una colaboración a un influencer."
+  },
+  "influencer_incomplete_profile": {
+    "fr": "Le profil de cet influenceur semble incomplet. Vous ne pouvez pas lui proposer de collaboration pour le moment.",
+    "en": "This influencer's profile seems incomplete. You can't propose a collaboration at the moment.",
+    "es": "El perfil de este influencer parece incompleto. No puedes proponerle una colaboración por ahora."
+  },
+  "sort": {
+    "fr": "Trier",
+    "en": "Sort",
+    "es": "Ordenar"
+  },
+  "sort_by_collaborations": {
+    "fr": "Par Collaborations",
+    "en": "By Collaborations",
+    "es": "Por colaboraciones"
+  },
+  "sort_by_ratings": {
+    "fr": "Par notations",
+    "en": "By ratings",
+    "es": "Por valoraciones"
+  },
+  "sort_by_followers": {
+    "fr": "Par followers",
+    "en": "By followers",
+    "es": "Por seguidores"
+  },
+  "search_button": {
+    "fr": "Rechercher",
+    "en": "Search",
+    "es": "Buscar"
   }
 }

@@ -35,6 +35,7 @@ class _ForgotPasswordNewPasswordPageState extends State<ForgotPasswordNewPasswor
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: kWhite,
       body: SafeArea(
           child: BlocConsumer<AuthBloc, AuthState>(

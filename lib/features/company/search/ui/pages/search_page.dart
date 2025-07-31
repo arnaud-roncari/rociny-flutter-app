@@ -1,16 +1,20 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/radius.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
-import 'package:rociny/features/company/search/bloc/search_bloc.dart';
+import 'package:rociny/core/utils/extensions/translate.dart';
+import 'package:rociny/features/company/search/bloc/search/search_bloc.dart';
+import 'package:rociny/features/company/search/ui/widgets/influencer_summary_card.dart';
 
-/// TODO si pas de theme choisi, apres le get, mélanger les resultats
-/// TODO pouvoir refresh
+/// TODO ajouer collaboration et review
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
 
@@ -19,6 +23,12 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> with AutomaticKeepAliveClientMixin {
+  @override
+  void initState() {
+    context.read<SearchBloc>().add(GetInfluencersByTheme(theme: null));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -37,6 +47,57 @@ class _SearchPageState extends State<SearchPage> with AutomaticKeepAliveClientMi
             const SizedBox(height: kPadding20),
             buildThemes(),
             const SizedBox(height: kPadding20),
+            Expanded(
+              child: Builder(builder: (context) {
+                final bloc = context.read<SearchBloc>();
+                if (state is GetInfluencersByThemeLoading) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: kPrimary500,
+                    ),
+                  );
+                }
+
+                if (bloc.influencers.isEmpty) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "no_results".translate(),
+                          style: kBodyBold.copyWith(color: kGrey300),
+                        ),
+                        const SizedBox(height: kPadding5),
+                        Text(
+                          "no_matching_influencer".translate(),
+                          style: kBody.copyWith(color: kGrey300),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: kPadding20),
+                  child: RefreshIndicator(
+                    backgroundColor: kWhite,
+                    elevation: 0,
+                    color: kPrimary500,
+                    onRefresh: () async {
+                      bloc.add(GetInfluencersByTheme(theme: bloc.theme));
+                    },
+                    child: ListView.separated(
+                      itemCount: bloc.influencers.length,
+                      separatorBuilder: (context, index) => const SizedBox(height: kPadding20),
+                      itemBuilder: (context, index) {
+                        final influencer = bloc.influencers[index];
+                        return InfluencerSummaryCard(influencer: influencer);
+                      },
+                    ),
+                  ),
+                );
+              }),
+            )
           ],
         );
       },
@@ -65,8 +126,8 @@ class _SearchPageState extends State<SearchPage> with AutomaticKeepAliveClientMi
           color: Colors.transparent,
           child: InkWell(
             borderRadius: BorderRadius.circular(kRadius100),
-            onTap: () {
-              /// TODO
+            onTap: () async {
+              context.push('/company/home/filters');
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: kPadding15),
@@ -80,7 +141,7 @@ class _SearchPageState extends State<SearchPage> with AutomaticKeepAliveClientMi
                   ),
                   const SizedBox(width: kPadding15),
                   Text(
-                    "Trouve ton influenceur",
+                    "find_influencer".translate(),
                     style: kBody.copyWith(color: kGrey300),
                   ),
                 ],

@@ -23,6 +23,7 @@ class _ForgotPasswordCodeVerificationPageState extends State<ForgotPasswordCodeV
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: kWhite,
       body: SafeArea(
         child: BlocConsumer<AuthBloc, AuthState>(

@@ -16,7 +16,6 @@ import 'package:rociny/features/auth/ui/widgets/google_button.dart';
 import 'package:rociny/shared/decorations/textfield_decoration.dart';
 import 'package:rociny/shared/widgets/button.dart';
 
-/// TODO ajouter le scrolling pour le formulaire
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
@@ -28,6 +27,7 @@ class LoginPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: kWhite,
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {

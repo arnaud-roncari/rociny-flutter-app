@@ -14,7 +14,12 @@ import 'package:rociny/features/company/profile/ui/pages/update_description_page
 import 'package:rociny/features/company/profile/ui/pages/update_name_geolocation.dart';
 import 'package:rociny/features/company/profile/ui/pages/update_name_page.dart';
 import 'package:rociny/features/company/profile/ui/pages/update_social_networks_page.dart';
-import 'package:rociny/features/company/search/bloc/search_bloc.dart';
+import 'package:rociny/features/company/search/bloc/preview/preview_bloc.dart';
+import 'package:rociny/features/company/search/bloc/search/search_bloc.dart';
+import 'package:rociny/features/company/search/ui/pages/create_collaboration_page.dart';
+import 'package:rociny/features/company/search/ui/pages/filters_page.dart';
+import 'package:rociny/features/company/search/ui/pages/preview_page.dart';
+import 'package:rociny/features/company/search/ui/pages/results_page.dart';
 import 'package:rociny/features/company/settings/bloc/settings_bloc.dart';
 import 'package:rociny/features/company/settings/ui/pages/company_page.dart';
 import 'package:rociny/features/company/settings/ui/pages/credentials_page.dart';
@@ -96,6 +101,43 @@ List<RouteBase> kCompanyRoutes = [
         path: '/company/home',
         builder: (context, state) => const HomePage(),
         routes: [
+          /// Search
+          GoRoute(path: 'filters', builder: (context, state) => const FiltersPage(), routes: [
+            GoRoute(
+              path: 'results',
+              builder: (context, state) => const ResultsPage(),
+            ),
+          ]),
+
+          /// Preview influencer
+          ShellRoute(
+            builder: (context, state, child) {
+              return BlocProvider(
+                create: (_) => PreviewBloc(
+                  crashRepository: context.read<CrashRepository>(),
+                  companyRepository: context.read<CompanyRepository>(),
+                ),
+                child: child,
+              );
+            },
+            routes: [
+              GoRoute(
+                  path: 'preview',
+                  builder: (context, state) {
+                    int userId = state.extra as int;
+                    return PreviewPage(
+                      userId: userId,
+                    );
+                  },
+                  routes: [
+                    GoRoute(
+                      path: 'create/collaboration',
+                      builder: (context, state) => const CreateCollaborationPage(),
+                    ),
+                  ]),
+            ],
+          ),
+
           /// Profile
           GoRoute(
             path: 'profile/name',

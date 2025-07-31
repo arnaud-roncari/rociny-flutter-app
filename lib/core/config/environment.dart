@@ -1,4 +1,4 @@
-String kEndpoint = "https://4a59-2a01-cb1d-905e-7f00-5110-b0fb-fa03-7eb5.ngrok-free.app";
+String kEndpoint = "https://5bb98b01393d.ngrok-free.app";
 String kAppVersion = "1.0.0";
 // String kEndpoint = "http://127.0.0.1:3000";
 
@@ -11,7 +11,12 @@ late bool kFirstLaunch;
 late List<String> kDepartments;
 late List<String> kTargetAudiences;
 late List<String> kThemes;
-
-/// TODO comment ouvrir la page internent comme un gogole auth, venant du bas ?
-/// developer@rociny.com
-/// hstm090716)
+const List<String> kAgeRanges = [
+  '13-17',
+  '18-24',
+  '25-34',
+  '35-44',
+  '45-54',
+  '55-64',
+  '65+',
+];

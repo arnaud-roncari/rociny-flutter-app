@@ -25,6 +25,7 @@ class _RegisterCodeVerificationPageState extends State<RegisterCodeVerificationP
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: kWhite,
       body: SafeArea(
         child: BlocConsumer<AuthBloc, AuthState>(

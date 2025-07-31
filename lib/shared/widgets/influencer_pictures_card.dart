@@ -65,8 +65,8 @@ class _InfluencerPicturesCardState extends State<InfluencerPicturesCard> {
                     final isProfile = i == 0 && widget.influencer.profilePicture != null;
 
                     final imageUrl = isProfile
-                        ? "$kEndpoint/influencer/get-profile-picture?uuid=${widget.influencer.profilePicture}"
-                        : "$kEndpoint/influencer/get-portfolio/$pictureId";
+                        ? "$kEndpoint/influencer/get-profile-picture/${widget.influencer.userId}?uuid=${widget.influencer.profilePicture}"
+                        : "$kEndpoint/influencer/get-portfolio/$pictureId/${widget.influencer.userId}";
 
                     return InkWell(
                       onTap: () {

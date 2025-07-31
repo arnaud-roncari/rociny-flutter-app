@@ -15,3 +15,19 @@ class GetInfluencersByThemeFailed extends SearchState {
 
   GetInfluencersByThemeFailed({required this.exception});
 }
+
+/// ---
+
+class GetInfluencersByFiltersLoading extends SearchState {}
+
+class GetInfluencersByFiltersSuccess extends SearchState {}
+
+class GetInfluencersByFiltersFailed extends SearchState {
+  final AlertException exception;
+
+  GetInfluencersByFiltersFailed({required this.exception});
+}
+
+/// ---
+
+class InfluencersSorted extends SearchState {}

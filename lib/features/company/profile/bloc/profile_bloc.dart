@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rociny/core/repositories/company_repository.dart';

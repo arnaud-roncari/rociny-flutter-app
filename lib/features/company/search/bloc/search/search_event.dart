@@ -7,3 +7,11 @@ class GetInfluencersByTheme extends SearchEvent {
 
   GetInfluencersByTheme({required this.theme});
 }
+
+class GetInfluencersByFilters extends SearchEvent {}
+
+class SortInfluencers extends SearchEvent {
+  final SortType sortType;
+
+  SortInfluencers({required this.sortType});
+}

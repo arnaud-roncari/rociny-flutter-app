@@ -41,6 +41,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kWhite,
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
