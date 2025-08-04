@@ -17,8 +17,10 @@ import 'package:rociny/features/company/profile/ui/pages/update_social_networks_
 import 'package:rociny/features/company/search/bloc/preview/preview_bloc.dart';
 import 'package:rociny/features/company/search/bloc/search/search_bloc.dart';
 import 'package:rociny/features/company/search/ui/pages/create_collaboration_page.dart';
+import 'package:rociny/features/company/search/ui/pages/create_product_placement_page.dart';
 import 'package:rociny/features/company/search/ui/pages/filters_page.dart';
-import 'package:rociny/features/company/search/ui/pages/preview_page.dart';
+import 'package:rociny/features/company/search/ui/pages/preview_collaboration_page.dart';
+import 'package:rociny/features/company/search/ui/pages/preview_influencer_page.dart';
 import 'package:rociny/features/company/search/ui/pages/results_page.dart';
 import 'package:rociny/features/company/settings/bloc/settings_bloc.dart';
 import 'package:rociny/features/company/settings/ui/pages/company_page.dart';
@@ -122,19 +124,30 @@ List<RouteBase> kCompanyRoutes = [
             },
             routes: [
               GoRoute(
-                  path: 'preview',
-                  builder: (context, state) {
-                    int userId = state.extra as int;
-                    return PreviewPage(
-                      userId: userId,
-                    );
-                  },
-                  routes: [
-                    GoRoute(
-                      path: 'create/collaboration',
-                      builder: (context, state) => const CreateCollaborationPage(),
-                    ),
-                  ]),
+                path: 'preview',
+                builder: (context, state) {
+                  int userId = state.extra as int;
+                  return PreviewInfluencerPage(
+                    userId: userId,
+                  );
+                },
+                routes: [
+                  GoRoute(
+                    path: 'create/collaboration',
+                    builder: (context, state) => const CreateCollaborationPage(),
+                    routes: [
+                      GoRoute(
+                        path: 'create/product_placement',
+                        builder: (context, state) => const CreateProductPlacementPage(),
+                      ),
+                      GoRoute(
+                        path: 'preview',
+                        builder: (context, state) => const PreviewCollaborationPage(),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ],
           ),
 

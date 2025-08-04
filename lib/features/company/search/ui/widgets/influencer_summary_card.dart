@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
@@ -11,8 +10,9 @@ import 'package:rociny/features/company/search/data/models/influencer_summary_mo
 import 'package:rociny/features/company/search/ui/widgets/image_dots_indicator.dart';
 
 class InfluencerSummaryCard extends StatefulWidget {
+  final void Function(InfluencerSummary influencer) onPressed;
   final InfluencerSummary influencer;
-  const InfluencerSummaryCard({super.key, required this.influencer});
+  const InfluencerSummaryCard({super.key, required this.influencer, required this.onPressed});
 
   @override
   State<InfluencerSummaryCard> createState() => _InfluencerSummaryCardState();
@@ -78,7 +78,7 @@ class _InfluencerSummaryCardState extends State<InfluencerSummaryCard> {
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onTap: () {
-                        context.push("/company/home/preview", extra: widget.influencer.userId);
+                        widget.onPressed(widget.influencer);
                       },
                       child: Stack(
                         fit: StackFit.expand,

@@ -1,7 +1,9 @@
+import 'package:rociny/features/company/search/data/enums/product_placement_type.dart';
+
 class ProductPlacement {
   final int id;
   final int collaborationId;
-  final String type;
+  final ProductPlacementType type;
   final int quantity;
   final String? description;
   final int price;
@@ -21,7 +23,7 @@ class ProductPlacement {
     return ProductPlacement(
       id: json['id'],
       collaborationId: json['collaboration_id'],
-      type: json['type'],
+      type: ProductPlacementType.fromString(json['type']),
       quantity: json['quantity'],
       description: json['description'],
       price: json['price'],
@@ -29,15 +31,45 @@ class ProductPlacement {
     );
   }
 
+  static List<ProductPlacement> fromJsons(List<dynamic> jsonList) {
+    return jsonList.map((json) => ProductPlacement.fromJson(json as Map<String, dynamic>)).toList();
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,
       'collaboration_id': collaborationId,
-      'type': type,
+      'type': type.name,
       'quantity': quantity,
       'description': description,
       'price': price,
       'created_at': createdAt.toIso8601String(),
     };
+  }
+
+  factory ProductPlacement.create({
+    required ProductPlacementType type,
+    required int quantity,
+    required String description,
+    required int price,
+  }) {
+    return ProductPlacement(
+      id: 0,
+      collaborationId: 0,
+      type: type,
+      quantity: quantity,
+      description: description,
+      price: price,
+      createdAt: DateTime.now(),
+    );
+  }
+
+  bool isSameAs(ProductPlacement other) {
+    return collaborationId == other.collaborationId &&
+        type == other.type &&
+        quantity == other.quantity &&
+        description == other.description &&
+        price == other.price &&
+        createdAt.isAtSameMomentAs(other.createdAt);
   }
 }

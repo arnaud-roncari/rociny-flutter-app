@@ -1,3 +1,6 @@
+import 'package:rociny/features/auth/data/models/instagram_account.dart';
+import 'package:rociny/features/influencer/profile/data/models/influencer.dart';
+
 class InfluencerSummary {
   final int id;
   final int userId;
@@ -44,5 +47,21 @@ class InfluencerSummary {
     } else {
       return followers.toString();
     }
+  }
+
+  factory InfluencerSummary.fromInfluencer(
+    Influencer influencer,
+    InstagramAccount instagramAccount,
+  ) {
+    final int followerCount = instagramAccount.followersCount ?? 0;
+
+    return InfluencerSummary(
+      id: influencer.id,
+      userId: influencer.userId,
+      profilePicture: influencer.profilePicture!,
+      portfolio: influencer.portfolio,
+      name: influencer.name!,
+      followers: followerCount,
+    );
   }
 }

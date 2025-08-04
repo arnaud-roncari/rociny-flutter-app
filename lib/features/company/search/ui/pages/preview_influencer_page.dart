@@ -17,15 +17,15 @@ import 'package:rociny/shared/widgets/instagram_statistics.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
 /// TODO MAJ collab et review
-class PreviewPage extends StatefulWidget {
+class PreviewInfluencerPage extends StatefulWidget {
   final int userId;
-  const PreviewPage({super.key, required this.userId});
+  const PreviewInfluencerPage({super.key, required this.userId});
 
   @override
-  State<PreviewPage> createState() => _PreviewPageState();
+  State<PreviewInfluencerPage> createState() => _PreviewInfluencerPageState();
 }
 
-class _PreviewPageState extends State<PreviewPage> {
+class _PreviewInfluencerPageState extends State<PreviewInfluencerPage> {
   @override
   void initState() {
     super.initState();

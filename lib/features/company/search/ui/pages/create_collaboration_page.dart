@@ -31,8 +31,8 @@ class _CreateCollaborationPageState extends State<CreateCollaborationPage> {
         child: BlocConsumer<PreviewBloc, PreviewState>(
           listener: (context, state) {
             if (state is StepUpdated) {
-              if (state.index == 3) {
-                /// Prévisualisere
+              if (state.index == 4) {
+                context.push("/company/home/preview/create/collaboration/preview");
                 return;
               }
 
@@ -43,12 +43,12 @@ class _CreateCollaborationPageState extends State<CreateCollaborationPage> {
             }
           },
           builder: (context, state) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kPadding20),
-              child: Column(
-                children: [
-                  const SizedBox(height: kPadding20),
-                  Row(
+            return Column(
+              children: [
+                const SizedBox(height: kPadding20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: kPadding20),
+                  child: Row(
                     children: [
                       SvgButton(
                         path: 'assets/svg/left_arrow.svg',
@@ -70,44 +70,27 @@ class _CreateCollaborationPageState extends State<CreateCollaborationPage> {
                       const SizedBox(width: kPadding20),
                     ],
                   ),
-                  Center(
-                    child: Text(
-                      "${"step".translate()} ${index + 1} ${"out_of".translate()} 4",
-                      style: kCaption.copyWith(color: kGrey300),
-                    ),
+                ),
+                Center(
+                  child: Text(
+                    "${"step".translate()} ${index + 1} ${"out_of".translate()} 4",
+                    style: kCaption.copyWith(color: kGrey300),
                   ),
-                  const SizedBox(height: kPadding30),
-                  Expanded(
-                    child: PageView(
-                      physics: const NeverScrollableScrollPhysics(),
-                      controller: pageController,
-                      children: const [
-                        BillingForm(),
-                        TitleForm(),
-                        ProductPlacementForm(),
-                        FileForm(),
-                      ],
-                    ),
+                ),
+                const SizedBox(height: kPadding30),
+                Expanded(
+                  child: PageView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    controller: pageController,
+                    children: const [
+                      BillingForm(),
+                      TitleForm(),
+                      ProductPlacementForm(),
+                      FileForm(),
+                    ],
                   ),
-
-                  /// vu qu'on peut pas ignorer, il faut pouvoir autoriser le suivant
-                  // const SizedBox(height: kPadding20),
-                  // Button(
-                  //   backgroundColor: kPrimary700,
-                  //   title: "next_step".translate(),
-                  //   onPressed: () {
-                  //     if (index != 4) {
-                  //       setState(() {
-                  //         index += 1;
-                  //       });
-                  //       pageController.jumpToPage(index);
-                  //     } else {
-                  //       context.go("/company/complete_profile/legal_illustration");
-                  //     }
-                  //   },
-                  // ),
-                ],
-              ),
+                ),
+              ],
             );
           },
         ),

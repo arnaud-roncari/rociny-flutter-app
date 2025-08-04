@@ -1,10 +1,13 @@
+import 'package:rociny/features/company/search/data/models/product_placement_model.dart';
+
 class Collaboration {
   final int id;
   final int companyId;
   final int influencerId;
-  final String title;
+  String title;
   final List<String> files;
   final String status;
+  final List<ProductPlacement> productPlacements;
   final DateTime createdAt;
 
   Collaboration({
@@ -14,9 +17,21 @@ class Collaboration {
     required this.title,
     required this.files,
     required this.status,
+    required this.productPlacements,
     required this.createdAt,
   });
-
+  factory Collaboration.empty() {
+    return Collaboration(
+      id: 0,
+      companyId: 0,
+      influencerId: 0,
+      title: '',
+      files: [],
+      status: '',
+      productPlacements: [],
+      createdAt: DateTime.now(),
+    );
+  }
   factory Collaboration.fromJson(Map<String, dynamic> json) {
     return Collaboration(
       id: json['id'],
@@ -25,6 +40,7 @@ class Collaboration {
       title: json['title'],
       files: List<String>.from(json['files'] ?? []),
       status: json['status'],
+      productPlacements: ProductPlacement.fromJsons(json['product_placements']),
       createdAt: DateTime.parse(json['created_at']),
     );
   }

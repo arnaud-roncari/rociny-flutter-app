@@ -82,7 +82,11 @@ class _ResultsPageState extends State<ResultsPage> {
                           separatorBuilder: (context, index) => const SizedBox(height: kPadding20),
                           itemBuilder: (context, index) {
                             final influencer = bloc.influencers[index];
-                            return InfluencerSummaryCard(influencer: influencer);
+                            return InfluencerSummaryCard(
+                                onPressed: (influencer) {
+                                  context.push("/company/home/preview", extra: influencer.userId);
+                                },
+                                influencer: influencer);
                           },
                         ),
                       ),

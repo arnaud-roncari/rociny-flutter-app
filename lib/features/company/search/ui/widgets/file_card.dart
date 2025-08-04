@@ -1,0 +1,63 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:path/path.dart';
+import 'package:rociny/core/constants/colors.dart';
+import 'package:rociny/core/constants/paddings.dart';
+import 'package:rociny/core/constants/text_styles.dart';
+import 'package:rociny/shared/decorations/container_shadow_decoration.dart';
+
+/// TODO rpévisualiser et telecharger
+class FileCard extends StatelessWidget {
+  final void Function(File file)? onRemoved;
+  final File file;
+  const FileCard({super.key, this.onRemoved, required this.file});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: 80,
+      decoration: kContainerShadow,
+      child: Padding(
+        padding: const EdgeInsets.all(kPadding20),
+        child: Row(
+          children: [
+            Text(
+              basenameWithoutExtension(file.path),
+              style: kTitle2Bold,
+            ),
+            const Spacer(),
+            if (onRemoved != null)
+              PopupMenuButton<String>(
+                tooltip: "",
+                padding: EdgeInsets.zero,
+                menuPadding: EdgeInsets.zero,
+                color: kWhite,
+                child: SvgPicture.asset(
+                  "assets/svg/menu_vertical.svg",
+                  width: 20,
+                  height: 20,
+                ),
+                itemBuilder: (BuildContext context) {
+                  return [
+                    PopupMenuItem<String>(
+                      value: "delete",
+                      child: Text(
+                        "Supprimer",
+                        style: kBody,
+                      ),
+                      onTap: () {
+                        onRemoved!(file);
+                      },
+                    ),
+                  ];
+                },
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -23,3 +23,15 @@ class StepUpdated extends PreviewState {
 
   StepUpdated({required this.index});
 }
+
+/// ---
+
+class ProductPlacementCreated extends PreviewState {}
+
+class ProductPlacementRemoved extends PreviewState {}
+
+class ProductPlacementUpdated extends PreviewState {}
+
+/// ---
+
+class FilesUpdated extends PreviewState {}

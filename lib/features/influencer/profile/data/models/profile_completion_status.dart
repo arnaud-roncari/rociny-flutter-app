@@ -74,4 +74,20 @@ class ProfileCompletionStatus {
     }
     return true;
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'has_profile_picture': hasProfilePicture,
+      'has_name': hasName,
+      'has_description': hasDescription,
+      'has_department': hasDepartment,
+      'has_social_networks': hasSocialNetworks,
+      'has_legal_documents': hasLegalDocuments,
+      'has_portfolio': hasPortofolio,
+      'has_themes': hasThemes,
+      'has_target_audience': hasTargetAudience,
+      'has_stripe_completed': hasStripeCompleted,
+      'has_instagram_account': hasInstagramAccount,
+    };
+  }
 }

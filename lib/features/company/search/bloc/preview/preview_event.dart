@@ -15,3 +15,27 @@ class UpdateStep extends PreviewEvent {
 
   UpdateStep({required this.index});
 }
+
+/// ---
+
+class CreateProductPlacement extends PreviewEvent {
+  final ProductPlacement productPlacement;
+
+  CreateProductPlacement({required this.productPlacement});
+}
+
+class RemoveProductPlacement extends PreviewEvent {
+  final ProductPlacement productPlacement;
+
+  RemoveProductPlacement({required this.productPlacement});
+}
+
+/// ---
+
+class PickFiles extends PreviewEvent {}
+
+class RemoveFile extends PreviewEvent {
+  final File file;
+
+  RemoveFile({required this.file});
+}
