@@ -154,7 +154,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             style: kCaption.copyWith(color: kPrimary500),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                context.push("/preview_pdf", extra: "$kEndpoint/policy/terms-of-use");
+                                context.push("/preview_pdf/network", extra: "$kEndpoint/policy/terms-of-use");
                               },
                           ),
                           TextSpan(
@@ -166,7 +166,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             style: kCaption.copyWith(color: kPrimary500),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                context.push("/preview_pdf", extra: "$kEndpoint/policy/privacy-policy");
+                                context.push("/preview_pdf/network", extra: "$kEndpoint/policy/privacy-policy");
                               },
                           ),
                         ],

@@ -5,7 +5,7 @@ class ProductPlacement {
   final int collaborationId;
   final ProductPlacementType type;
   final int quantity;
-  final String? description;
+  final String description;
   final int price;
   final DateTime createdAt;
 
@@ -14,7 +14,7 @@ class ProductPlacement {
     required this.collaborationId,
     required this.type,
     required this.quantity,
-    this.description,
+    required this.description,
     required this.price,
     required this.createdAt,
   });

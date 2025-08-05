@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:go_router/go_router.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:rociny/core/config/environment.dart';
@@ -14,6 +16,7 @@ import 'package:rociny/router/company_routes.dart';
 import 'package:rociny/router/influencer_routes.dart';
 import 'package:rociny/shared/pages/facebook_page.dart';
 import 'package:rociny/shared/pages/preview_picture_page.dart';
+import 'package:rociny/shared/widgets/preview_network_pdf.dart';
 import 'package:rociny/shared/widgets/preview_pdf.dart';
 
 final GoRouter kRouter = GoRouter(
@@ -52,10 +55,17 @@ final GoRouter kRouter = GoRouter(
       builder: (context, state) => const ForgotPasswordNewPasswordPage(),
     ),
     GoRoute(
-      path: '/preview_pdf',
+      path: '/preview_pdf/network',
       builder: (context, state) {
         String url = state.extra as String;
-        return PreviewPdfPage(url: url);
+        return PreviewNetworkPdfPage(url: url);
+      },
+    ),
+    GoRoute(
+      path: '/preview_pdf',
+      builder: (context, state) {
+        File file = state.extra as File;
+        return PreviewPdfPage(file: file);
       },
     ),
     ...kInfluencerRoutes,

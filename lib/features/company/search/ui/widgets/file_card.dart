@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:path/path.dart';
+import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
@@ -20,42 +22,53 @@ class FileCard extends StatelessWidget {
       width: double.infinity,
       height: 80,
       decoration: kContainerShadow,
-      child: Padding(
-        padding: const EdgeInsets.all(kPadding20),
-        child: Row(
-          children: [
-            Text(
-              basenameWithoutExtension(file.path),
-              style: kTitle2Bold,
-            ),
-            const Spacer(),
-            if (onRemoved != null)
-              PopupMenuButton<String>(
-                tooltip: "",
-                padding: EdgeInsets.zero,
-                menuPadding: EdgeInsets.zero,
-                color: kWhite,
-                child: SvgPicture.asset(
-                  "assets/svg/menu_vertical.svg",
-                  width: 20,
-                  height: 20,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(kPadding10),
+          onTap: () {
+            /// TODO
+            context.push("/preview_pdf/network", extra: "$kEndpoint/policy/privacy-policy");
+            // context.push('/preview_pdf', extra: file);
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(kPadding20),
+            child: Row(
+              children: [
+                Text(
+                  basenameWithoutExtension(file.path),
+                  style: kTitle2Bold,
                 ),
-                itemBuilder: (BuildContext context) {
-                  return [
-                    PopupMenuItem<String>(
-                      value: "delete",
-                      child: Text(
-                        "Supprimer",
-                        style: kBody,
-                      ),
-                      onTap: () {
-                        onRemoved!(file);
-                      },
+                const Spacer(),
+                if (onRemoved != null)
+                  PopupMenuButton<String>(
+                    tooltip: "",
+                    padding: EdgeInsets.zero,
+                    menuPadding: EdgeInsets.zero,
+                    color: kWhite,
+                    child: SvgPicture.asset(
+                      "assets/svg/menu_vertical.svg",
+                      width: 20,
+                      height: 20,
                     ),
-                  ];
-                },
-              ),
-          ],
+                    itemBuilder: (BuildContext context) {
+                      return [
+                        PopupMenuItem<String>(
+                          value: "delete",
+                          child: Text(
+                            "Supprimer",
+                            style: kBody,
+                          ),
+                          onTap: () {
+                            onRemoved!(file);
+                          },
+                        ),
+                      ];
+                    },
+                  ),
+              ],
+            ),
+          ),
         ),
       ),
     );
