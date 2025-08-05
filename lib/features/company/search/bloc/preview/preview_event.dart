@@ -39,3 +39,11 @@ class RemoveFile extends PreviewEvent {
 
   RemoveFile({required this.file});
 }
+
+/// ---
+
+class CreateCollaboration extends PreviewEvent {
+  final bool isDraft;
+
+  CreateCollaboration({required this.isDraft});
+}

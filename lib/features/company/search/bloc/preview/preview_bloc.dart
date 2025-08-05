@@ -28,6 +28,7 @@ class PreviewBloc extends Bloc<PreviewEvent, PreviewState> {
     on<RemoveProductPlacement>(removeProductPlacement);
     on<PickFiles>(pickFiles);
     on<RemoveFile>(removeFile);
+    on<CreateCollaboration>(createCollaboration);
   }
   final CrashRepository crashRepository;
   final CompanyRepository companyRepository;
@@ -62,6 +63,8 @@ class PreviewBloc extends Bloc<PreviewEvent, PreviewState> {
 
       companyProfileCompletion = await companyRepository.getProfileCompletionStatus();
       company = await companyRepository.getCompany();
+
+      collaboration.influencerId = influencer.id;
 
       emit(InitializeSuccess());
     } catch (exception, stack) {
@@ -107,5 +110,28 @@ class PreviewBloc extends Bloc<PreviewEvent, PreviewState> {
   void removeFile(RemoveFile event, Emitter<PreviewState> emit) async {
     files.removeWhere((f) => f.path == event.file.path);
     emit(FilesUpdated());
+  }
+
+  void createCollaboration(CreateCollaboration event, Emitter<PreviewState> emit) async {
+    try {
+      emit(CreateCollaborationLoading());
+      late Collaboration c;
+      if (event.isDraft) {
+        c = await companyRepository.createDraftCollaboration(collaboration);
+      } else {
+        c = await companyRepository.createCollaboration(collaboration);
+      }
+      await companyRepository.uploadCollaborationFiles(c.id, files);
+
+      emit(CreateCollaborationSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(CreateCollaborationFailed(exception: alertException));
+    }
   }
 }

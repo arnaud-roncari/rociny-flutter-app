@@ -35,3 +35,15 @@ class ProductPlacementUpdated extends PreviewState {}
 /// ---
 
 class FilesUpdated extends PreviewState {}
+
+/// ---
+
+class CreateCollaborationLoading extends PreviewState {}
+
+class CreateCollaborationSuccess extends PreviewState {}
+
+class CreateCollaborationFailed extends PreviewState {
+  final AlertException exception;
+
+  CreateCollaborationFailed({required this.exception});
+}

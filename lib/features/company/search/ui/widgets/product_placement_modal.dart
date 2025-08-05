@@ -27,9 +27,12 @@ class ProductPlacementModal extends StatelessWidget {
           children: [
             Text(type.productPlacementTypeToString(), style: kTitle1Bold),
             const SizedBox(height: kPadding10),
-            Text(
-              description,
-              style: kBody.copyWith(color: kGrey300),
+            SizedBox(
+              width: double.infinity,
+              child: Text(
+                description,
+                style: kBody.copyWith(color: kGrey300),
+              ),
             ),
             const SizedBox(height: kPadding30),
             SizedBox(height: MediaQuery.of(context).padding.bottom),

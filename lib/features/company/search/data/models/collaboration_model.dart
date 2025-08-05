@@ -3,7 +3,7 @@ import 'package:rociny/features/company/search/data/models/product_placement_mod
 class Collaboration {
   final int id;
   final int companyId;
-  final int influencerId;
+  int influencerId;
   String title;
   final List<String> files;
   final String status;
@@ -53,7 +53,17 @@ class Collaboration {
       'title': title,
       'files': files,
       'status': status,
+      'product_placements': ProductPlacement.toJsons(productPlacements),
       'created_at': createdAt.toIso8601String(),
+    };
+  }
+
+  Map<String, dynamic> toCreateJson() {
+    return {
+      'company_id': companyId,
+      'influencer_id': influencerId,
+      'title': title,
+      'product_placements': ProductPlacement.toCreateJsons(productPlacements),
     };
   }
 }

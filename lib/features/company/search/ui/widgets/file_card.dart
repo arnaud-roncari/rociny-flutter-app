@@ -4,13 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:path/path.dart';
-import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/shared/decorations/container_shadow_decoration.dart';
 
-/// TODO rpévisualiser et telecharger
 class FileCard extends StatelessWidget {
   final void Function(File file)? onRemoved;
   final File file;
@@ -27,19 +25,19 @@ class FileCard extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(kPadding10),
           onTap: () {
-            /// TODO
-            context.push("/preview_pdf/network", extra: "$kEndpoint/policy/privacy-policy");
-            // context.push('/preview_pdf', extra: file);
+            context.push('/preview_pdf', extra: file);
           },
           child: Padding(
             padding: const EdgeInsets.all(kPadding20),
             child: Row(
               children: [
-                Text(
-                  basenameWithoutExtension(file.path),
-                  style: kTitle2Bold,
+                Expanded(
+                  child: Text(
+                    basenameWithoutExtension(file.path),
+                    style: kTitle2Bold,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-                const Spacer(),
                 if (onRemoved != null)
                   PopupMenuButton<String>(
                     tooltip: "",

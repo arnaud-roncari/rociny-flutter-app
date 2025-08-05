@@ -7,6 +7,7 @@ import 'package:rociny/features/auth/data/models/instagram_account.dart';
 import 'package:rociny/features/company/complete_profile/data/dtos/setup_intent_dto.dart';
 import 'package:rociny/features/company/profile/data/models/company.dart';
 import 'package:rociny/features/company/profile/data/models/profile_completion_status.dart';
+import 'package:rociny/features/company/search/data/models/collaboration_model.dart';
 import 'package:rociny/features/company/search/data/models/influencer_summary_model.dart';
 import 'package:rociny/features/company/search/data/models/inlfuencer_filters.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_status.dart';
@@ -463,5 +464,99 @@ class CompanyRepository {
     }
     final body = jsonDecode(response.body);
     return InstagramAccount.fromMap(body);
+  }
+
+  Future<Collaboration> createCollaboration(Collaboration collab) async {
+    final response = await post(
+      Uri.parse('$kEndpoint/company/create-collaboration'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(collab.toCreateJson()),
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+
+    final body = jsonDecode(response.body);
+    return Collaboration.fromJson(body);
+  }
+
+  Future<Collaboration> createDraftCollaboration(Collaboration collab) async {
+    final response = await post(
+      Uri.parse('$kEndpoint/company/create-draft-collaboration'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(collab.toCreateJson()),
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+
+    final body = jsonDecode(response.body);
+    return Collaboration.fromJson(body);
+  }
+
+  Future<Collaboration> getCollaboration(int id) async {
+    final response = await get(
+      Uri.parse('$kEndpoint/company/get-collaboration/$id'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+
+    final body = jsonDecode(response.body);
+    return Collaboration.fromJson(body);
+  }
+
+  Future<List<Collaboration>> getCompanyCollaborations() async {
+    final response = await get(
+      Uri.parse('$kEndpoint/company/collaborations'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+
+    final List<dynamic> body = jsonDecode(response.body);
+    return body.map((e) => Collaboration.fromJson(e)).toList();
+  }
+
+  Future<List<String>> uploadCollaborationFiles(
+    int collaborationId,
+    List<File> files,
+  ) async {
+    final uri = Uri.parse('$kEndpoint/company/upload-collaboration-files/$collaborationId');
+    final request = MultipartRequest('POST', uri)..headers['Authorization'] = 'Bearer $kJwt';
+
+    for (final file in files) {
+      request.files.add(await MultipartFile.fromPath('files', file.path));
+    }
+
+    final response = await request.send();
+    final responseBody = await response.stream.bytesToString();
+
+    if (response.statusCode >= 400) {
+      throw ApiException.fromJson(response.statusCode, jsonDecode(responseBody));
+    }
+
+    final body = jsonDecode(responseBody);
+    return List<String>.from(body['files']);
   }
 }
