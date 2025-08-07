@@ -10,6 +10,7 @@ import 'package:rociny/features/company/search/bloc/search/search_bloc.dart';
 import 'package:rociny/features/company/search/ui/widgets/engagment_range_slider.dart';
 import 'package:rociny/features/company/search/ui/widgets/followers_range_slider.dart';
 import 'package:rociny/features/company/search/ui/widgets/tag_field.dart';
+import 'package:rociny/features/company/search/ui/widgets/theme_field.dart';
 import 'package:rociny/shared/widgets/button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
@@ -58,7 +59,7 @@ class FiltersPage extends StatelessWidget {
                         "choose_topics".translate(),
                         style: kBody.copyWith(color: kGrey300),
                       ),
-                      TagsField(
+                      ThemesField(
                         hint: "topic".translate(),
                         initialValues: filters.themes,
                         values: kThemes,

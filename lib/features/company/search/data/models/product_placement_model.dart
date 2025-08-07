@@ -1,6 +1,5 @@
 import 'package:rociny/features/company/search/data/enums/product_placement_type.dart';
 
-/// TODO ajouter els exception du service collaboration
 class ProductPlacement {
   final int id;
   final ProductPlacementType type;

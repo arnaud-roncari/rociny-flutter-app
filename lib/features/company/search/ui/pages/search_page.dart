@@ -190,7 +190,7 @@ class _SearchPageState extends State<SearchPage> with AutomaticKeepAliveClientMi
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: kPadding20),
                     child: Text(
-                      theme,
+                      theme.translate(),
                       style: isSelected ? kCaptionBold.copyWith(color: kWhite) : kCaption.copyWith(color: kBlack),
                     ),
                   ),

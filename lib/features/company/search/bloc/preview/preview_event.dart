@@ -47,3 +47,11 @@ class CreateCollaboration extends PreviewEvent {
 
   CreateCollaboration({required this.isDraft});
 }
+
+/// ---
+
+class GetProductPlacementPrice extends PreviewEvent {
+  final ProductPlacementType type;
+
+  GetProductPlacementPrice({required this.type});
+}

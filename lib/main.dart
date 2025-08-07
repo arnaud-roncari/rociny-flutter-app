@@ -16,6 +16,8 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:rociny/router/routes.dart';
 import 'package:rociny/shared/decorations/theme.dart';
 
+// TODO dans l'algo backend, ajouter le facteur de review multiplieur (ue)
+
 /// TODO DOC
 /// NOTE : Pour mise en prod:
 /// - changer les apikey stripe front et back

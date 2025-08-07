@@ -12,7 +12,6 @@ import 'package:rociny/features/company/profile/data/models/company.dart';
 import 'package:rociny/features/company/search/bloc/preview/preview_bloc.dart';
 import 'package:rociny/shared/widgets/button.dart';
 
-/// TODO translate
 class BillingForm extends StatefulWidget {
   const BillingForm({super.key});
 
@@ -51,7 +50,7 @@ class _BillingFormState extends State<BillingForm> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Entreprise",
+                    "company".translate(),
                     style: kTitle2Bold,
                   ),
                   const Spacer(),
@@ -116,7 +115,7 @@ class _BillingFormState extends State<BillingForm> {
             children: [
               const Spacer(),
               Text(
-                "Modifiez ces informations dans ",
+                "${"edit_in_settings_part1".translate()} ",
                 style: kCaption.copyWith(color: kGrey300),
               ),
               InkWell(
@@ -127,7 +126,7 @@ class _BillingFormState extends State<BillingForm> {
                   context.push("/company/home/settings");
                 },
                 child: Text(
-                  "les paramètres.",
+                  "edit_in_settings_part1".translate(),
                   style: kCaptionBold.copyWith(color: kPrimary500),
                 ),
               ),

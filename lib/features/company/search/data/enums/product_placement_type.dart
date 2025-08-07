@@ -1,5 +1,4 @@
-/// TODO transalte
-library;
+import 'package:rociny/core/utils/extensions/translate.dart';
 
 enum ProductPlacementType {
   post,
@@ -25,7 +24,7 @@ enum ProductPlacementType {
       return "Story";
     }
     if (this == ProductPlacementType.giveaway) {
-      return "Jeu concours";
+      return "giveaway".translate();
     }
     return "";
   }

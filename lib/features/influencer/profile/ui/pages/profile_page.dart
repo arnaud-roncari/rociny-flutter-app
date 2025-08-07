@@ -347,7 +347,7 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
                   ),
                   child: Center(
                     child: Text(
-                      themes[index],
+                      themes[index].translate(),
                       style: kCaption,
                     ),
                   ),

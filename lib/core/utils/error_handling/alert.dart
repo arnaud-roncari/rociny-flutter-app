@@ -86,6 +86,9 @@ class AlertException {
         case "security:instagram:not_found":
           message = "instagram_not_found".translate();
           break;
+        case "security:collaboration:not_found":
+          message = "collaboration_not_found".translate();
+          break;
         case "security:instagram:already_exist":
           message = "instagram_already_exists".translate();
           break;

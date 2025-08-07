@@ -40,7 +40,11 @@
     "en": "No Instagram account found",
     "es": "No se encontró ninguna cuenta de Instagram"
   },
-
+  "collaboration_not_found": {
+    "fr": "Aucune collaboration trouvée",
+    "en": "No collaboration found",
+    "es": "No se encontró ninguna colaboración"
+  },
   "advanced_search": {
     "fr": "Recherche avancée",
     "en": "Advanced search",
@@ -384,11 +388,7 @@
     "en": "Department",
     "es": "Departamento"
   },
-  "description": {
-    "fr": "Description",
-    "en": "Description",
-    "es": "Descripción"
-  },
+
   "describe_yourself": {
     "fr": "Décrivez-vous en quelques lignes.",
     "en": "Describe yourself in a few lines.",
@@ -1027,11 +1027,7 @@
     "en": "Type of content published",
     "es": "Tipo de contenido publicado"
   },
-  "propose_collaboration": {
-    "fr": "Proposer une collaboration",
-    "en": "Propose a collaboration",
-    "es": "Proponer una colaboración"
-  },
+
   "search": {
     "fr": "Recherche",
     "en": "Search",
@@ -1154,5 +1150,206 @@
     "fr": "Rechercher",
     "en": "Search",
     "es": "Buscar"
+  },
+  "beauty": {
+    "fr": "Beauté",
+    "en": "Beauty",
+    "es": "Belleza"
+  },
+  "luxury": {
+    "fr": "Luxe",
+    "en": "Luxury",
+    "es": "Lujo"
+  },
+  "fitness": {
+    "fr": "Fitness",
+    "en": "Fitness",
+    "es": "Fitness"
+  },
+  "tech": {
+    "fr": "Technologie",
+    "en": "Tech",
+    "es": "Tecnología"
+  },
+  "food": {
+    "fr": "Cuisine",
+    "en": "Food",
+    "es": "Comida"
+  },
+  "travel": {
+    "fr": "Voyage",
+    "en": "Travel",
+    "es": "Viaje"
+  },
+  "finance": {
+    "fr": "Finance",
+    "en": "Finance",
+    "es": "Finanzas"
+  },
+  "fashion": {
+    "fr": "Mode",
+    "en": "Fashion",
+    "es": "Moda"
+  },
+  "parenting": {
+    "fr": "Parentalité",
+    "en": "Parenting",
+    "es": "Parentalidad"
+  },
+  "personal_dev": {
+    "fr": "Développement personnel",
+    "en": "Personal Development",
+    "es": "Desarrollo personal"
+  },
+  "animals": {
+    "fr": "Animaux",
+    "en": "Animals",
+    "es": "Animales"
+  },
+  "education": {
+    "fr": "Éducation",
+    "en": "Education",
+    "es": "Educación"
+  },
+  "giveaway": {
+    "fr": "Jeu concours",
+    "en": "Giveaway",
+    "es": "Sorteo"
+  },
+  "create_placement": {
+    "fr": "Créer un placement",
+    "en": "Create a placement",
+    "es": "Crear una colocación"
+  },
+  "content_creation": {
+    "fr": "Création de contenu",
+    "en": "Content creation",
+    "es": "Creación de contenido"
+  },
+  "choose_content_type": {
+    "fr": "Déterminez le type de création de contenu qui convient le mieux à vos objectifs.",
+    "en": "Determine the type of content creation that best fits your goals.",
+    "es": "Determina el tipo de creación de contenido que mejor se adapta a tus objetivos."
+  },
+  "number": {
+    "fr": "Nombre",
+    "en": "Number",
+    "es": "Cantidad"
+  },
+  "number_instruction_part1": {
+    "fr": "Combien de",
+    "en": "How many",
+    "es": "Cuántos"
+  },
+  "number_instruction_part2": {
+    "fr": "souhaitez-vous que l'influenceur crée ?",
+    "en": "do you want the influencer to create?",
+    "es": "quieres que cree el influencer?"
+  },
+  "description": {
+    "fr": "Description",
+    "en": "Description",
+    "es": "Descripción"
+  },
+  "description_instruction": {
+    "fr": "Rédigez une description complète de vos attentes vis-à-vis de l'influenceur.",
+    "en": "Write a detailed description of your expectations for the influencer.",
+    "es": "Escribe una descripción detallada de tus expectativas hacia el influencer."
+  },
+  "price": {
+    "fr": "Prix",
+    "en": "Price",
+    "es": "Precio"
+  },
+  "set_price_instruction": {
+    "fr": "Définissez le prix du placement.",
+    "en": "Set the price for the placement.",
+    "es": "Establece el precio de la colocación."
+  },
+  "create": {
+    "fr": "Créer",
+    "en": "Create",
+    "es": "Crear"
+  },
+  "recommended_price_prefix": {
+    "fr": "Le prix recommandé est de",
+    "en": "The recommended price is",
+    "es": "El precio recomendado es"
+  },
+  "recommended_price_suffix": {
+    "fr": "euros.",
+    "en": "euros.",
+    "es": "euros."
+  },
+  "collaboration_sent": {
+    "fr": "Collaboration envoyée.",
+    "en": "Collaboration sent.",
+    "es": "Colaboración enviada."
+  },
+  "preview": {
+    "fr": "Prévisualisation",
+    "en": "Preview",
+    "es": "Vista previa"
+  },
+  "placements": {
+    "fr": "Placements",
+    "en": "Placements",
+    "es": "Colocaciones"
+  },
+  "placements_instruction": {
+    "fr": "Les placements de produits à réaliser par l'influenceur.",
+    "en": "Product placements to be created by the influencer.",
+    "es": "Colocaciones de producto que debe realizar el influencer."
+  },
+  "file": {
+    "fr": "Fichier",
+    "en": "File",
+    "es": "Archivo"
+  },
+  "file_instruction": {
+    "fr": "Les fichiers complémentaires, accessibles par l'influenceur.",
+    "en": "Additional files, accessible by the influencer.",
+    "es": "Archivos complementarios, accesibles por el influencer."
+  },
+  "create_draft": {
+    "fr": "Créer un brouillon",
+    "en": "Create a draft",
+    "es": "Crear un borrador"
+  },
+  "propose_collaboration": {
+    "fr": "Proposer une collaboration",
+    "en": "Propose a collaboration",
+    "es": "Proponer una colaboración"
+  },
+  "invoice": {
+    "fr": "Facture",
+    "en": "Invoice",
+    "es": "Factura"
+  },
+
+  "rociny_commission": {
+    "fr": "Commission Rociny",
+    "en": "Rociny Commission",
+    "es": "Comisión Rociny"
+  },
+  "total": {
+    "fr": "Total",
+    "en": "Total",
+    "es": "Total"
+  },
+  "company": {
+    "fr": "Entreprise",
+    "en": "Company",
+    "es": "Empresa"
+  },
+  "edit_in_settings_part1": {
+    "fr": "Modifiez ces informations dans",
+    "en": "Edit this information in",
+    "es": "Edita esta información en"
+  },
+  "edit_in_settings_part2": {
+    "fr": "les paramètres.",
+    "en": "settings.",
+    "es": "la configuración."
   }
 }

@@ -9,6 +9,7 @@ import 'package:rociny/core/utils/error_handling/api_exception.dart';
 import 'package:rociny/features/auth/data/models/instagram_account.dart';
 import 'package:rociny/features/company/profile/data/models/company.dart';
 import 'package:rociny/features/company/profile/data/models/profile_completion_status.dart';
+import 'package:rociny/features/company/search/data/enums/product_placement_type.dart';
 import 'package:rociny/features/company/search/data/models/collaboration_model.dart';
 import 'package:rociny/features/company/search/data/models/product_placement_model.dart';
 import 'package:rociny/features/influencer/profile/data/models/influencer.dart';
@@ -29,6 +30,7 @@ class PreviewBloc extends Bloc<PreviewEvent, PreviewState> {
     on<PickFiles>(pickFiles);
     on<RemoveFile>(removeFile);
     on<CreateCollaboration>(createCollaboration);
+    on<GetProductPlacementPrice>(getProductPlacementPrice);
   }
   final CrashRepository crashRepository;
   final CompanyRepository companyRepository;
@@ -45,6 +47,8 @@ class PreviewBloc extends Bloc<PreviewEvent, PreviewState> {
   /// Collaboration
   late Collaboration collaboration;
   late List<File> files;
+
+  int? suggestedPrice;
 
   void initialize(Initialize event, Emitter<PreviewState> emit) async {
     try {
@@ -132,6 +136,22 @@ class PreviewBloc extends Bloc<PreviewEvent, PreviewState> {
       /// Format exception to be displayed.
       AlertException alertException = AlertException.fromException(exception);
       emit(CreateCollaborationFailed(exception: alertException));
+    }
+  }
+
+  void getProductPlacementPrice(GetProductPlacementPrice event, Emitter<PreviewState> emit) async {
+    try {
+      emit(GetProductPlacementPriceLoading());
+      suggestedPrice = await companyRepository.calculateProductPlacementPrice(influencer.userId, event.type);
+      emit(GetProductPlacementPriceSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(GetProductPlacementPriceFailed(exception: alertException));
     }
   }
 }

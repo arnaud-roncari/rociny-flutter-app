@@ -52,7 +52,8 @@ class _UpdateThemesFormState extends State<UpdateThemesForm> {
           onChanged: (value) {
             if (value.length >= 3) {
               setState(() {
-                fitleredThemes = kThemes.where((theme) => theme.toLowerCase().startsWith(value.toLowerCase())).toList();
+                fitleredThemes =
+                    kThemes.where((theme) => theme.translate().toLowerCase().startsWith(value.toLowerCase())).toList();
               });
             } else {
               setState(() {
@@ -74,7 +75,7 @@ class _UpdateThemesFormState extends State<UpdateThemesForm> {
 
                   return SelectableChip(
                     onTap: () {
-                      if (!isSelected && themes.length < 5) {
+                      if (!isSelected && themes.length < 3) {
                         setState(() {
                           themes.add(theme);
                         });
@@ -84,7 +85,7 @@ class _UpdateThemesFormState extends State<UpdateThemesForm> {
                         });
                       }
                     },
-                    label: theme,
+                    label: theme.translate(),
                     isSelected: isSelected,
                   );
                 }),

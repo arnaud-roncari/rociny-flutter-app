@@ -191,7 +191,7 @@ class _PreviewInfluencerPageState extends State<PreviewInfluencerPage> {
                   ),
                   child: Center(
                     child: Text(
-                      themes[index],
+                      themes[index].translate(),
                       style: kCaption,
                     ),
                   ),

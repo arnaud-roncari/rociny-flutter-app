@@ -7,6 +7,7 @@ import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
+import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/company/search/bloc/preview/preview_bloc.dart';
 import 'package:rociny/features/company/search/data/models/influencer_summary_model.dart';
 import 'package:rociny/features/company/search/data/models/product_placement_model.dart';
@@ -16,7 +17,6 @@ import 'package:rociny/features/company/search/ui/widgets/product_placement_card
 import 'package:rociny/shared/widgets/button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
-/// TODO translate
 class PreviewCollaborationPage extends StatefulWidget {
   const PreviewCollaborationPage({super.key});
 
@@ -34,7 +34,7 @@ class _PreviewCollaborationPageState extends State<PreviewCollaborationPage> {
         child: BlocConsumer<PreviewBloc, PreviewState>(
           listener: (context, state) {
             if (state is CreateCollaborationSuccess) {
-              Alert.showSuccess(context, "Collaboration envoyée.");
+              Alert.showSuccess(context, "collaboration_sent".translate());
               context.go("/company/home");
             }
 
@@ -66,7 +66,7 @@ class _PreviewCollaborationPageState extends State<PreviewCollaborationPage> {
                         },
                       ),
                       const Spacer(),
-                      Text("Prévisualisation", style: kTitle1Bold),
+                      Text("preview".translate(), style: kTitle1Bold),
                       const Spacer(),
                       const SizedBox(width: kPadding20),
                     ],
@@ -93,12 +93,12 @@ class _PreviewCollaborationPageState extends State<PreviewCollaborationPage> {
                               ),
                               const SizedBox(height: kPadding30),
                               Text(
-                                "Placements",
+                                "placements".translate(),
                                 style: kTitle1Bold,
                               ),
                               const SizedBox(height: kPadding10),
                               Text(
-                                "Les placements de produits à réaliser par l'influenceur.",
+                                "placements_instruction".translate(),
                                 style: kBody.copyWith(color: kGrey300),
                               ),
                             ],
@@ -142,12 +142,12 @@ class _PreviewCollaborationPageState extends State<PreviewCollaborationPage> {
 
                               /// TODO retirer si pas de fichier
                               Text(
-                                "Fichier",
+                                "file".translate(),
                                 style: kTitle1Bold,
                               ),
                               const SizedBox(height: kPadding10),
                               Text(
-                                "Les fichiers complémentaires, accessibles par l'influenceur.",
+                                "file_instruction".translate(),
                                 style: kBody.copyWith(color: kGrey300),
                               ),
                             ],
@@ -194,14 +194,14 @@ class _PreviewCollaborationPageState extends State<PreviewCollaborationPage> {
                               const SizedBox(height: kPadding30),
                               Button(
                                 backgroundColor: kBlack,
-                                title: "Créer un brouillon",
+                                title: "create_draft".translate(),
                                 onPressed: () {
                                   bloc.add(CreateCollaboration(isDraft: true));
                                 },
                               ),
                               const SizedBox(height: kPadding10),
                               Button(
-                                title: "Proposer une collaboration",
+                                title: "propose_collaboration".translate(),
                                 onPressed: () {
                                   bloc.add(CreateCollaboration(isDraft: false));
                                 },
@@ -238,12 +238,12 @@ class _PreviewCollaborationPageState extends State<PreviewCollaborationPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Facture", style: kTitle1Bold),
+          Text("invoice".translate(), style: kTitle1Bold),
           const SizedBox(height: kPadding10),
           Row(
             children: [
               Text(
-                "Collaboration",
+                "collaboration".translate(),
                 style: kBody.copyWith(color: kGrey300),
               ),
               const Spacer(),
@@ -257,7 +257,7 @@ class _PreviewCollaborationPageState extends State<PreviewCollaborationPage> {
           Row(
             children: [
               Text(
-                "Commission Rociny",
+                "rociny_commission".translate(),
                 style: kBody.copyWith(color: kGrey300),
               ),
               const Spacer(),
@@ -271,7 +271,7 @@ class _PreviewCollaborationPageState extends State<PreviewCollaborationPage> {
           Row(
             children: [
               Text(
-                "Total (EUR)",
+                "${"total".translate()} (EUR)",
                 style: kBodyBold,
               ),
               const Spacer(),

@@ -7,6 +7,7 @@ import 'package:rociny/features/auth/data/models/instagram_account.dart';
 import 'package:rociny/features/company/complete_profile/data/dtos/setup_intent_dto.dart';
 import 'package:rociny/features/company/profile/data/models/company.dart';
 import 'package:rociny/features/company/profile/data/models/profile_completion_status.dart';
+import 'package:rociny/features/company/search/data/enums/product_placement_type.dart';
 import 'package:rociny/features/company/search/data/models/collaboration_model.dart';
 import 'package:rociny/features/company/search/data/models/influencer_summary_model.dart';
 import 'package:rociny/features/company/search/data/models/inlfuencer_filters.dart';
@@ -502,6 +503,23 @@ class CompanyRepository {
 
     final body = jsonDecode(response.body);
     return Collaboration.fromJson(body);
+  }
+
+  Future<int> calculateProductPlacementPrice(int userId, ProductPlacementType productPlacement) async {
+    final response = await get(
+      Uri.parse('$kEndpoint/company/calculate-product-placement-price/$userId/${productPlacement.name}'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+
+    final body = jsonDecode(response.body);
+    return body['price'] as int;
   }
 
   Future<Collaboration> getCollaboration(int id) async {

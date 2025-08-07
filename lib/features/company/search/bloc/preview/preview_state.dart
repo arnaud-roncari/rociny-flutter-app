@@ -47,3 +47,15 @@ class CreateCollaborationFailed extends PreviewState {
 
   CreateCollaborationFailed({required this.exception});
 }
+
+/// ---
+
+class GetProductPlacementPriceLoading extends PreviewState {}
+
+class GetProductPlacementPriceSuccess extends PreviewState {}
+
+class GetProductPlacementPriceFailed extends PreviewState {
+  final AlertException exception;
+
+  GetProductPlacementPriceFailed({required this.exception});
+}
