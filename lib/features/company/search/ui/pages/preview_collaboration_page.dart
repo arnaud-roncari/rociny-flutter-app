@@ -133,56 +133,60 @@ class _PreviewCollaborationPageState extends State<PreviewCollaborationPage> {
                           );
                         }),
 
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: kPadding20),
-                          child: Column(
+                        if (bloc.files.isNotEmpty)
+                          Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const SizedBox(height: kPadding10),
-
-                              /// TODO retirer si pas de fichier
-                              Text(
-                                "file".translate(),
-                                style: kTitle1Bold,
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: kPadding20),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(height: kPadding10),
+                                    Text(
+                                      "file".translate(),
+                                      style: kTitle1Bold,
+                                    ),
+                                    const SizedBox(height: kPadding10),
+                                    Text(
+                                      "file_instruction".translate(),
+                                      style: kBody.copyWith(color: kGrey300),
+                                    ),
+                                  ],
+                                ),
                               ),
-                              const SizedBox(height: kPadding10),
-                              Text(
-                                "file_instruction".translate(),
-                                style: kBody.copyWith(color: kGrey300),
+                              Builder(
+                                builder: (context) {
+                                  final bloc = context.read<PreviewBloc>();
+                                  List<Widget> children = [];
+                                  for (File file in bloc.files) {
+                                    children.add(
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: kPadding20),
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context).size.width - 60,
+                                          child: FileCard(
+                                            file: file,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  children.add(const SizedBox(width: kPadding20));
+
+                                  return SizedBox(
+                                    height: 120,
+                                    child: SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Row(
+                                        children: children,
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
                             ],
                           ),
-                        ),
-                        Builder(
-                          builder: (context) {
-                            final bloc = context.read<PreviewBloc>();
-                            List<Widget> children = [];
-                            for (File file in bloc.files) {
-                              children.add(
-                                Padding(
-                                  padding: const EdgeInsets.only(left: kPadding20),
-                                  child: SizedBox(
-                                    width: MediaQuery.of(context).size.width - 60,
-                                    child: FileCard(
-                                      file: file,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }
-                            children.add(const SizedBox(width: kPadding20));
-
-                            return SizedBox(
-                              height: 120,
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                  children: children,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
                         const SizedBox(height: kPadding10),
 
                         buildBill(),

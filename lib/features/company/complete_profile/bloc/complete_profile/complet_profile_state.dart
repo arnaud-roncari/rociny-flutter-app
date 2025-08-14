@@ -111,3 +111,39 @@ class CreateSetupIntentFailed extends CompleteProfileState {
 
   CreateSetupIntentFailed({required this.exception});
 }
+
+/// ---
+
+class UpdateTradeNameLoading extends CompleteProfileState {}
+
+class UpdateTradeNameSuccess extends CompleteProfileState {}
+
+class UpdateTradeNameFailed extends CompleteProfileState {
+  final AlertException exception;
+
+  UpdateTradeNameFailed({required this.exception});
+}
+
+/// ---
+
+class UpdateBillingAddressLoading extends CompleteProfileState {}
+
+class UpdateBillingAddressSuccess extends CompleteProfileState {}
+
+class UpdateBillingAddressFailed extends CompleteProfileState {
+  final AlertException exception;
+
+  UpdateBillingAddressFailed({required this.exception});
+}
+
+/// ---
+
+class UpdateVATNumberLoading extends CompleteProfileState {}
+
+class UpdateVATNumberSuccess extends CompleteProfileState {}
+
+class UpdateVATNumberFailed extends CompleteProfileState {
+  final AlertException exception;
+
+  UpdateVATNumberFailed({required this.exception});
+}

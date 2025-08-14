@@ -1,4 +1,4 @@
-import 'package:rociny/features/auth/data/models/instagram_account.dart';
+import 'package:rociny/features/auth/data/models/instagram_account_model.dart';
 import 'package:rociny/features/influencer/profile/data/models/influencer.dart';
 
 class InfluencerSummary {

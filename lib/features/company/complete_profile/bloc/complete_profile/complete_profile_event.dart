@@ -61,3 +61,23 @@ class UpdateDocument extends CompleteProfileEvent {
 }
 
 class CreateSetupIntent extends CompleteProfileEvent {}
+
+class UpdateTradeName extends CompleteProfileEvent {
+  final String tradeName;
+
+  UpdateTradeName({required this.tradeName});
+}
+
+class UpdateVATNumber extends CompleteProfileEvent {
+  final String vatNumber;
+
+  UpdateVATNumber({required this.vatNumber});
+}
+
+class UpdateBillingAddress extends CompleteProfileEvent {
+  final String city;
+  final String street;
+  final String postalCode;
+
+  UpdateBillingAddress({required this.city, required this.street, required this.postalCode});
+}

@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart';
 import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
-import 'package:rociny/features/auth/data/models/instagram_account.dart';
+import 'package:rociny/features/auth/data/models/instagram_account_model.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_status.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_type.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/platform_type.dart';
@@ -107,6 +107,22 @@ class InfluencerRepository {
         'Content-Type': 'application/json',
       },
       body: jsonEncode({'name': name}),
+    );
+
+    if (response.statusCode >= 400) {
+      Map<String, dynamic> body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+  }
+
+  Future<void> updateVATNumber(String vatNumber) async {
+    var response = await put(
+      Uri.parse('$kEndpoint/influencer/update-vat-number'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({'vat_number': vatNumber}),
     );
 
     if (response.statusCode >= 400) {

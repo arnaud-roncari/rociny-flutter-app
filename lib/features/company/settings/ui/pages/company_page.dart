@@ -10,6 +10,7 @@ import 'package:rociny/features/company/settings/bloc/settings_bloc.dart';
 import 'package:rociny/features/influencer/settings/ui/widgets/company_section_button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
+/// TODO ajouter form entreprise (dans backend, ajouter les conditions poru si compte complété dans juridique)
 class CompanyPage extends StatefulWidget {
   const CompanyPage({super.key});
 
@@ -90,6 +91,31 @@ class _CompanyPageState extends State<CompanyPage> {
                   },
                   isCompleted: bloc.hasCompletedStripe,
                   name: "Stripe",
+                ),
+                const SizedBox(height: kPadding15),
+                CompanySectionButton(
+                  onTap: () {
+                    context.push("/company/home/settings/company/trade-name");
+                  },
+                  isCompleted: bloc.company.tradeName != null,
+                  name: "Nom",
+                ),
+                const SizedBox(height: kPadding15),
+                CompanySectionButton(
+                  onTap: () {
+                    context.push("/company/home/settings/company/billing-address");
+                  },
+                  isCompleted:
+                      bloc.company.postalCode != null && bloc.company.street != null && bloc.company.city != null,
+                  name: "Adresse de facturation",
+                ),
+                const SizedBox(height: kPadding15),
+                CompanySectionButton(
+                  onTap: () {
+                    context.push("/company/home/settings/company/vat");
+                  },
+                  isCompleted: bloc.company.vatNumber == null ? null : true,
+                  name: "Numéro de TVA",
                 ),
               ],
             );

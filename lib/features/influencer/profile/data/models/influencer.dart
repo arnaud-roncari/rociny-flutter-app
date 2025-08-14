@@ -11,6 +11,7 @@ class Influencer {
   List<String> themes;
   List<String> targetAudience;
   DateTime createdAt;
+  String? vatNumber;
   List<SocialNetwork> socialNetworks;
 
   Influencer({
@@ -21,6 +22,7 @@ class Influencer {
     this.name,
     this.department,
     this.description,
+    this.vatNumber,
     this.themes = const [],
     this.targetAudience = const [],
     required this.createdAt,
@@ -31,6 +33,7 @@ class Influencer {
     return Influencer(
       id: map['id'] as int,
       userId: map['user_id'] as int,
+      vatNumber: map['vat_number'],
       profilePicture: map['profile_picture'],
       portfolio: List<String>.from(map['portfolio'] ?? []),
       name: map['name'],

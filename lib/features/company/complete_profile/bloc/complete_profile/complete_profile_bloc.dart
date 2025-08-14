@@ -31,6 +31,9 @@ class CompleteProfileBloc extends Bloc<CompleteProfileEvent, CompleteProfileStat
     on<DeleteSocialNetwork>(deleteSocialNetwork);
     on<UpdateDocument>(updateDocument);
     on<CreateSetupIntent>(createSetupIntent);
+    on<UpdateVATNumber>(updateVATNumber);
+    on<UpdateTradeName>(updateTradeName);
+    on<UpdateBillingAddress>(updateBillingAddress);
   }
   final CrashRepository crashRepository;
   final CompanyRepository companyRepository;
@@ -39,6 +42,57 @@ class CompleteProfileBloc extends Bloc<CompleteProfileEvent, CompleteProfileStat
   late Company company;
 
   LegalDocumentStatus debugStatus = LegalDocumentStatus.missing;
+
+  void updateTradeName(UpdateTradeName event, Emitter<CompleteProfileState> emit) async {
+    try {
+      emit(UpdateTradeNameLoading());
+      await companyRepository.updateTradeName(event.tradeName);
+      company = await companyRepository.getCompany();
+      emit(ProfileUpdated());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(UpdateTradeNameFailed(exception: alertException));
+    }
+  }
+
+  void updateBillingAddress(UpdateBillingAddress event, Emitter<CompleteProfileState> emit) async {
+    try {
+      emit(UpdateBillingAddressLoading());
+      await companyRepository.updateBillingAddress(event.city, event.street, event.postalCode);
+      company = await companyRepository.getCompany();
+      emit(ProfileUpdated());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(UpdateBillingAddressFailed(exception: alertException));
+    }
+  }
+
+  void updateVATNumber(UpdateVATNumber event, Emitter<CompleteProfileState> emit) async {
+    try {
+      emit(UpdateVATNumberLoading());
+      await companyRepository.updateVATNumber(event.vatNumber);
+      company = await companyRepository.getCompany();
+      emit(ProfileUpdated());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(UpdateVATNumberFailed(exception: alertException));
+    }
+  }
 
   void getProfile(GetProfile event, Emitter<CompleteProfileState> emit) async {
     try {

@@ -3,6 +3,10 @@ import 'package:go_router/go_router.dart';
 import 'package:rociny/core/repositories/company_repository.dart';
 import 'package:rociny/core/repositories/crash_repository.dart';
 import 'package:rociny/features/auth/data/repositories/auth_repository.dart';
+import 'package:rociny/features/company/collaborations/bloc/collaboration_bloc.dart';
+import 'package:rociny/features/company/collaborations/bloc/collaborations_bloc.dart';
+import 'package:rociny/features/company/collaborations/ui/pages/collaboration_page.dart';
+import 'package:rociny/features/company/collaborations/ui/pages/review_page.dart';
 import 'package:rociny/features/company/complete_profile/bloc/complete_profile/complete_profile_bloc.dart';
 import 'package:rociny/features/company/complete_profile/ui/pages/complete_legal_page.dart';
 import 'package:rociny/features/company/complete_profile/ui/pages/complete_profile_page.dart';
@@ -34,6 +38,9 @@ import 'package:rociny/features/company/settings/ui/pages/password_page.dart';
 import 'package:rociny/features/company/settings/ui/pages/policies_page.dart';
 import 'package:rociny/features/company/settings/ui/pages/settings_page.dart';
 import 'package:rociny/features/company/settings/ui/pages/stripe_page.dart';
+import 'package:rociny/features/company/settings/ui/pages/update_billing_address_page.dart';
+import 'package:rociny/features/company/settings/ui/pages/update_trade_name_page.dart';
+import 'package:rociny/features/company/settings/ui/pages/update_vat_number_page.dart';
 
 List<RouteBase> kCompanyRoutes = [
   ShellRoute(
@@ -94,6 +101,13 @@ List<RouteBase> kCompanyRoutes = [
             ),
             child: child,
           ),
+          BlocProvider(
+            create: (_) => CollaborationsBloc(
+              crashRepository: context.read<CrashRepository>(),
+              companyRepository: context.read<CompanyRepository>(),
+            ),
+            child: child,
+          ),
         ],
         child: child,
       );
@@ -103,6 +117,41 @@ List<RouteBase> kCompanyRoutes = [
         path: '/company/home',
         builder: (context, state) => const HomePage(),
         routes: [
+          /// Collaborations
+          ShellRoute(
+            builder: (context, state, child) {
+              return BlocProvider(
+                create: (context) => CollaborationBloc(
+                  crashRepository: context.read<CrashRepository>(),
+                  companyRepository: context.read<CompanyRepository>(),
+                ),
+                child: child,
+              );
+            },
+            routes: [
+              GoRoute(
+                path: 'preview_collaboration',
+                builder: (context, state) {
+                  final extra = state.extra as Map<String, dynamic>?;
+                  int userId = extra?["user_id"] as int;
+                  int collaborationId = extra?["collaboration_id"] as int;
+                  return CollaborationPage(
+                    userId: userId,
+                    collaborationId: collaborationId,
+                  );
+                },
+                routes: [
+                  GoRoute(
+                    path: 'review',
+                    builder: (context, state) {
+                      return const ReviewPage();
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+
           /// Search
           GoRoute(path: 'filters', builder: (context, state) => const FiltersPage(), routes: [
             GoRoute(
@@ -210,6 +259,18 @@ List<RouteBase> kCompanyRoutes = [
                 GoRoute(
                   path: 'stripe',
                   builder: (context, state) => const StripePage(),
+                ),
+                GoRoute(
+                  path: 'vat',
+                  builder: (context, state) => const UpdateVATNumberPage(),
+                ),
+                GoRoute(
+                  path: 'trade-name',
+                  builder: (context, state) => const UpdateTradeNamePage(),
+                ),
+                GoRoute(
+                  path: 'billing-address',
+                  builder: (context, state) => const UpdateBillingAddressPage(),
                 ),
               ]),
             ],

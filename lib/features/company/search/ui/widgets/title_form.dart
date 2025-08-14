@@ -8,7 +8,6 @@ import 'package:rociny/features/company/search/bloc/preview/preview_bloc.dart';
 import 'package:rociny/shared/decorations/textfield_decoration.dart';
 import 'package:rociny/shared/widgets/button.dart';
 
-/// TODO translate
 class TitleForm extends StatefulWidget {
   const TitleForm({super.key});
 

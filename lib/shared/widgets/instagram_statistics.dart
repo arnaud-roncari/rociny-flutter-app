@@ -4,7 +4,7 @@ import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/radius.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
-import 'package:rociny/features/auth/data/models/instagram_account.dart';
+import 'package:rociny/features/auth/data/models/instagram_account_model.dart';
 import 'package:rociny/shared/widgets/bar_chart.dart';
 import 'package:rociny/shared/widgets/donut_chart.dart';
 import 'package:rociny/shared/widgets/horizontal_chart.dart';

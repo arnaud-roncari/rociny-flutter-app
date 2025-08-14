@@ -86,16 +86,18 @@ class _SearchPageState extends State<SearchPage> with AutomaticKeepAliveClientMi
                     onRefresh: () async {
                       bloc.add(GetInfluencersByTheme(theme: bloc.theme));
                     },
-                    child: ListView.separated(
+                    child: ListView.builder(
                       itemCount: bloc.influencers.length,
-                      separatorBuilder: (context, index) => const SizedBox(height: kPadding20),
                       itemBuilder: (context, index) {
                         final influencer = bloc.influencers[index];
-                        return InfluencerSummaryCard(
-                          onPressed: (influencer) {
-                            context.push("/company/home/preview", extra: influencer.userId);
-                          },
-                          influencer: influencer,
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: kPadding20),
+                          child: InfluencerSummaryCard(
+                            onPressed: (influencer) {
+                              context.push("/company/home/preview", extra: influencer.userId);
+                            },
+                            influencer: influencer,
+                          ),
                         );
                       },
                     ),

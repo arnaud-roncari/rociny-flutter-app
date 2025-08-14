@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:http/http.dart';
 import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
-import 'package:rociny/features/auth/data/models/instagram_account.dart';
+import 'package:rociny/features/auth/data/models/instagram_account_model.dart';
+import 'package:rociny/features/auth/data/models/review_model.dart';
+import 'package:rociny/features/company/collaborations/data/model/collaboration_summary_model.dart';
 import 'package:rociny/features/company/complete_profile/data/dtos/setup_intent_dto.dart';
 import 'package:rociny/features/company/profile/data/models/company.dart';
 import 'package:rociny/features/company/profile/data/models/profile_completion_status.dart';
@@ -576,5 +578,208 @@ class CompanyRepository {
 
     final body = jsonDecode(responseBody);
     return List<String>.from(body['files']);
+  }
+
+  Future<List<CollaborationSummary>> getCollaborationSummaries() async {
+    final response = await get(
+      Uri.parse('$kEndpoint/company/get-collaboration-summaries'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+
+    final body = jsonDecode(response.body);
+    return CollaborationSummary.fromJsons(body);
+  }
+
+  Future<void> cancelCollaboration(int collaborationid) async {
+    final response = await get(
+      Uri.parse('$kEndpoint/company/collaboration/cancel/$collaborationid'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+  }
+
+  Future<void> sendDraftCollaboration(int collaborationid) async {
+    final response = await get(
+      Uri.parse('$kEndpoint/company/send-draft-collaboration/$collaborationid'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+  }
+
+  Future<String> supplyCollaboration(int collaborationId) async {
+    final response = await get(
+      Uri.parse('$kEndpoint/company/supply-collaboration/$collaborationId'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+    final body = jsonDecode(response.body);
+    return body["client_secret"];
+  }
+
+  Future<void> validateCollaboration(int collaborationId) async {
+    final response = await get(
+      Uri.parse('$kEndpoint/company/validate-collaboration/$collaborationId'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+  }
+
+  Future<void> createReview(int collaborationId, int reviewedId, int stars, String description) async {
+    final response = await post(
+      Uri.parse('$kEndpoint/company/create-review'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'collaboration_id': collaborationId,
+        'reviewed_id': reviewedId,
+        "stars": stars,
+        "description": description,
+      }),
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+  }
+
+  Future<Review?> getReview(int collaborationId, int authorId, int reviewedId) async {
+    final response = await get(
+      Uri.parse('$kEndpoint/company/get-review/$collaborationId/$authorId/$reviewedId'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+    final body = jsonDecode(response.body);
+    if (body["review"] == null) {
+      return null;
+    }
+    return Review.fromJson(body["review"]);
+  }
+
+  Future<List<Review>> getReviewsByAuthor(int authorId) async {
+    final response = await get(
+      Uri.parse('$kEndpoint/company/get-reviews/author/$authorId'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+    final body = jsonDecode(response.body);
+    return Review.fromJsons(body);
+  }
+
+  Future<List<Review>> getReviewsByReviewed(int reviewedId) async {
+    final response = await get(
+      Uri.parse('$kEndpoint/company/get-reviews/reviewed/$reviewedId'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+    final body = jsonDecode(response.body);
+    return Review.fromJsons(body);
+  }
+
+  Future<void> updateVATNumber(String vatNumber) async {
+    var response = await put(
+      Uri.parse('$kEndpoint/company/update-vat-number'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({'vat_number': vatNumber}),
+    );
+
+    if (response.statusCode >= 400) {
+      Map<String, dynamic> body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+  }
+
+  Future<void> updateTradeName(String tradeName) async {
+    var response = await put(
+      Uri.parse('$kEndpoint/company/update-trade-name'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({'trade_name': tradeName}),
+    );
+
+    if (response.statusCode >= 400) {
+      Map<String, dynamic> body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+  }
+
+  Future<void> updateBillingAddress(
+    String city,
+    String street,
+    String postalCode,
+  ) async {
+    var response = await put(
+      Uri.parse('$kEndpoint/company/update-billing-address'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'city': city,
+        'street': street,
+        'postal_code': postalCode,
+      }),
+    );
+
+    if (response.statusCode >= 400) {
+      Map<String, dynamic> body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:path/path.dart';
+import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
@@ -11,8 +12,9 @@ import 'package:rociny/shared/decorations/container_shadow_decoration.dart';
 
 class FileCard extends StatelessWidget {
   final void Function(File file)? onRemoved;
-  final File file;
-  const FileCard({super.key, this.onRemoved, required this.file});
+  final File? file;
+  final String? url;
+  const FileCard({super.key, this.onRemoved, this.file, this.url});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,11 @@ class FileCard extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(kPadding10),
           onTap: () {
-            context.push('/preview_pdf', extra: file);
+            if (file != null) {
+              context.push('/preview_pdf', extra: file);
+            } else if (url != null) {
+              context.push("/preview_pdf/network", extra: "$kEndpoint/company/collaboration-file/$url");
+            }
           },
           child: Padding(
             padding: const EdgeInsets.all(kPadding20),
@@ -33,7 +39,7 @@ class FileCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    basenameWithoutExtension(file.path),
+                    getFileName(),
                     style: kTitle2Bold,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -58,7 +64,7 @@ class FileCard extends StatelessWidget {
                             style: kBody,
                           ),
                           onTap: () {
-                            onRemoved!(file);
+                            onRemoved!(file!);
                           },
                         ),
                       ];
@@ -70,5 +76,14 @@ class FileCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String getFileName() {
+    if (file != null) {
+      return basenameWithoutExtension(file!.path);
+    } else if (url != null) {
+      return url!.split('-').first;
+    }
+    return '';
   }
 }

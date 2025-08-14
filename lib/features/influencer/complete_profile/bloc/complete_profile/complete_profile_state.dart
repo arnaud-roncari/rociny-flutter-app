@@ -9,6 +9,17 @@ class CompleteProfileInitial extends CompleteProfileState {}
 class ProfileUpdated extends CompleteProfileState {}
 
 /// ---
+class UpdateVATNumberLoading extends CompleteProfileState {}
+
+class UpdateVATNumberSuccess extends CompleteProfileState {}
+
+class UpdateVATNumberFailed extends CompleteProfileState {
+  final AlertException exception;
+
+  UpdateVATNumberFailed({required this.exception});
+}
+
+/// ---
 class GetProfileLoading extends CompleteProfileState {}
 
 class GetProfileSuccess extends CompleteProfileState {}

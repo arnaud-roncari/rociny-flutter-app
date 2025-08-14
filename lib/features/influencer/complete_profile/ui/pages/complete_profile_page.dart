@@ -180,7 +180,7 @@ class _CompleteProfilPageState extends State<CompleteProfilPage> {
                       });
                       pageController.jumpToPage(index);
                     } else {
-                      context.go("/influencer/complete_profile/legal");
+                      context.go("/influencer/complete_profile/legal_illustration");
                     }
                   },
                 ),

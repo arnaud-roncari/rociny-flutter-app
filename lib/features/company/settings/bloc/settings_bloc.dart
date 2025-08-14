@@ -10,10 +10,11 @@ import 'package:rociny/core/repositories/company_repository.dart';
 import 'package:rociny/core/repositories/crash_repository.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
-import 'package:rociny/features/auth/data/models/fetched_instagram_account.dart';
-import 'package:rociny/features/auth/data/models/instagram_account.dart';
+import 'package:rociny/features/auth/data/models/fetched_instagram_account_model.dart';
+import 'package:rociny/features/auth/data/models/instagram_account_model.dart';
 import 'package:rociny/features/auth/data/repositories/auth_repository.dart';
 import 'package:rociny/features/company/complete_profile/data/dtos/setup_intent_dto.dart';
+import 'package:rociny/features/company/profile/data/models/company.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_status.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_type.dart';
 
@@ -38,6 +39,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<GetInstagramAccounts>(getInstagramAccounts);
     on<CreateInstagramAccount>(createInstagramAccount);
     on<LogoutFacebook>(logoutFacebook);
+    on<UpdateVATNumber>(updateVATNumber);
+    on<UpdateTradeName>(updateTradeName);
+    on<UpdateBillingAddress>(updateBillingAddress);
   }
   final CrashRepository crashRepository;
   final CompanyRepository companyRepository;
@@ -56,6 +60,61 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   late List<FetchedInstagramAccount> instagramAccounts;
   InstagramAccount? instagramAccount;
   bool hasInstagramAccount = false;
+  late Company company;
+
+  void updateTradeName(UpdateTradeName event, Emitter<SettingsState> emit) async {
+    try {
+      emit(UpdateTradeNameLoading());
+      await companyRepository.updateTradeName(event.tradeName);
+      company = await companyRepository.getCompany();
+
+      emit(UpdateTradeNameSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(UpdateTradeNameFailed(exception: alertException));
+    }
+  }
+
+  void updateBillingAddress(UpdateBillingAddress event, Emitter<SettingsState> emit) async {
+    try {
+      emit(UpdateBillingAddressLoading());
+      await companyRepository.updateBillingAddress(event.city, event.street, event.postalCode);
+      company = await companyRepository.getCompany();
+
+      emit(UpdateBillingAddressSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(UpdateBillingAddressFailed(exception: alertException));
+    }
+  }
+
+  void updateVATNumber(UpdateVATNumber event, Emitter<SettingsState> emit) async {
+    try {
+      emit(UpdateVATNumberLoading());
+      await companyRepository.updateVATNumber(event.vatNumber);
+      company = await companyRepository.getCompany();
+
+      emit(UpdateVATNumberSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(UpdateVATNumberFailed(exception: alertException));
+    }
+  }
 
   void getIsRegisteredLocally(GetIsRegisteredLocally event, Emitter<SettingsState> emit) async {
     try {
@@ -167,6 +226,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
       hasCompletedLegalDocuments = await companyRepository.hasCompletedLegalDocuments();
       hasCompletedStripe = await companyRepository.hasCompletedStripe();
+      company = await companyRepository.getCompany();
 
       emit(GetCompanySectionsStatusSuccess());
     } catch (exception, stack) {

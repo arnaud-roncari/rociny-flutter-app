@@ -7,6 +7,8 @@ class ProfileCompletionStatus {
   final bool hasLegalDocuments;
   final bool hasStripePaymentMethod;
   final bool hasInstagramAccount;
+  final bool hasBillingAddress;
+  final bool hasTradeName;
 
   ProfileCompletionStatus({
     required this.hasProfilePicture,
@@ -17,6 +19,8 @@ class ProfileCompletionStatus {
     required this.hasLegalDocuments,
     required this.hasStripePaymentMethod,
     required this.hasInstagramAccount,
+    required this.hasBillingAddress,
+    required this.hasTradeName,
   });
 
   factory ProfileCompletionStatus.fromMap(Map<String, dynamic> map) {
@@ -29,6 +33,8 @@ class ProfileCompletionStatus {
       hasLegalDocuments: map['has_legal_documents'] ?? false,
       hasStripePaymentMethod: map['has_stripe_payment_method'] ?? false,
       hasInstagramAccount: map['has_instagram_account'] ?? false,
+      hasBillingAddress: map['has_billing_address'] ?? false,
+      hasTradeName: map['has_trade_name'] ?? false,
     );
   }
 
@@ -45,7 +51,7 @@ class ProfileCompletionStatus {
   }
 
   bool hasCompletedLegal() {
-    if (!hasStripePaymentMethod || !hasLegalDocuments) {
+    if (!hasStripePaymentMethod || !hasLegalDocuments || !hasBillingAddress || !hasTradeName) {
       return false;
     }
 

@@ -60,4 +60,15 @@ class Validator {
     }
     return null;
   }
+
+  static String? isMinimumLength(String? value, int min) {
+    if (value == null || value.isEmpty) {
+      return 'empty_field'.translate();
+    }
+
+    if (value.length < 13) {
+      return "$min caractères minimum.";
+    }
+    return null;
+  }
 }

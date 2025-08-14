@@ -36,14 +36,20 @@ class _CreateProductPlacementPageState extends State<CreateProductPlacementPage>
     context.read<PreviewBloc>().add(GetProductPlacementPrice(type: ProductPlacementType.post));
   }
 
-  /// TODO scrollable
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kWhite,
       body: SafeArea(
         child: BlocConsumer<PreviewBloc, PreviewState>(
-          listener: (context, state) {},
+          listener: (context, state) {
+            final bloc = context.read<PreviewBloc>();
+            if (state is GetProductPlacementPriceSuccess) {
+              setState(() {
+                priceController.text = (bloc.suggestedPrice! * amount).toString();
+              });
+            }
+          },
           builder: (context, state) {
             return Padding(
               padding: const EdgeInsets.all(kPadding20),
@@ -111,8 +117,12 @@ class _CreateProductPlacementPageState extends State<CreateProductPlacementPage>
                             const SizedBox(height: kPadding20),
                             QuantitySelector(
                               onChanged: (newAmount) {
+                                final bloc = context.read<PreviewBloc>();
                                 setState(() {
                                   amount = newAmount;
+                                  if (bloc.suggestedPrice != null) {
+                                    priceController.text = (bloc.suggestedPrice! * amount).toString();
+                                  }
                                 });
                               },
                             ),
@@ -195,8 +205,8 @@ class _CreateProductPlacementPageState extends State<CreateProductPlacementPage>
 
     if (state is GetProductPlacementPriceLoading || bloc.suggestedPrice == null) {
       return SizedBox(
-        height: 10,
-        width: 10,
+        height: 11,
+        width: 11,
         child: CircularProgressIndicator(
           strokeWidth: 2,
           color: kPrimary500,

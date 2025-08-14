@@ -35,7 +35,7 @@ class CompleteProfileBloc extends Bloc<CompleteProfileEvent, CompleteProfileStat
     on<AddPicturesToPortfolio>(addPicturesToPortfolio);
     on<RemovePictureFromPortfolio>(removePictureFromPortfolio);
     on<UpdateDocument>(updateDocument);
-
+    on<UpdateVATNumber>(updateVATNumber);
     on<CreateStripeAccount>(createStripeAccount);
     on<GetStripeAccount>(getStripeAccount);
     on<GetStripeCompletionStatus>(getStripeCompletionStatus);
@@ -50,6 +50,24 @@ class CompleteProfileBloc extends Bloc<CompleteProfileEvent, CompleteProfileStat
   /// Legal
   LegalDocumentStatus debugStatus = LegalDocumentStatus.missing;
   bool isStripeCompleted = false;
+
+  void updateVATNumber(UpdateVATNumber event, Emitter<CompleteProfileState> emit) async {
+    try {
+      emit(UpdateVATNumberLoading());
+
+      await influencerRepository.updateVATNumber(event.vatNumber);
+      influencer = await influencerRepository.getInfluencer();
+      emit(ProfileUpdated());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(UpdateVATNumberFailed(exception: alertException));
+    }
+  }
 
   void getProfile(GetProfile event, Emitter<CompleteProfileState> emit) async {
     try {

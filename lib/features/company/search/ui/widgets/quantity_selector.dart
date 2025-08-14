@@ -31,6 +31,7 @@ class _QuantitySelectorState extends State<QuantitySelector> {
                   amount = 1;
                 }
               });
+              widget.onChanged(amount);
             },
             child: Center(
               child: Text(

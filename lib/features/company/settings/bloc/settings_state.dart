@@ -153,3 +153,39 @@ class LogoutFacebookFailed extends SettingsState {
 
   LogoutFacebookFailed({required this.exception});
 }
+
+/// ---
+
+class UpdateTradeNameLoading extends SettingsState {}
+
+class UpdateTradeNameSuccess extends SettingsState {}
+
+class UpdateTradeNameFailed extends SettingsState {
+  final AlertException exception;
+
+  UpdateTradeNameFailed({required this.exception});
+}
+
+/// ---
+
+class UpdateBillingAddressLoading extends SettingsState {}
+
+class UpdateBillingAddressSuccess extends SettingsState {}
+
+class UpdateBillingAddressFailed extends SettingsState {
+  final AlertException exception;
+
+  UpdateBillingAddressFailed({required this.exception});
+}
+
+/// ---
+
+class UpdateVATNumberLoading extends SettingsState {}
+
+class UpdateVATNumberSuccess extends SettingsState {}
+
+class UpdateVATNumberFailed extends SettingsState {
+  final AlertException exception;
+
+  UpdateVATNumberFailed({required this.exception});
+}

@@ -93,3 +93,9 @@ class GetStripeAccount extends CompleteProfileEvent {}
 class CreateStripeAccount extends CompleteProfileEvent {}
 
 class GetStripeCompletionStatus extends CompleteProfileEvent {}
+
+class UpdateVATNumber extends CompleteProfileEvent {
+  final String vatNumber;
+
+  UpdateVATNumber({required this.vatNumber});
+}

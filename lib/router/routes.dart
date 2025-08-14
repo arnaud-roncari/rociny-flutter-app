@@ -92,7 +92,8 @@ final GoRouter kRouter = GoRouter(
 );
 
 String getLocation() {
-  // return '/login';
+  // return "/login";
+  // return "/company/complete_profile/profile_illustration";
 
   if (kFirstLaunch) {
     return '/first_launch';

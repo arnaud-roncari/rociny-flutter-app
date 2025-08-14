@@ -10,6 +10,7 @@ import 'package:rociny/features/company/complete_profile/ui/widgets/update_legal
 import 'package:rociny/features/influencer/complete_profile/bloc/complete_profile/complete_profile_bloc.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_type.dart';
 import 'package:rociny/features/influencer/complete_profile/ui/widgets/stripe_form.dart';
+import 'package:rociny/features/influencer/complete_profile/ui/widgets/update_vat_form.dart';
 import 'package:rociny/shared/widgets/stripe_modal.dart';
 import 'package:rociny/shared/widgets/button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
@@ -36,6 +37,7 @@ class _CompleteLegaltate extends State<CompleteLegalPage> {
 
           if (state is UpdateDocumentFailed ||
               state is GetStripeCompletionStatusFailed ||
+              state is UpdateVATNumberFailed ||
               state is UpdateStripeFailed) {
             Alert.showError(context, (state as dynamic).exception.message);
           }
@@ -98,7 +100,7 @@ class _CompleteLegaltate extends State<CompleteLegalPage> {
                 ),
                 Center(
                   child: Text(
-                    "${"step".translate()} ${index + 1} ${"out_of".translate()} 2",
+                    "${"step".translate()} ${index + 1} ${"out_of".translate()} 3",
                     style: kCaption.copyWith(color: kGrey300),
                   ),
                 ),
@@ -126,14 +128,20 @@ class _CompleteLegaltate extends State<CompleteLegalPage> {
                           }
                         },
                       ),
+                      UpdateVATForm(
+                        initialValue: bloc.influencer.vatNumber,
+                        onUpdated: (vatNumber) {
+                          bloc.add(UpdateVATNumber(vatNumber: vatNumber));
+                        },
+                      ),
                     ],
                   ),
                 ),
                 const SizedBox(height: kPadding20),
                 Button(
-                  title: index == 1 ? "finish".translate() : "next_step".translate(),
+                  title: index == 2 ? "finish".translate() : "next_step".translate(),
                   onPressed: () {
-                    if (index != 1) {
+                    if (index != 2) {
                       setState(() {
                         index += 1;
                       });

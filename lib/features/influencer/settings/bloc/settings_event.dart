@@ -57,3 +57,9 @@ class GetStripeAccount extends SettingsEvent {}
 class CreateStripeAccount extends SettingsEvent {}
 
 class GetStripeCompletionStatus extends SettingsEvent {}
+
+class UpdateVATNumber extends SettingsEvent {
+  final String vatNumber;
+
+  UpdateVATNumber({required this.vatNumber});
+}

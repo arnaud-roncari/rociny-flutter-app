@@ -9,8 +9,8 @@ import 'package:rociny/core/repositories/crash_repository.dart';
 import 'package:rociny/core/repositories/influencer_repository.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
-import 'package:rociny/features/auth/data/models/fetched_instagram_account.dart';
-import 'package:rociny/features/auth/data/models/instagram_account.dart';
+import 'package:rociny/features/auth/data/models/fetched_instagram_account_model.dart';
+import 'package:rociny/features/auth/data/models/instagram_account_model.dart';
 import 'package:rociny/features/auth/data/repositories/auth_repository.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_status.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_type.dart';
@@ -38,6 +38,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<GetInstagramAccounts>(getInstagramAccounts);
     on<CreateInstagramAccount>(createInstagramAccount);
     on<LogoutFacebook>(logoutFacebook);
+    on<UpdateVATNumber>(updateVATNumber);
   }
   final CrashRepository crashRepository;
   final InfluencerRepository influencerRepository;
@@ -59,6 +60,24 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   /// Stripe (And legal)
   late bool hasCompletedStripe;
   late bool hasCompletedLegalDocuments;
+  late String? vatNumber;
+
+  void updateVATNumber(UpdateVATNumber event, Emitter<SettingsState> emit) async {
+    try {
+      emit(UpdateVATNumberLoading());
+      await influencerRepository.updateVATNumber(event.vatNumber);
+      vatNumber = (await influencerRepository.getInfluencer()).vatNumber;
+      emit(UpdateVATNumberSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(UpdateVATNumberFailed(exception: alertException));
+    }
+  }
 
   void getIsRegisteredLocally(GetIsRegisteredLocally event, Emitter<SettingsState> emit) async {
     try {
@@ -170,7 +189,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
       hasCompletedLegalDocuments = await influencerRepository.hasCompletedLegalDocuments();
       hasCompletedStripe = await influencerRepository.hasCompletedStripe();
-
+      vatNumber = (await influencerRepository.getInfluencer()).vatNumber;
       emit(GetCompanySectionsStatusSuccess());
     } catch (exception, stack) {
       if (exception is! ApiException) {

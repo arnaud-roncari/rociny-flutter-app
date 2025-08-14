@@ -3,7 +3,7 @@ import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
-import 'package:rociny/features/auth/data/models/instagram_account.dart';
+import 'package:rociny/features/auth/data/models/instagram_account_model.dart';
 
 class InstagramAccountCard extends StatelessWidget {
   final InstagramAccount instagramAccount;

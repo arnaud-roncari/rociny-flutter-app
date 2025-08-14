@@ -29,6 +29,7 @@ import 'package:rociny/features/influencer/complete_profile/ui/pages/legal_illus
 import 'package:rociny/features/influencer/complete_profile/ui/pages/profile_illustration_page.dart';
 import 'package:rociny/features/influencer/home/ui/pages/home_page.dart';
 import 'package:rociny/features/influencer/settings/ui/pages/stripe_page.dart';
+import 'package:rociny/features/influencer/settings/ui/pages/update_vat_number_page.dart';
 
 List<RouteBase> kInfluencerRoutes = [
   ShellRoute(
@@ -157,7 +158,15 @@ List<RouteBase> kInfluencerRoutes = [
                     path: 'legal-documents',
                     builder: (context, state) => const LegalDocumentsPage(),
                   ),
-                  GoRoute(path: 'stripe', builder: (context, state) => const StripePage(), routes: const []),
+                  GoRoute(
+                    path: 'stripe',
+                    builder: (context, state) => const StripePage(),
+                    routes: const [],
+                  ),
+                  GoRoute(
+                    path: 'vat',
+                    builder: (context, state) => const UpdateVatNumberPage(),
+                  ),
                 ],
               ),
             ],

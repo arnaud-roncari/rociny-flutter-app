@@ -11,7 +11,6 @@ import 'package:rociny/features/company/search/ui/widgets/file_card.dart';
 import 'package:rociny/shared/widgets/button.dart';
 import 'package:rociny/shared/widgets/chip_button.dart';
 
-/// TODO translate
 class FileForm extends StatefulWidget {
   const FileForm({super.key});
 

@@ -6,9 +6,9 @@ import 'package:rociny/core/constants/text_styles.dart';
 
 class CompanySectionButton extends StatelessWidget {
   final void Function() onTap;
-  final bool isCompleted;
+  final bool? isCompleted;
   final String name;
-  const CompanySectionButton({super.key, required this.onTap, required this.isCompleted, required this.name});
+  const CompanySectionButton({super.key, required this.onTap, this.isCompleted, required this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +34,16 @@ class CompanySectionButton extends StatelessWidget {
             ],
           ),
           const SizedBox(height: kPadding5),
-          Text(
-            isCompleted ? "Terminé" : "À remplir",
-            style: kCaption.copyWith(color: isCompleted ? kGreen500 : kRed500),
-          ),
+          if (isCompleted == null)
+            Text(
+              "Facultatif",
+              style: kCaption.copyWith(color: kBlue500),
+            ),
+          if (isCompleted != null)
+            Text(
+              isCompleted! ? "Terminé" : "À remplir",
+              style: kCaption.copyWith(color: isCompleted! ? kGreen500 : kRed500),
+            ),
           const SizedBox(height: kPadding10),
           Container(
             height: 1,

@@ -6,7 +6,7 @@ import 'package:rociny/core/repositories/company_repository.dart';
 import 'package:rociny/core/repositories/crash_repository.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
-import 'package:rociny/features/auth/data/models/instagram_account.dart';
+import 'package:rociny/features/auth/data/models/instagram_account_model.dart';
 import 'package:rociny/features/company/profile/data/models/company.dart';
 import 'package:rociny/features/company/profile/data/models/profile_completion_status.dart';
 import 'package:rociny/features/company/search/data/enums/product_placement_type.dart';
@@ -58,16 +58,21 @@ class PreviewBloc extends Bloc<PreviewEvent, PreviewState> {
       collaboration = Collaboration.empty();
       files = [];
 
-      /// TODO optimise requete en simlatné
-      influencerProfileCompletion = await companyRepository.getInfluencerCompletionStatus(event.userId);
-      influencer = await companyRepository.getInfluencer(event.userId);
+      // Execute requests in parallel
+      final results = await Future.wait([
+        companyRepository.getInfluencerCompletionStatus(event.userId),
+        companyRepository.getInfluencer(event.userId),
+        companyRepository.getProfileCompletionStatus(),
+        companyRepository.getCompany(),
+      ]);
+      influencerProfileCompletion = results[0] as i.ProfileCompletionStatus;
+      influencer = results[1] as Influencer;
+      companyProfileCompletion = results[2] as ProfileCompletionStatus;
+      company = results[3] as Company;
+
       if (influencerProfileCompletion.hasInstagramAccount) {
         instagramAccount = await companyRepository.getInfluencerInstagramAccount(event.userId);
       }
-
-      companyProfileCompletion = await companyRepository.getProfileCompletionStatus();
-      company = await companyRepository.getCompany();
-
       collaboration.influencerId = influencer.id;
 
       emit(InitializeSuccess());

@@ -17,10 +17,16 @@ import 'package:rociny/router/routes.dart';
 import 'package:rociny/shared/decorations/theme.dart';
 
 // TODO dans l'algo backend, ajouter le facteur de review multiplieur (ue)
+/// TODO rename preview en previewInfluencer
+/// TODO bloquer les modifications juridique si colalboraiton en cours
+
+/// TODO définir les documents à upload (et valider auto au bout de 5 minutes pour le début)
 
 /// TODO DOC
+/// - rework routes du backend avant mise en prod (et tester)
 /// NOTE : Pour mise en prod:
 /// - changer les apikey stripe front et back
+/// - maj webhook stripe
 /// - mettre leystore de production avec le sha1 (nécésasire pour le googlesign)
 /// - maj le fichier apple google oauth (pour sigin google)
 /// - changer app version dans environnement
@@ -29,7 +35,6 @@ import 'package:rociny/shared/decorations/theme.dart';
 ///
 /// Point d'amélioration
 /// - rework le routing du backend, services... (un audit par chagpt)
-/// - Setup deeplink avec stripe
 /// - utiliser même bloc pour complete register et settings (?)
 
 void main() async {

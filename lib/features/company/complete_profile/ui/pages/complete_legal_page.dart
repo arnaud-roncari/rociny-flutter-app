@@ -7,13 +7,17 @@ import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/company/complete_profile/bloc/complete_profile/complete_profile_bloc.dart';
+import 'package:rociny/features/company/complete_profile/ui/widgets/update_billing_address_form.dart';
 import 'package:rociny/features/company/complete_profile/ui/widgets/update_legal_documents_form.dart';
 import 'package:rociny/features/company/complete_profile/ui/widgets/update_stripe_payment_method_form.dart';
+import 'package:rociny/features/company/complete_profile/ui/widgets/update_trade_name_form.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_type.dart';
+import 'package:rociny/features/influencer/complete_profile/ui/widgets/update_vat_form.dart';
 
 import 'package:rociny/shared/widgets/button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
+/// TODO ajouter form entreprise
 class CompleteLegalPage extends StatefulWidget {
   const CompleteLegalPage({super.key});
 
@@ -32,7 +36,11 @@ class _CompleteLegalPageState extends State<CompleteLegalPage> {
       body: SafeArea(
           child: BlocConsumer<CompleteProfileBloc, CompleteProfileState>(
         listener: (context, state) {
-          if (state is UpdateDocumentFailed || state is CreateSetupIntentFailed) {
+          if (state is UpdateDocumentFailed ||
+              state is CreateSetupIntentFailed ||
+              state is UpdateBillingAddressFailed ||
+              state is UpdateTradeNameFailed ||
+              state is UpdateVATNumberFailed) {
             Alert.showError(context, (state as dynamic).exception.message);
           }
 
@@ -76,7 +84,7 @@ class _CompleteLegalPageState extends State<CompleteLegalPage> {
                 ),
                 Center(
                   child: Text(
-                    "${"step".translate()} ${index + 1} ${"out_of".translate()} 2",
+                    "${"step".translate()} ${index + 1} ${"out_of".translate()} 5",
                     style: kCaption.copyWith(color: kGrey300),
                   ),
                 ),
@@ -97,13 +105,34 @@ class _CompleteLegalPageState extends State<CompleteLegalPage> {
                       UpdateStripePaymentMethodForm(onUpdated: () {
                         bloc.add(CreateSetupIntent());
                       }),
+                      UpdateTradeNameForm(
+                        initialValue: bloc.company.tradeName,
+                        onUpdated: (tradeName) {
+                          bloc.add(UpdateTradeName(tradeName: tradeName));
+                        },
+                      ),
+                      UpdateBillingAddressForm(
+                        city: bloc.company.city,
+                        street: bloc.company.street,
+                        postalCode: bloc.company.postalCode,
+                        onUpdated: (city, street, postalCode) {
+                          bloc.add(UpdateBillingAddress(city: city, street: street, postalCode: postalCode));
+                        },
+                      ),
+                      UpdateVATForm(
+                        initialValue: bloc.company.vatNumber,
+                        onUpdated: (vatNumber) {
+                          bloc.add(UpdateVATNumber(vatNumber: vatNumber));
+                        },
+                      ),
                     ],
                   ),
                 ),
+                const SizedBox(height: kPadding20),
                 Button(
-                  title: index == 1 ? "finish".translate() : "next_step".translate(),
+                  title: index == 4 ? "finish".translate() : "next_step".translate(),
                   onPressed: () {
-                    if (index != 1) {
+                    if (index != 4) {
                       setState(() {
                         index += 1;
                       });

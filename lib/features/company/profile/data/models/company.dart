@@ -8,6 +8,11 @@ class Company {
   String? department;
   String? description;
   DateTime createdAt;
+  String? vatNumber;
+  String? tradeName;
+  String? city;
+  String? street;
+  String? postalCode;
   List<SocialNetwork> socialNetworks;
 
   Company({
@@ -17,6 +22,11 @@ class Company {
     this.name,
     this.department,
     this.description,
+    this.vatNumber,
+    this.postalCode,
+    this.city,
+    this.street,
+    this.tradeName,
     required this.createdAt,
     required this.socialNetworks,
   });
@@ -27,6 +37,11 @@ class Company {
       userId: map['user_id'] as int,
       profilePicture: map['profile_picture'],
       name: map['name'],
+      tradeName: map['trade_name'],
+      vatNumber: map['vat_number'],
+      city: map['city'],
+      street: map['street'],
+      postalCode: map['postal_code'],
       department: map['department'],
       description: map['description'],
       createdAt: map['created_at'] != null ? DateTime.parse(map['created_at']) : DateTime.now(),

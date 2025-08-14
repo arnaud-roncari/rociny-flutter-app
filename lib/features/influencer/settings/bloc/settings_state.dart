@@ -18,6 +18,18 @@ class GetIsRegisteredLocallyFailed extends SettingsState {
 
 /// ---
 
+class UpdateVATNumberLoading extends SettingsState {}
+
+class UpdateVATNumberSuccess extends SettingsState {}
+
+class UpdateVATNumberFailed extends SettingsState {
+  final AlertException exception;
+
+  UpdateVATNumberFailed({required this.exception});
+}
+
+/// ---
+
 class UpdatePasswordLoading extends SettingsState {}
 
 class UpdatePasswordSuccess extends SettingsState {}

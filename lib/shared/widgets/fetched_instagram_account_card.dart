@@ -4,7 +4,7 @@ import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/radius.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
-import 'package:rociny/features/auth/data/models/fetched_instagram_account.dart';
+import 'package:rociny/features/auth/data/models/fetched_instagram_account_model.dart';
 
 class FetchedInstagramAccountCard extends StatelessWidget {
   final void Function(FetchedInstagramAccount) onTap;

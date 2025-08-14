@@ -4,7 +4,7 @@ import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
 import 'package:rociny/features/auth/data/dto/login_with_provider_dto.dart';
 import 'package:rociny/features/auth/data/enums/account_type.dart';
-import 'package:rociny/features/auth/data/models/fetched_instagram_account.dart';
+import 'package:rociny/features/auth/data/models/fetched_instagram_account_model.dart';
 
 class AuthRepository {
   Future<String> login(String email, String password) async {

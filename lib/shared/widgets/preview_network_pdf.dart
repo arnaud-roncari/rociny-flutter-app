@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
@@ -70,6 +71,9 @@ class PreviewNetworkPdfPage extends StatelessWidget {
               Expanded(
                 child: SfPdfViewer.network(
                   url,
+                  headers: {
+                    'Authorization': 'Bearer $kJwt',
+                  },
                 ),
               ),
             ],
@@ -79,7 +83,10 @@ class PreviewNetworkPdfPage extends StatelessWidget {
 
   Future<void> downloadAndSharePdf(BuildContext context, String url) async {
     try {
-      final response = await get(Uri.parse(url));
+      final response = await get(
+        Uri.parse(url),
+        headers: {'Authorization': 'Bearer $kJwt'},
+      );
       if (response.statusCode != 200) {
         throw Exception(".");
       }

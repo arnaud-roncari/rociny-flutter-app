@@ -53,3 +53,23 @@ class CreateInstagramAccount extends SettingsEvent {
 }
 
 class LogoutFacebook extends SettingsEvent {}
+
+class UpdateTradeName extends SettingsEvent {
+  final String tradeName;
+
+  UpdateTradeName({required this.tradeName});
+}
+
+class UpdateVATNumber extends SettingsEvent {
+  final String vatNumber;
+
+  UpdateVATNumber({required this.vatNumber});
+}
+
+class UpdateBillingAddress extends SettingsEvent {
+  final String city;
+  final String street;
+  final String postalCode;
+
+  UpdateBillingAddress({required this.city, required this.street, required this.postalCode});
+}
