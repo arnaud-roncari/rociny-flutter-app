@@ -100,11 +100,10 @@ class _BillingFormState extends State<BillingForm> {
                     style: kTitle2Bold,
                   ),
                   const Spacer(),
-
-                  /// TODO ajouter l'adresse dans juridique ?
                   Text(
-                    "7 Rue du X, XXXX Ville, France",
+                    bloc.company.getBillingAddress(),
                     style: kBody,
+                    overflow: TextOverflow.ellipsis,
                   )
                 ],
               ),
@@ -126,7 +125,7 @@ class _BillingFormState extends State<BillingForm> {
                   context.push("/company/home/settings");
                 },
                 child: Text(
-                  "edit_in_settings_part1".translate(),
+                  "edit_in_settings_part2".translate(),
                   style: kCaptionBold.copyWith(color: kPrimary500),
                 ),
               ),

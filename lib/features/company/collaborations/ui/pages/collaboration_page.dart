@@ -15,6 +15,7 @@ import 'package:rociny/features/company/collaborations/ui/widgets/notation.dart'
 import 'package:rociny/features/company/collaborations/ui/widgets/status_modal.dart';
 import 'package:rociny/features/company/search/data/models/influencer_summary_model.dart';
 import 'package:rociny/features/company/search/data/models/product_placement_model.dart';
+import 'package:rociny/features/company/search/ui/widgets/billing_informations.dart';
 import 'package:rociny/features/company/search/ui/widgets/file_card.dart';
 import 'package:rociny/features/company/search/ui/widgets/influencer_summary_card.dart';
 import 'package:rociny/features/company/search/ui/widgets/product_placement_card.dart';
@@ -82,7 +83,8 @@ class _CollaborationPageState extends State<CollaborationPage> {
                 state is CancelCollaborationLoading ||
                 state is SendDraftCollaborationLoading ||
                 state is ValidateCollaborationLoading ||
-                state is SupplyCollaborationLoading) {
+                state is SupplyCollaborationLoading ||
+                state is InitializeFailed) {
               return Center(
                 child: CircularProgressIndicator(
                   color: kPrimary500,
@@ -529,63 +531,12 @@ class _CollaborationPageState extends State<CollaborationPage> {
   Widget buildBill() {
     final bloc = context.read<CollaborationBloc>();
     final collaboration = bloc.collaboration;
-    final productPlacements = collaboration.productPlacements;
-
-    int price = productPlacements.fold(
-      0,
-      (sum, pp) => sum + pp.price,
-    );
-    int total = (price * 1.05).round();
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: kPadding20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("invoice".translate(), style: kTitle1Bold),
-          const SizedBox(height: kPadding10),
-          Row(
-            children: [
-              Text(
-                "collaboration".translate(),
-                style: kBody.copyWith(color: kGrey300),
-              ),
-              const Spacer(),
-              Text(
-                "$price €",
-                style: kBody,
-              ),
-            ],
-          ),
-          const SizedBox(height: kPadding5),
-          Row(
-            children: [
-              Text(
-                "rociny_commission".translate(),
-                style: kBody.copyWith(color: kGrey300),
-              ),
-              const Spacer(),
-              Text(
-                "5 %",
-                style: kBody,
-              ),
-            ],
-          ),
-          const SizedBox(height: kPadding10),
-          Row(
-            children: [
-              Text(
-                "${"total".translate()} (EUR)",
-                style: kBodyBold,
-              ),
-              const Spacer(),
-              Text(
-                "$total €",
-                style: kBodyBold,
-              ),
-            ],
-          ),
-        ],
+      child: BillingInformations(
+        collaboration: collaboration,
+        company: bloc.company,
+        influencer: bloc.influencer,
       ),
     );
   }

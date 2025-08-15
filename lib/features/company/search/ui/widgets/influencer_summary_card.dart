@@ -28,12 +28,6 @@ class _InfluencerSummaryCardState extends State<InfluencerSummaryCard> {
     super.initState();
     pictureUrls = [
       widget.influencer.profilePicture,
-      widget.influencer.profilePicture,
-      widget.influencer.profilePicture,
-      widget.influencer.profilePicture,
-      widget.influencer.profilePicture,
-      widget.influencer.profilePicture,
-      widget.influencer.profilePicture,
       ...widget.influencer.portfolio,
     ];
     _pageController = PageController(initialPage: 0);

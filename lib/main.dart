@@ -17,7 +17,7 @@ import 'package:rociny/router/routes.dart';
 import 'package:rociny/shared/decorations/theme.dart';
 
 // TODO dans l'algo backend, ajouter le facteur de review multiplieur (ue)
-/// TODO rename preview en previewInfluencer
+/// TODO rename preview en previewInflue@cer
 /// TODO bloquer les modifications juridique si colalboraiton en cours
 
 /// TODO définir les documents à upload (et valider auto au bout de 5 minutes pour le début)
@@ -32,10 +32,11 @@ import 'package:rociny/shared/decorations/theme.dart';
 /// - changer app version dans environnement
 /// - changer l'url de redirection dans developer.facebook (debug avec ngrok en attendant)
 /// - setup insta en version prod (faire soumission, changer redirect_url sur site, front et back)
+///  - définir rociny vat dans .env, dans backend (génération de facture)
 ///
 /// Point d'amélioration
 /// - rework le routing du backend, services... (un audit par chagpt)
-/// - utiliser même bloc pour complete register et settings (?)
+/// - utiliser même bloc pour complete register et settings (?) (set au démarrage du backend plutot)
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -71,6 +72,9 @@ void main() async {
   /// Redirect user on "first launch" screens if true.
   kFirstLaunch = await storage.read(key: kKeyFirstLaunch) == null;
 
+  /// TODO récupérer du backedn
+  kCommission = 0.10;
+
   Stripe.publishableKey = kStripePublishableKey;
 
   runApp(const RocinyApp());
@@ -79,6 +83,7 @@ void main() async {
 class RocinyApp extends StatelessWidget {
   const RocinyApp({super.key});
 
+  /// TODO tester pdf et trasner sans tva
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(

@@ -14,10 +14,15 @@ import 'package:rociny/features/influencer/profile/data/models/influencer.dart';
 part 'collaboration_event.dart';
 part 'collaboration_state.dart';
 
-/// TODO faire payer els frais stripe  àl'entreprise 1,5% + 0,25 (voir comment mieux gérer cet aspect pour la rentabiltié,a vec chatgpt)
+/// TOOD dans backend faire logis poir générer devis 'quote'
+/// TODO arrondir à 0 lors des paiement et facture
+/// TODO bloquer le changement de donnée juridique tant que collaboration est en cours/en attente de paiement, de valdiation de entreprise
 /// TODO fix le fait de devoir remettre sa cb a chaque fois
 /// 4242 4242 4242 4242
 /// 4000 0000 0000 0077
+/// Montpellier
+/// 1 rue du hasard
+/// 34000
 
 class CollaborationBloc extends Bloc<CollaborationEvent, CollaborationState> {
   CollaborationBloc({required this.crashRepository, required this.companyRepository}) : super(InitializeLoading()) {

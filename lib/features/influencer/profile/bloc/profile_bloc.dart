@@ -41,6 +41,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       emit(GetProfileLoading());
       profileCompletionStatus = await influencerRepository.getProfileCompletionStatus();
       influencer = await influencerRepository.getInfluencer();
+
       if (profileCompletionStatus!.hasInstagramAccount) {
         instagramAccount = await influencerRepository.getInstagramAccount();
       }

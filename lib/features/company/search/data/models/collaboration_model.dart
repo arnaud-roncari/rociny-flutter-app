@@ -66,4 +66,11 @@ class Collaboration {
       'product_placements': ProductPlacement.toCreateJsons(productPlacements),
     };
   }
+
+  int getPrice() {
+    return productPlacements.fold(
+      0,
+      (sum, pp) => sum + pp.price,
+    );
+  }
 }

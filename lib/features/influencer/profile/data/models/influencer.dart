@@ -45,4 +45,8 @@ class Influencer {
       socialNetworks: SocialNetwork.fromJsons(map['social_networks']),
     );
   }
+
+  bool hasVATNumber() {
+    return vatNumber != null;
+  }
 }

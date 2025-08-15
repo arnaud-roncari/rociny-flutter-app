@@ -1,4 +1,4 @@
-String kEndpoint = "https://dac90424fd58.ngrok-free.app";
+String kEndpoint = "https://ab4c24960ee6.ngrok-free.app";
 String kAppVersion = "1.0.0";
 // String kEndpoint = "http://127.0.0.1:3000";
 
@@ -20,3 +20,5 @@ const List<String> kAgeRanges = [
   '55-64',
   '65+',
 ];
+
+late double kCommission;

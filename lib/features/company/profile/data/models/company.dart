@@ -48,4 +48,15 @@ class Company {
       socialNetworks: SocialNetwork.fromJsons(map['social_networks']),
     );
   }
+
+  String getBillingAddress() {
+    if (street == null || city == null || postalCode == null) {
+      return '';
+    }
+    return '$street, $city, $postalCode, France';
+  }
+
+  bool hasVATNumber() {
+    return vatNumber != null;
+  }
 }

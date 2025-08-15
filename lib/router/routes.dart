@@ -19,6 +19,7 @@ import 'package:rociny/shared/pages/preview_picture_page.dart';
 import 'package:rociny/shared/widgets/preview_network_pdf.dart';
 import 'package:rociny/shared/widgets/preview_pdf.dart';
 
+/// TODO ajouter instagram comme reseau social (préparer le début des url)
 final GoRouter kRouter = GoRouter(
   initialLocation: getLocation(),
   routes: [

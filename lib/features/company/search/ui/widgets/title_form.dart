@@ -45,7 +45,7 @@ class _TitleFormState extends State<TitleForm> {
           TextField(
             controller: controller,
             decoration: kTextFieldDecoration.copyWith(
-              hintText: "Title",
+              hintText: "Titre",
             ),
             onChanged: (value) {
               setState(() {
