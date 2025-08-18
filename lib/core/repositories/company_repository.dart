@@ -4,7 +4,7 @@ import 'package:http/http.dart';
 import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
 import 'package:rociny/features/auth/data/models/instagram_account_model.dart';
-import 'package:rociny/features/auth/data/models/review_model.dart';
+import 'package:rociny/features/company/collaborations/data/dto/supply_collaboration_dto.dart';
 import 'package:rociny/features/company/collaborations/data/model/collaboration_summary_model.dart';
 import 'package:rociny/features/company/complete_profile/data/dtos/setup_intent_dto.dart';
 import 'package:rociny/features/company/profile/data/models/company.dart';
@@ -13,6 +13,7 @@ import 'package:rociny/features/company/search/data/enums/product_placement_type
 import 'package:rociny/features/company/search/data/models/collaboration_model.dart';
 import 'package:rociny/features/company/search/data/models/influencer_summary_model.dart';
 import 'package:rociny/features/company/search/data/models/inlfuencer_filters.dart';
+import 'package:rociny/features/company/search/data/models/review_model.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_status.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_type.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/platform_type.dart';
@@ -625,7 +626,7 @@ class CompanyRepository {
     }
   }
 
-  Future<String> supplyCollaboration(int collaborationId) async {
+  Future<SupplyCollaborationDto> supplyCollaboration(int collaborationId) async {
     final response = await get(
       Uri.parse('$kEndpoint/company/supply-collaboration/$collaborationId'),
       headers: {
@@ -638,7 +639,7 @@ class CompanyRepository {
       throw ApiException.fromJson(response.statusCode, body);
     }
     final body = jsonDecode(response.body);
-    return body["client_secret"];
+    return SupplyCollaborationDto.fromJson(body);
   }
 
   Future<void> validateCollaboration(int collaborationId) async {

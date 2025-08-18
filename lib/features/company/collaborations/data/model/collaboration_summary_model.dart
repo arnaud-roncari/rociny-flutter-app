@@ -1,19 +1,25 @@
 import 'package:rociny/features/company/collaborations/data/enum/collaboration_status.dart';
 
 class CollaborationSummary {
-  final int userId;
+  final int influencerUserId;
+  final int companyUserId;
   final int collaborationId;
   final String influencerName;
   final String? influencerProfilePicture;
+  final String companyName;
+  final String? companyProfilePicture;
   final String collaborationTitle;
   final double collaborationPrice;
   final CollaborationStatus collaborationStatus;
   final int placementsCount;
 
   CollaborationSummary({
-    required this.userId,
+    required this.influencerUserId,
+    required this.companyUserId,
     required this.collaborationId,
     required this.influencerName,
+    required this.companyName,
+    required this.companyProfilePicture,
     this.influencerProfilePicture,
     required this.collaborationTitle,
     required this.collaborationPrice,
@@ -23,10 +29,13 @@ class CollaborationSummary {
 
   factory CollaborationSummary.fromJson(Map<String, dynamic> json) {
     return CollaborationSummary(
-      userId: json['user_id'] ?? 0,
+      influencerUserId: json['influencer_user_id'] ?? 0,
+      companyUserId: json['company_user_id'] ?? 0,
       collaborationId: json['collaboration_id'] ?? 0,
       influencerName: json['influencer_name'] ?? '',
       influencerProfilePicture: json['influencer_profile_picture'],
+      companyName: json['company_name'] ?? '',
+      companyProfilePicture: json['company_profile_picture'],
       collaborationTitle: json['collaboration_title'] ?? '',
       collaborationPrice: (json['collaboration_price'] ?? 0).toDouble(),
       collaborationStatus: CollaborationStatus.fromString(json['collaboration_status'] ?? "draft"),
@@ -45,6 +54,8 @@ class CollaborationSummary {
     return {
       'influencer_name': influencerName,
       'influencer_profile_picture': influencerProfilePicture,
+      'company_name': companyName,
+      'company_profile_picture': companyProfilePicture,
       'collaboration_title': collaborationTitle,
       'collaboration_price': collaborationPrice,
       'collaboration_status': collaborationStatus,

@@ -46,7 +46,6 @@ void main() async {
   /// or repositories when making requests.
   FlutterSecureStorage storage = const FlutterSecureStorage();
   kJwt = await storage.read(key: kKeyJwt);
-  // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzUsImFjY291bnRfdHlwZSI6ImluZmx1ZW5jZXIiLCJpYXQiOjE3NTAzMjQzNjd9.CoHy04zx-hCkcqb4o5H-3NbpTaNQfyfD4ErYpiY_A0M
 
   /// The language should also be stored in the keystore.
   /// Whenever the language is modified, it should be updated in the keystore.
@@ -72,7 +71,6 @@ void main() async {
   /// Redirect user on "first launch" screens if true.
   kFirstLaunch = await storage.read(key: kKeyFirstLaunch) == null;
 
-  /// TODO récupérer du backedn
   kCommission = 0.10;
 
   Stripe.publishableKey = kStripePublishableKey;
@@ -83,7 +81,6 @@ void main() async {
 class RocinyApp extends StatelessWidget {
   const RocinyApp({super.key});
 
-  /// TODO tester pdf et trasner sans tva
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(

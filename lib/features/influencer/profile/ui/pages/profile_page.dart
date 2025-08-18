@@ -3,21 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
-import 'package:rociny/core/constants/radius.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
-import 'package:rociny/shared/widgets/instagram_statistics.dart';
-import 'package:rociny/features/influencer/complete_profile/ui/widgets/social_network_card.dart';
+import 'package:rociny/features/influencer/profile/ui/widgets/influencer_profile.dart';
 import 'package:rociny/features/influencer/profile/bloc/profile_bloc.dart';
 import 'package:rociny/features/influencer/profile/data/models/profile_completion_status.dart';
 import 'package:rociny/features/influencer/profile/ui/widgets/edit_modal.dart';
 import 'package:rociny/features/influencer/profile/ui/widgets/warning_modal.dart';
 import 'package:rociny/shared/widgets/chip_button.dart';
-import 'package:rociny/shared/widgets/influencer_pictures_card.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
-/// TODO afficher portfolio quand on clique sur une photo
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -88,6 +84,7 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
                   )
                 ],
               ),
+              const SizedBox(height: kPadding15),
               Expanded(
                 child: Builder(builder: (context) {
                   if (state is GetProfileLoading || state is GetProfileFailed) {
@@ -110,7 +107,7 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(height: kPadding30),
+                          const SizedBox(height: kPadding15),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -125,32 +122,23 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
                               buildAddInstagram(),
                             ],
                           ),
-                          buildPictures(),
-                          buildName(),
-                          buildGeolocation(),
-                          buildStars(),
-                          buildDescription(),
-                          buildSocialNetworks(),
-                          buildThemes(),
-                          buildTargetAudience(),
-                          buildInstagram(),
-                          buildComments(),
-                          buildBrands(),
+                          InfluencerProfile(
+                            influencer: bloc.influencer,
+                            instagramAccount: bloc.instagramAccount,
+                          ),
+                          const SizedBox(height: kPadding20),
                         ],
                       ),
                     ),
                   );
                 }),
               ),
-              const SizedBox(height: kPadding20),
             ],
           ),
         );
       },
     );
   }
-
-  /// ---
 
   Widget buildWarning() {
     final bloc = context.read<ProfileBloc>();
@@ -176,8 +164,6 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
       ),
     );
   }
-
-  /// ---
 
   Widget buildAddProfilePicture() {
     final bloc = context.read<ProfileBloc>();
@@ -235,20 +221,6 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
     return Container();
   }
 
-  Widget buildPictures() {
-    final bloc = context.read<ProfileBloc>();
-    if (!bloc.profileCompletionStatus!.hasProfilePicture && !bloc.profileCompletionStatus!.hasPortofolio) {
-      return Container();
-    }
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: kPadding30),
-      child: InfluencerPicturesCard(
-        influencer: bloc.influencer,
-      ),
-    );
-  }
-
   Widget buildAddName() {
     final bloc = context.read<ProfileBloc>();
     if (!bloc.profileCompletionStatus!.hasName) {
@@ -275,18 +247,6 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
     }
 
     return Container();
-  }
-
-  Widget buildName() {
-    final bloc = context.read<ProfileBloc>();
-    if (!bloc.profileCompletionStatus!.hasName) {
-      return Container();
-    }
-
-    return Text(
-      bloc.influencer.name!,
-      style: kHeadline5Bold,
-    );
   }
 
   Widget buildAddThemes() {
@@ -317,50 +277,6 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
     return Container();
   }
 
-  Widget buildThemes() {
-    final bloc = context.read<ProfileBloc>();
-    final List<String> themes = bloc.influencer.themes;
-    if (!bloc.profileCompletionStatus!.hasThemes) {
-      return Container();
-    }
-    return Padding(
-      padding: const EdgeInsets.only(bottom: kPadding30),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "themes".translate(),
-            style: kTitle1Bold,
-          ),
-          const SizedBox(height: kPadding20),
-          SizedBox(
-            height: 30,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: themes.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  padding: const EdgeInsets.symmetric(horizontal: kPadding10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(kRadius100),
-                    border: Border.all(color: kGrey100),
-                  ),
-                  child: Center(
-                    child: Text(
-                      themes[index].translate(),
-                      style: kCaption,
-                    ),
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) => const SizedBox(width: kPadding10),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget buildAddTargetAudience() {
     final bloc = context.read<ProfileBloc>();
     if (!bloc.profileCompletionStatus!.hasTargetAudience) {
@@ -389,50 +305,6 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
     return Container();
   }
 
-  Widget buildTargetAudience() {
-    final bloc = context.read<ProfileBloc>();
-    final List<String> ta = bloc.influencer.targetAudience;
-    if (!bloc.profileCompletionStatus!.hasTargetAudience) {
-      return Container();
-    }
-    return Padding(
-      padding: const EdgeInsets.only(bottom: kPadding30),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "targets".translate(),
-            style: kTitle1Bold,
-          ),
-          const SizedBox(height: kPadding20),
-          SizedBox(
-            height: 30,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: ta.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  padding: const EdgeInsets.symmetric(horizontal: kPadding10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(kRadius100),
-                    border: Border.all(color: kGrey100),
-                  ),
-                  child: Center(
-                    child: Text(
-                      ta[index],
-                      style: kCaption,
-                    ),
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) => const SizedBox(width: kPadding10),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget buildAddGeolocation() {
     final bloc = context.read<ProfileBloc>();
     if (!bloc.profileCompletionStatus!.hasDepartment) {
@@ -458,26 +330,6 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
       );
     }
 
-    return Container();
-  }
-
-  Widget buildGeolocation() {
-    final bloc = context.read<ProfileBloc>();
-    if (!bloc.profileCompletionStatus!.hasDepartment) {
-      return Container();
-    }
-    return Padding(
-      padding: const EdgeInsets.only(bottom: kPadding5),
-      child: Text(
-        bloc.influencer.department!,
-        style: kBody.copyWith(color: kGrey300),
-      ),
-    );
-  }
-
-  Widget buildStars() {
-    /// And  amount of collaboration
-    // return Text("0 Collaborations", style: kBody);
     return Container();
   }
 
@@ -509,21 +361,6 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
     return Container();
   }
 
-  Widget buildDescription() {
-    final bloc = context.read<ProfileBloc>();
-    if (!bloc.profileCompletionStatus!.hasDescription) {
-      return Container();
-    }
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: kPadding20),
-      child: Text(
-        bloc.influencer.description!,
-        style: kBody,
-      ),
-    );
-  }
-
   Widget buildAddSocialNetworks() {
     final bloc = context.read<ProfileBloc>();
     if (!bloc.profileCompletionStatus!.hasSocialNetworks) {
@@ -550,23 +387,6 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
     }
 
     return Container();
-  }
-
-  Widget buildSocialNetworks() {
-    final bloc = context.read<ProfileBloc>();
-    if (!bloc.profileCompletionStatus!.hasSocialNetworks) {
-      return Container();
-    }
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: kPadding30),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: bloc.influencer.socialNetworks.map((sn) {
-          return SocialNetworkCard(socialNetwork: sn);
-        }).toList(),
-      ),
-    );
   }
 
   Widget buildAddInstagram() {
@@ -597,56 +417,6 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
 
     return Container();
   }
-
-  Widget buildInstagram() {
-    final bloc = context.read<ProfileBloc>();
-    if (!bloc.profileCompletionStatus!.hasInstagramAccount) {
-      return Container();
-    }
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: kPadding30),
-      child: InstagramStatistics(
-        instagramAccount: bloc.instagramAccount!,
-      ),
-    );
-  }
-
-  Widget buildComments() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: kPadding30),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("comments".translate(), style: kTitle1Bold),
-          const SizedBox(height: kPadding10),
-          Text(
-            "collaborate_for_comments".translate(),
-            style: kBody.copyWith(color: kGrey300),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildBrands() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: kPadding30),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("brands".translate(), style: kTitle1Bold),
-          const SizedBox(height: kPadding10),
-          Text(
-            "collab_with_brands".translate(),
-            style: kBody.copyWith(color: kGrey300),
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// ---
 
   @override
   bool get wantKeepAlive => true;

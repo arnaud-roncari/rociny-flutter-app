@@ -40,4 +40,8 @@ class Review {
       'created_at': createdAt.toIso8601String(),
     };
   }
+
+  static List<Review> fromJsons(List<dynamic> jsonList) {
+    return jsonList.map((e) => Review.fromJson(e as Map<String, dynamic>)).toList();
+  }
 }

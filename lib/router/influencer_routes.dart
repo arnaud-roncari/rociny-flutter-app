@@ -3,6 +3,12 @@ import 'package:go_router/go_router.dart';
 import 'package:rociny/core/repositories/crash_repository.dart';
 import 'package:rociny/core/repositories/influencer_repository.dart';
 import 'package:rociny/features/auth/data/repositories/auth_repository.dart';
+import 'package:rociny/features/influencer/collaborations/bloc/collaboration_bloc.dart';
+import 'package:rociny/features/influencer/collaborations/bloc/collaborations_bloc.dart';
+import 'package:rociny/features/influencer/collaborations/bloc/preview_bloc.dart';
+import 'package:rociny/features/influencer/collaborations/ui/pages/collaboration_page.dart';
+import 'package:rociny/features/influencer/collaborations/ui/pages/preview_company_page.dart';
+import 'package:rociny/features/influencer/collaborations/ui/pages/review_page.dart';
 import 'package:rociny/features/influencer/profile/bloc/profile_bloc.dart';
 import 'package:rociny/features/influencer/profile/ui/pages/update_description_page.dart';
 import 'package:rociny/features/influencer/profile/ui/pages/update_geolocation.dart';
@@ -77,7 +83,14 @@ List<RouteBase> kInfluencerRoutes = [
               authRepository: context.read<AuthRepository>(),
             ),
             child: child,
-          )
+          ),
+          BlocProvider(
+            create: (_) => CollaborationsBloc(
+              crashRepository: context.read<CrashRepository>(),
+              influencerRepository: context.read<InfluencerRepository>(),
+            ),
+            child: child,
+          ),
         ],
         child: child,
       );
@@ -87,6 +100,41 @@ List<RouteBase> kInfluencerRoutes = [
         path: '/influencer/home',
         builder: (context, state) => const HomePage(),
         routes: [
+          /// Collaborations
+          ShellRoute(
+            builder: (context, state, child) {
+              return BlocProvider(
+                create: (context) => CollaborationBloc(
+                  crashRepository: context.read<CrashRepository>(),
+                  influencerRepository: context.read<InfluencerRepository>(),
+                ),
+                child: child,
+              );
+            },
+            routes: [
+              GoRoute(
+                path: 'preview_collaboration',
+                builder: (context, state) {
+                  final extra = state.extra as Map<String, dynamic>?;
+                  int userId = extra?["user_id"] as int;
+                  int collaborationId = extra?["collaboration_id"] as int;
+                  return CollaborationPage(
+                    userId: userId,
+                    collaborationId: collaborationId,
+                  );
+                },
+                routes: [
+                  GoRoute(
+                    path: 'review',
+                    builder: (context, state) {
+                      return const ReviewPage();
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+
           /// Profile
           GoRoute(
             path: 'profile/name',
@@ -168,6 +216,30 @@ List<RouteBase> kInfluencerRoutes = [
                     builder: (context, state) => const UpdateVatNumberPage(),
                   ),
                 ],
+              ),
+            ],
+          ),
+
+          /// Preview company
+          ShellRoute(
+            builder: (context, state, child) {
+              return BlocProvider(
+                create: (_) => PreviewBloc(
+                  crashRepository: context.read<CrashRepository>(),
+                  influencerRepository: context.read<InfluencerRepository>(),
+                ),
+                child: child,
+              );
+            },
+            routes: [
+              GoRoute(
+                path: 'preview',
+                builder: (context, state) {
+                  int userId = state.extra as int;
+                  return PreviewCompanyPage(
+                    userId: userId,
+                  );
+                },
               ),
             ],
           ),

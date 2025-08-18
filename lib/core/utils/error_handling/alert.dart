@@ -7,19 +7,27 @@ import 'package:rociny/core/utils/extensions/translate.dart';
 
 class Alert {
   static showError(BuildContext context, String text) {
-    ScaffoldMessenger.of(context).showSnackBar(
+    final messenger = ScaffoldMessenger.of(context);
+
+    messenger.showSnackBar(
       SnackBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        content: Container(
-          height: 50,
-          width: double.infinity,
-          decoration: BoxDecoration(color: kRed700, borderRadius: BorderRadius.circular(kRadius10)),
-          child: Center(
-            child: Text(
-              text,
-              textAlign: TextAlign.center,
-              style: kBody.copyWith(color: Colors.white),
+        content: GestureDetector(
+          onTap: () => messenger.hideCurrentSnackBar(),
+          child: Container(
+            height: 50,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: kRed700,
+              borderRadius: BorderRadius.circular(kRadius10),
+            ),
+            child: Center(
+              child: Text(
+                text,
+                textAlign: TextAlign.center,
+                style: kBody.copyWith(color: Colors.white),
+              ),
             ),
           ),
         ),
@@ -28,19 +36,27 @@ class Alert {
   }
 
   static showSuccess(BuildContext context, String text) {
-    ScaffoldMessenger.of(context).showSnackBar(
+    final messenger = ScaffoldMessenger.of(context);
+
+    messenger.showSnackBar(
       SnackBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        content: Container(
-          height: 50,
-          width: double.infinity,
-          decoration: BoxDecoration(color: kPrimary700, borderRadius: BorderRadius.circular(kRadius10)),
-          child: Center(
-            child: Text(
-              text,
-              textAlign: TextAlign.center,
-              style: kBody.copyWith(color: Colors.white),
+        content: GestureDetector(
+          onTap: () => messenger.hideCurrentSnackBar(),
+          child: Container(
+            height: 50,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: kPrimary700,
+              borderRadius: BorderRadius.circular(kRadius10),
+            ),
+            child: Center(
+              child: Text(
+                text,
+                textAlign: TextAlign.center,
+                style: kBody.copyWith(color: Colors.white),
+              ),
             ),
           ),
         ),

@@ -13,6 +13,7 @@ class Company {
   String? city;
   String? street;
   String? postalCode;
+  String? stripeCustomerId;
   List<SocialNetwork> socialNetworks;
 
   Company({
@@ -27,6 +28,7 @@ class Company {
     this.city,
     this.street,
     this.tradeName,
+    this.stripeCustomerId,
     required this.createdAt,
     required this.socialNetworks,
   });
@@ -44,6 +46,7 @@ class Company {
       postalCode: map['postal_code'],
       department: map['department'],
       description: map['description'],
+      stripeCustomerId: map['stripe_customer_id'],
       createdAt: map['created_at'] != null ? DateTime.parse(map['created_at']) : DateTime.now(),
       socialNetworks: SocialNetwork.fromJsons(map['social_networks']),
     );

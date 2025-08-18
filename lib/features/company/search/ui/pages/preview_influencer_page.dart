@@ -6,17 +6,13 @@ import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/radius.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
-import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/company/search/bloc/preview/preview_bloc.dart';
 import 'package:rociny/features/company/search/ui/widgets/company_warning_modal.dart';
 import 'package:rociny/features/company/search/ui/widgets/influencer_warning_modal.dart';
-import 'package:rociny/features/influencer/complete_profile/ui/widgets/social_network_card.dart';
+import 'package:rociny/features/influencer/profile/ui/widgets/influencer_profile.dart';
 import 'package:rociny/shared/widgets/button.dart';
-import 'package:rociny/shared/widgets/influencer_pictures_card.dart';
-import 'package:rociny/shared/widgets/instagram_statistics.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
-/// TODO MAJ collab et review
 class PreviewInfluencerPage extends StatefulWidget {
   final int userId;
   const PreviewInfluencerPage({super.key, required this.userId});
@@ -68,7 +64,7 @@ class _PreviewInfluencerPageState extends State<PreviewInfluencerPage> {
                         },
                       ),
                       const Spacer(),
-                      Text("${bloc.influencer.name}", style: kTitle1Bold),
+                      Text("Influenceur", style: kTitle1Bold),
                       const Spacer(),
                       const SizedBox(width: kPadding20),
                     ],
@@ -81,14 +77,11 @@ class _PreviewInfluencerPageState extends State<PreviewInfluencerPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: kPadding15),
-                          buildPictures(),
-                          buildName(),
-                          buildGeolocation(),
-                          buildDescription(),
-                          buildSocialNetworks(),
-                          buildThemes(),
-                          buildTargetAudience(),
-                          buildInstagram(),
+                          InfluencerProfile(
+                            influencer: bloc.influencer,
+                            instagramAccount: bloc.instagramAccount,
+                          ),
+                          const SizedBox(height: kPadding30),
                           Button(
                             title: "Proposer une collaboration",
                             onPressed: () async {
@@ -131,180 +124,6 @@ class _PreviewInfluencerPageState extends State<PreviewInfluencerPage> {
             );
           },
         ),
-      ),
-    );
-  }
-
-  Widget buildPictures() {
-    final bloc = context.read<PreviewBloc>();
-    if (!bloc.influencerProfileCompletion.hasProfilePicture && !bloc.influencerProfileCompletion.hasPortofolio) {
-      return Container();
-    }
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: kPadding30),
-      child: InfluencerPicturesCard(
-        influencer: bloc.influencer,
-      ),
-    );
-  }
-
-  Widget buildName() {
-    final bloc = context.read<PreviewBloc>();
-    if (!bloc.influencerProfileCompletion.hasName) {
-      return Container();
-    }
-
-    return Text(
-      bloc.influencer.name!,
-      style: kHeadline5Bold,
-    );
-  }
-
-  Widget buildThemes() {
-    final bloc = context.read<PreviewBloc>();
-    final List<String> themes = bloc.influencer.themes;
-    if (!bloc.influencerProfileCompletion.hasThemes) {
-      return Container();
-    }
-    return Padding(
-      padding: const EdgeInsets.only(bottom: kPadding30),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "themes".translate(),
-            style: kTitle1Bold,
-          ),
-          const SizedBox(height: kPadding20),
-          SizedBox(
-            height: 30,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: themes.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  padding: const EdgeInsets.symmetric(horizontal: kPadding10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(kRadius100),
-                    border: Border.all(color: kGrey100),
-                  ),
-                  child: Center(
-                    child: Text(
-                      themes[index].translate(),
-                      style: kCaption,
-                    ),
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) => const SizedBox(width: kPadding10),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildTargetAudience() {
-    final bloc = context.read<PreviewBloc>();
-    final List<String> ta = bloc.influencer.targetAudience;
-    if (!bloc.influencerProfileCompletion.hasTargetAudience) {
-      return Container();
-    }
-    return Padding(
-      padding: const EdgeInsets.only(bottom: kPadding30),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "targets".translate(),
-            style: kTitle1Bold,
-          ),
-          const SizedBox(height: kPadding20),
-          SizedBox(
-            height: 30,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: ta.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  padding: const EdgeInsets.symmetric(horizontal: kPadding10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(kRadius100),
-                    border: Border.all(color: kGrey100),
-                  ),
-                  child: Center(
-                    child: Text(
-                      ta[index],
-                      style: kCaption,
-                    ),
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) => const SizedBox(width: kPadding10),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildGeolocation() {
-    final bloc = context.read<PreviewBloc>();
-    if (!bloc.influencerProfileCompletion.hasDepartment) {
-      return Container();
-    }
-    return Padding(
-      padding: const EdgeInsets.only(bottom: kPadding5),
-      child: Text(
-        bloc.influencer.department!,
-        style: kBody.copyWith(color: kGrey300),
-      ),
-    );
-  }
-
-  Widget buildDescription() {
-    final bloc = context.read<PreviewBloc>();
-    if (!bloc.influencerProfileCompletion.hasDescription) {
-      return Container();
-    }
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: kPadding20),
-      child: Text(
-        bloc.influencer.description!,
-        style: kBody,
-      ),
-    );
-  }
-
-  Widget buildSocialNetworks() {
-    final bloc = context.read<PreviewBloc>();
-    if (!bloc.influencerProfileCompletion.hasSocialNetworks) {
-      return Container();
-    }
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: kPadding30),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: bloc.influencer.socialNetworks.map((sn) {
-          return SocialNetworkCard(socialNetwork: sn);
-        }).toList(),
-      ),
-    );
-  }
-
-  Widget buildInstagram() {
-    final bloc = context.read<PreviewBloc>();
-    if (!bloc.influencerProfileCompletion.hasInstagramAccount) {
-      return Container();
-    }
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: kPadding30),
-      child: InstagramStatistics(
-        instagramAccount: bloc.instagramAccount!,
       ),
     );
   }

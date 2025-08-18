@@ -22,8 +22,8 @@ class CollaborationSummaryCard extends StatelessWidget {
           child: InkWell(
             borderRadius: BorderRadius.circular(kPadding10),
             onTap: () {
-              context.push("/company/home/preview_collaboration", extra: {
-                "user_id": summary.influencerUserId,
+              context.push("/influencer/home/preview_collaboration", extra: {
+                "user_id": summary.companyUserId,
                 "collaboration_id": summary.collaborationId,
               });
             },
@@ -31,7 +31,7 @@ class CollaborationSummaryCard extends StatelessWidget {
               children: [
                 SizedBox(
                   width: constraints.maxWidth,
-                  height: constraints.maxWidth,
+                  height: constraints.maxWidth / 2,
                   child: ClipRRect(
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(kPadding10),
@@ -40,7 +40,7 @@ class CollaborationSummaryCard extends StatelessWidget {
                     child: Image(
                       fit: BoxFit.cover,
                       image: CachedNetworkImageProvider(
-                        "$kEndpoint/influencer/get-profile-picture/${summary.influencerUserId}?uuid=${summary.influencerProfilePicture}",
+                        "$kEndpoint/influencer/get-company-profile-picture/${summary.companyProfilePicture}",
                         headers: {"Authorization": "Bearer $kJwt"},
                       ),
                     ),
@@ -57,7 +57,7 @@ class CollaborationSummaryCard extends StatelessWidget {
                       ),
                       const SizedBox(height: kPadding5),
                       Text(
-                        summary.influencerName,
+                        summary.companyName,
                         style: kBody,
                       ),
                       const SizedBox(height: kPadding20),

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,17 +10,15 @@ import 'package:rociny/core/constants/radius.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
-import 'package:rociny/features/company/collaborations/bloc/collaboration_bloc.dart';
 import 'package:rociny/features/company/collaborations/data/enum/collaboration_status.dart';
 import 'package:rociny/features/company/collaborations/ui/widgets/notation.dart';
 import 'package:rociny/features/company/collaborations/ui/widgets/status_modal.dart';
-import 'package:rociny/features/company/search/data/models/influencer_summary_model.dart';
 import 'package:rociny/features/company/search/data/models/product_placement_model.dart';
 import 'package:rociny/features/company/search/data/models/review_model.dart';
 import 'package:rociny/features/company/search/ui/widgets/billing_informations.dart';
 import 'package:rociny/features/company/search/ui/widgets/file_card.dart';
-import 'package:rociny/features/company/search/ui/widgets/influencer_summary_card.dart';
 import 'package:rociny/features/company/search/ui/widgets/product_placement_card.dart';
+import 'package:rociny/features/influencer/collaborations/bloc/collaboration_bloc.dart';
 import 'package:rociny/shared/decorations/container_shadow_decoration.dart';
 import 'package:rociny/shared/widgets/button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
@@ -60,28 +59,23 @@ class _CollaborationPageState extends State<CollaborationPage> {
               Alert.showError(context, state.exception.message);
             }
 
-            if (state is CancelCollaborationFailed) {
+            if (state is AcceptCollaborationFailed) {
               Alert.showError(context, state.exception.message);
             }
 
-            if (state is SendDraftCollaborationFailed) {
+            if (state is RefuseCollaborationFailed) {
               Alert.showError(context, state.exception.message);
             }
 
-            if (state is SupplyCollaborationFailed) {
-              Alert.showError(context, state.exception.message);
-            }
-
-            if (state is ValidateCollaborationFailed) {
+            if (state is EndCollaborationFailed) {
               Alert.showError(context, state.exception.message);
             }
           },
           builder: (context, state) {
             if (state is InitializeLoading ||
-                state is CancelCollaborationLoading ||
-                state is SendDraftCollaborationLoading ||
-                state is ValidateCollaborationLoading ||
-                state is SupplyCollaborationLoading ||
+                state is AcceptCollaborationLoading ||
+                state is RefuseCollaborationLoading ||
+                state is EndCollaborationLoading ||
                 state is InitializeFailed) {
               return Center(
                 child: CircularProgressIndicator(
@@ -177,16 +171,12 @@ class _CollaborationPageState extends State<CollaborationPage> {
     final bloc = context.read<CollaborationBloc>();
     final status = CollaborationStatus.fromString(bloc.collaboration.status);
 
-    if (status == CollaborationStatus.draft) {
-      return buildSendDraftCollaborationButton();
+    if (status == CollaborationStatus.sentByCompany) {
+      return buildAcceptAndRefuseButtons();
     }
 
-    if (status == CollaborationStatus.waitingForCompanyPayment) {
-      return buildSupplyCollaborationButton();
-    }
-
-    if (status == CollaborationStatus.pendingCompanyValidation) {
-      return buildValidateCollaborationButton();
+    if (status == CollaborationStatus.inProgress) {
+      return buildInProgressButton();
     }
 
     if (status == CollaborationStatus.done) {
@@ -219,80 +209,42 @@ class _CollaborationPageState extends State<CollaborationPage> {
             style: kBody.copyWith(color: kGrey300),
           ),
         ),
-        SizedBox(
-          height: 120,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                const SizedBox(width: kPadding20),
-                Container(
-                  width: MediaQuery.of(context).size.width - 60,
-                  height: 80,
-                  decoration: kContainerShadow,
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(kPadding10),
-                      onTap: () {
-                        context.push("/preview_pdf/network",
-                            extra: "$kEndpoint/company/get-influencer-invoice/$collaborationId");
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(kPadding20),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                "Facture",
-                                style: kTitle2Bold,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
+        const SizedBox(height: kPadding20),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: kPadding20),
+          child: Container(
+            width: MediaQuery.of(context).size.width - 60,
+            height: 80,
+            decoration: kContainerShadow,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(kPadding10),
+                onTap: () {
+                  context.push("/preview_pdf/network",
+                      extra: "$kEndpoint/influencer/get-influencer-invoice/$collaborationId");
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(kPadding20),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "Facture",
+                          style: kTitle2Bold,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
-                const SizedBox(width: kPadding20),
-                Container(
-                  width: MediaQuery.of(context).size.width - 60,
-                  height: 80,
-                  decoration: kContainerShadow,
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(kPadding10),
-                      onTap: () {
-                        context.push("/preview_pdf/network",
-                            extra: "$kEndpoint/company/get-platform-invoice/$collaborationId");
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(kPadding20),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                "Frais",
-                                style: kTitle2Bold,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: kPadding20),
-              ],
+              ),
             ),
           ),
         ),
         if (review != null)
           Padding(
-            padding: const EdgeInsets.only(left: kPadding20, right: kPadding20, top: kPadding10),
+            padding: const EdgeInsets.only(left: kPadding20, top: kPadding30, right: kPadding20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -321,7 +273,7 @@ class _CollaborationPageState extends State<CollaborationPage> {
             child: Button(
               title: "Évaluer",
               onPressed: () {
-                context.push("/company/home/preview_collaboration/review");
+                context.push("/influencer/home/preview_collaboration/review");
               },
             ),
           ),
@@ -329,145 +281,68 @@ class _CollaborationPageState extends State<CollaborationPage> {
     );
   }
 
-  Widget buildValidateCollaborationButton() {
-    return Padding(
-      padding: const EdgeInsets.only(
-        left: kPadding20,
-        right: kPadding20,
-        top: kPadding30,
-      ),
-      child: Button(
-        title: "Valider",
-        onPressed: () {
-          context.read<CollaborationBloc>().add(ValidateCollaboration());
-        },
-      ),
-    );
-  }
-
-  Widget buildSendDraftCollaborationButton() {
-    return Padding(
-      padding: const EdgeInsets.only(
-        left: kPadding20,
-        right: kPadding20,
-        top: kPadding30,
-      ),
-      child: Button(
-        title: "Proposer une collaboration",
-        onPressed: () {
-          context.read<CollaborationBloc>().add(SendDraftCollaboration());
-        },
-      ),
-    );
-  }
-
-  Widget buildSupplyCollaborationButton() {
-    return Padding(
-      padding: const EdgeInsets.only(
-        left: kPadding20,
-        right: kPadding20,
-        top: kPadding30,
-      ),
-      child: Button(
-        title: "Approvisionner",
-        onPressed: () {
-          context.read<CollaborationBloc>().add(SupplyCollaboration());
-        },
-      ),
-    );
-  }
-
   List<PopupMenuItem<String>> getPopupMenuItems() {
     final bloc = context.read<CollaborationBloc>();
     final collaborationId = bloc.collaboration.id;
-    final status = CollaborationStatus.fromString(bloc.collaboration.status);
-
-    final cancel = PopupMenuItem<String>(
-      value: "cancel",
-      child: Text(
-        "Annuler",
-        style: kBody,
-      ),
-      onTap: () {
-        bloc.add(CancelCollaboration());
-      },
-    );
 
     final influencerQuote = PopupMenuItem<String>(
       value: "influencer_quote",
       child: Text(
-        "Devis influenceur",
+        "Devis",
         style: kBody,
       ),
       onTap: () {
-        context.push("/preview_pdf/network", extra: "$kEndpoint/company/get-influencer-quote/$collaborationId");
+        context.push("/preview_pdf/network", extra: "$kEndpoint/influencer/get-influencer-quote/$collaborationId");
       },
     );
 
-    final platformQuote = PopupMenuItem<String>(
-      value: "platform_quote",
-      child: Text(
-        "Devis frais",
-        style: kBody,
+    return [
+      influencerQuote,
+    ];
+  }
+
+  Widget buildAcceptAndRefuseButtons() {
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: kPadding20,
+        right: kPadding20,
+        top: kPadding30,
       ),
-      onTap: () {
-        context.push("/preview_pdf/network", extra: "$kEndpoint/company/get-platform-quote/$collaborationId");
-      },
+      child: Column(
+        children: [
+          Button(
+            title: "Valider",
+            onPressed: () {
+              context.read<CollaborationBloc>().add(AcceptCollaboration());
+            },
+          ),
+          const SizedBox(height: kPadding10),
+          Button(
+            backgroundColor: kBlack,
+            title: "Refuser",
+            onPressed: () {
+              context.read<CollaborationBloc>().add(RefuseCollaboration());
+            },
+          ),
+        ],
+      ),
     );
+  }
 
-    if (status == CollaborationStatus.draft) {
-      return [
-        influencerQuote,
-        platformQuote,
-      ];
-    }
-    if (status == CollaborationStatus.sentByCompany) {
-      return [
-        influencerQuote,
-        platformQuote,
-        cancel,
-      ];
-    }
-    if (status == CollaborationStatus.refusedByInfluencer) {
-      return [
-        influencerQuote,
-        platformQuote,
-      ];
-    }
-    if (status == CollaborationStatus.canceledByCompany) {
-      return [
-        influencerQuote,
-        platformQuote,
-      ];
-    }
-    if (status == CollaborationStatus.waitingForCompanyPayment) {
-      return [
-        influencerQuote,
-        platformQuote,
-      ];
-    }
-
-    if (status == CollaborationStatus.inProgress) {
-      return [
-        influencerQuote,
-        platformQuote,
-      ];
-    }
-
-    if (status == CollaborationStatus.pendingCompanyValidation) {
-      return [
-        influencerQuote,
-        platformQuote,
-      ];
-    }
-
-    if (status == CollaborationStatus.done) {
-      return [
-        influencerQuote,
-        platformQuote,
-      ];
-    }
-    return [];
+  Widget buildInProgressButton() {
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: kPadding20,
+        right: kPadding20,
+        top: kPadding30,
+      ),
+      child: Button(
+        title: "Terminer",
+        onPressed: () {
+          context.read<CollaborationBloc>().add(EndCollaboration());
+        },
+      ),
+    );
   }
 
   Widget buildCollaborationDetails() {
@@ -484,15 +359,29 @@ class _CollaborationPageState extends State<CollaborationPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: kPadding15),
-              InfluencerSummaryCard(
-                influencer: InfluencerSummary.fromInfluencer(
-                  bloc.influencer,
-                  bloc.instagramAccount,
-                ),
-                onPressed: (_) {
-                  context.push("/company/home/preview", extra: bloc.influencer.userId);
-                },
-              ),
+              LayoutBuilder(builder: (context, constraints) {
+                return InkWell(
+                  onTap: () {
+                    context.push("/influencer/home/preview", extra: bloc.company.userId);
+                  },
+                  child: SizedBox(
+                    width: constraints.maxWidth,
+                    height: constraints.maxWidth / 2,
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(kPadding10),
+                      ),
+                      child: Image(
+                        fit: BoxFit.cover,
+                        image: CachedNetworkImageProvider(
+                          "$kEndpoint/influencer/get-company-profile-picture/${bloc.company.profilePicture}",
+                          headers: {"Authorization": "Bearer $kJwt"},
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }),
               const SizedBox(height: kPadding30),
               Text(
                 "placements".translate(),
@@ -565,7 +454,7 @@ class _CollaborationPageState extends State<CollaborationPage> {
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width - 60,
                           child: FileCard(
-                            url: "$kEndpoint/company/collaboration-file/$url",
+                            url: "$kEndpoint/influencer/collaboration-file/$url",
                           ),
                         ),
                       ),
@@ -610,15 +499,10 @@ class _CollaborationPageState extends State<CollaborationPage> {
     final status = CollaborationStatus.fromString(bloc.collaboration.status);
 
     late Widget child;
-    if (status == CollaborationStatus.draft) {
-      child = Text(
-        "Brouillon.",
-        style: kBody.copyWith(color: kGrey300),
-      );
-    }
+
     if (status == CollaborationStatus.sentByCompany) {
       child = Text(
-        "Collaboration envoyé.",
+        "Nouvelle",
         style: kBody.copyWith(color: kPrimary500),
       );
     }

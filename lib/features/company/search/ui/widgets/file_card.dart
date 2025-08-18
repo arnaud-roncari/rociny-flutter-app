@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:path/path.dart';
-import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
@@ -30,7 +29,7 @@ class FileCard extends StatelessWidget {
             if (file != null) {
               context.push('/preview_pdf', extra: file);
             } else if (url != null) {
-              context.push("/preview_pdf/network", extra: "$kEndpoint/company/collaboration-file/$url");
+              context.push("/preview_pdf/network", extra: url);
             }
           },
           child: Padding(

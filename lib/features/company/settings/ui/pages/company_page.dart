@@ -10,7 +10,6 @@ import 'package:rociny/features/company/settings/bloc/settings_bloc.dart';
 import 'package:rociny/features/influencer/settings/ui/widgets/company_section_button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
-/// TODO ajouter form entreprise (dans backend, ajouter les conditions poru si compte complété dans juridique)
 class CompanyPage extends StatefulWidget {
   const CompanyPage({super.key});
 

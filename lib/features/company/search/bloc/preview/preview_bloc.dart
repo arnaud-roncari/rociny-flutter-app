@@ -130,7 +130,10 @@ class PreviewBloc extends Bloc<PreviewEvent, PreviewState> {
       } else {
         c = await companyRepository.createCollaboration(collaboration);
       }
-      await companyRepository.uploadCollaborationFiles(c.id, files);
+
+      if (files.isNotEmpty) {
+        await companyRepository.uploadCollaborationFiles(c.id, files);
+      }
 
       emit(CreateCollaborationSuccess());
     } catch (exception, stack) {

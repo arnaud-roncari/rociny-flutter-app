@@ -10,7 +10,6 @@ import 'package:rociny/features/influencer/settings/bloc/settings_bloc.dart';
 import 'package:rociny/features/influencer/settings/ui/widgets/company_section_button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
-/// TODO ajouter form vat
 class CompanyPage extends StatefulWidget {
   const CompanyPage({super.key});
 

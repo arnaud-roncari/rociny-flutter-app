@@ -6,9 +6,9 @@ import 'package:rociny/core/constants/radius.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
-import 'package:rociny/features/company/collaborations/bloc/collaborations_bloc.dart';
 import 'package:rociny/features/company/collaborations/data/enum/collaboration_status.dart';
-import 'package:rociny/features/company/collaborations/ui/widgets/collaboration_summary_card.dart';
+import 'package:rociny/features/influencer/collaborations/bloc/collaborations_bloc.dart';
+import 'package:rociny/features/influencer/collaborations/ui/widgets/collaboration_summary_card.dart';
 
 class CollaborationsPage extends StatefulWidget {
   const CollaborationsPage({super.key});
@@ -60,9 +60,7 @@ class _CollaborationsPageState extends State<CollaborationsPage> with AutomaticK
                         const SizedBox(width: kPadding20),
                         buildTag("En cours", CollaborationStatus.inProgress),
                         const SizedBox(width: kPadding10),
-                        buildTag("Brouillon", CollaborationStatus.draft),
-                        const SizedBox(width: kPadding10),
-                        buildTag("Envoyées", CollaborationStatus.sentByCompany),
+                        buildTag("Nouvelles", CollaborationStatus.sentByCompany),
                         const SizedBox(width: kPadding10),
                         buildTag("Refusées", CollaborationStatus.refusedByInfluencer),
                         const SizedBox(width: kPadding10),

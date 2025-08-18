@@ -7,6 +7,10 @@ class Collaboration {
   String title;
   final List<String> files;
   final String status;
+  final String platformQuote;
+  final String influencerQuote;
+  final String? platformInvoice;
+  final String? influencerInvoice;
   final List<ProductPlacement> productPlacements;
   final DateTime createdAt;
 
@@ -17,6 +21,10 @@ class Collaboration {
     required this.title,
     required this.files,
     required this.status,
+    this.influencerInvoice,
+    this.platformInvoice,
+    required this.platformQuote,
+    required this.influencerQuote,
     required this.productPlacements,
     required this.createdAt,
   });
@@ -28,6 +36,8 @@ class Collaboration {
       title: '',
       files: [],
       status: '',
+      platformQuote: '',
+      influencerQuote: '',
       productPlacements: [],
       createdAt: DateTime.now(),
     );
@@ -40,6 +50,10 @@ class Collaboration {
       title: json['title'],
       files: List<String>.from(json['files'] ?? []),
       status: json['status'],
+      influencerQuote: json['influencer_quote'],
+      influencerInvoice: json['influencer_invoice'],
+      platformQuote: json['platform_quote'],
+      platformInvoice: json['platform_invoice'],
       productPlacements: ProductPlacement.fromJsons(json['product_placements']),
       createdAt: DateTime.parse(json['created_at']),
     );

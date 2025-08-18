@@ -17,7 +17,6 @@ import 'package:rociny/features/influencer/complete_profile/ui/widgets/update_va
 import 'package:rociny/shared/widgets/button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
-/// TODO ajouter form entreprise
 class CompleteLegalPage extends StatefulWidget {
   const CompleteLegalPage({super.key});
 

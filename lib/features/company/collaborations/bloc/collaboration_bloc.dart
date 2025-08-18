@@ -5,24 +5,19 @@ import 'package:rociny/core/repositories/crash_repository.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
 import 'package:rociny/features/auth/data/models/instagram_account_model.dart';
-import 'package:rociny/features/auth/data/models/review_model.dart';
+import 'package:rociny/features/company/collaborations/data/dto/supply_collaboration_dto.dart';
 import 'package:rociny/features/company/collaborations/data/enum/collaboration_status.dart';
 import 'package:rociny/features/company/profile/data/models/company.dart';
 import 'package:rociny/features/company/search/data/models/collaboration_model.dart';
+import 'package:rociny/features/company/search/data/models/review_model.dart';
 import 'package:rociny/features/influencer/profile/data/models/influencer.dart';
 
 part 'collaboration_event.dart';
 part 'collaboration_state.dart';
 
-/// TOOD dans backend faire logis poir générer devis 'quote'
-/// TODO arrondir à 0 lors des paiement et facture
 /// TODO bloquer le changement de donnée juridique tant que collaboration est en cours/en attente de paiement, de valdiation de entreprise
-/// TODO fix le fait de devoir remettre sa cb a chaque fois
 /// 4242 4242 4242 4242
 /// 4000 0000 0000 0077
-/// Montpellier
-/// 1 rue du hasard
-/// 34000
 
 class CollaborationBloc extends Bloc<CollaborationEvent, CollaborationState> {
   CollaborationBloc({required this.crashRepository, required this.companyRepository}) : super(InitializeLoading()) {
@@ -124,13 +119,14 @@ class CollaborationBloc extends Bloc<CollaborationEvent, CollaborationState> {
     try {
       emit(SupplyCollaborationLoading());
 
-      String cs = await companyRepository.supplyCollaboration(collaboration.id);
+      SupplyCollaborationDto dto = await companyRepository.supplyCollaboration(collaboration.id);
       await Stripe.instance.initPaymentSheet(
         paymentSheetParameters: SetupPaymentSheetParameters(
-          paymentIntentClientSecret: cs,
-          merchantDisplayName: 'Rociny',
-          allowsDelayedPaymentMethods: true,
-        ),
+            paymentIntentClientSecret: dto.clientSecret,
+            merchantDisplayName: 'Rociny',
+            allowsDelayedPaymentMethods: true,
+            customerId: company.stripeCustomerId,
+            customerEphemeralKeySecret: dto.ephemeralKey),
       );
       await Stripe.instance.presentPaymentSheet();
 
@@ -138,7 +134,11 @@ class CollaborationBloc extends Bloc<CollaborationEvent, CollaborationState> {
       collaboration = await companyRepository.getCollaboration(collaboration.id);
       emit(SupplyCollaborationSuccess());
     } catch (exception, stack) {
-      /// TODO catch stripe erreur si fermé
+      if (exception is StripeException) {
+        emit(ValidateCollaborationSuccess());
+        return;
+      }
+
       if (exception is! ApiException) {
         crashRepository.registerCrash(exception, stack);
       }
@@ -186,6 +186,4 @@ class CollaborationBloc extends Bloc<CollaborationEvent, CollaborationState> {
       emit(CreateReviewFailed(exception: alertException));
     }
   }
-
-  /// TODO fixer (un fichier est nécéssaire) lors de la creationd 'une collab
 }
