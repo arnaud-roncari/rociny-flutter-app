@@ -36,6 +36,7 @@ class _UpdateSocialNetworksFormState extends State<UpdateSocialNetworksForm> {
     PlatformType.youtube,
     PlatformType.tiktok,
     PlatformType.twitch,
+    PlatformType.instagram,
   ];
 
   @override

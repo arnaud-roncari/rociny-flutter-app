@@ -8,6 +8,8 @@ import 'package:rociny/core/utils/error_handling/api_exception.dart';
 import 'package:rociny/features/auth/data/models/instagram_account_model.dart';
 import 'package:rociny/features/company/profile/data/models/company.dart';
 import 'package:rociny/features/company/profile/data/models/profile_completion_status.dart';
+import 'package:rociny/features/company/profile/data/models/review_summary.dart';
+import 'package:rociny/features/company/search/data/models/influencer_summary_model.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/platform_type.dart';
 
 part 'profile_event.dart';
@@ -30,6 +32,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileCompletionStatus? profileCompletionStatus;
   late Company company;
   InstagramAccount? instagramAccount;
+  List<ReviewSummary> reviewSummaries = [];
+  List<InfluencerSummary> collaboratedInfluencers = [];
 
   void getProfile(GetProfile event, Emitter<ProfileState> emit) async {
     try {
@@ -37,6 +41,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
       profileCompletionStatus = await companyRepository.getProfileCompletionStatus();
       company = await companyRepository.getCompany();
+      reviewSummaries = await companyRepository.getReviewSummaries();
+      collaboratedInfluencers = await companyRepository.getCollaboratedInfluencers();
+
       if (profileCompletionStatus!.hasInstagramAccount) {
         instagramAccount = await companyRepository.getInstagramAccount();
       }

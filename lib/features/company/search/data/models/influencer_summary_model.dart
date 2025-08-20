@@ -8,6 +8,8 @@ class InfluencerSummary {
   final List<String> portfolio;
   final String name;
   final int followers;
+  final double averageStars;
+  final int collaborationsAmount;
 
   InfluencerSummary({
     required this.id,
@@ -16,6 +18,8 @@ class InfluencerSummary {
     required this.portfolio,
     required this.name,
     required this.followers,
+    required this.averageStars,
+    required this.collaborationsAmount,
   });
 
   factory InfluencerSummary.fromJson(Map<String, dynamic> json) {
@@ -25,7 +29,15 @@ class InfluencerSummary {
       profilePicture: json['profile_picture'] as String,
       portfolio: List<String>.from(json['portfolio'] ?? []),
       name: json['name'] as String,
-      followers: json['followers'] ?? 0,
+      followers: (json['followers'] is String)
+          ? int.tryParse(json['followers']) ?? 0
+          : (json['followers'] ?? json['followers_count'] ?? 0) as int,
+      collaborationsAmount: (json['collaboration_amount'] is String)
+          ? int.tryParse(json['collaboration_amount']) ?? 0
+          : (json['collaboration_amount'] ?? 0) as int,
+      averageStars: (json['average_stars'] is int)
+          ? (json['average_stars'] as int).toDouble()
+          : (json['average_stars'] as num?)?.toDouble() ?? 0.0,
     );
   }
 
@@ -62,6 +74,12 @@ class InfluencerSummary {
       portfolio: influencer.portfolio,
       name: influencer.name!,
       followers: followerCount,
+      collaborationsAmount: influencer.collaborationAmount,
+      averageStars: influencer.averageStars,
     );
+  }
+
+  static List<InfluencerSummary> fromJsons(List<dynamic> jsons) {
+    return jsons.map((e) => InfluencerSummary.fromJson(e as Map<String, dynamic>)).toList();
   }
 }

@@ -15,7 +15,6 @@ import 'package:rociny/features/influencer/profile/data/models/influencer.dart';
 part 'collaboration_event.dart';
 part 'collaboration_state.dart';
 
-/// TODO bloquer le changement de donnée juridique tant que collaboration est en cours/en attente de paiement, de valdiation de entreprise
 /// 4242 4242 4242 4242
 /// 4000 0000 0000 0077
 

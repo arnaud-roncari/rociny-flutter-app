@@ -14,7 +14,6 @@ import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/company/search/bloc/search/search_bloc.dart';
 import 'package:rociny/features/company/search/ui/widgets/influencer_summary_card.dart';
 
-/// TODO ajouer collaboration et review dans summary
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
 

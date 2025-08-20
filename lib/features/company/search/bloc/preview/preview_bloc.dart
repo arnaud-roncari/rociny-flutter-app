@@ -9,9 +9,11 @@ import 'package:rociny/core/utils/error_handling/api_exception.dart';
 import 'package:rociny/features/auth/data/models/instagram_account_model.dart';
 import 'package:rociny/features/company/profile/data/models/company.dart';
 import 'package:rociny/features/company/profile/data/models/profile_completion_status.dart';
+import 'package:rociny/features/company/profile/data/models/review_summary.dart';
 import 'package:rociny/features/company/search/data/enums/product_placement_type.dart';
 import 'package:rociny/features/company/search/data/models/collaboration_model.dart';
 import 'package:rociny/features/company/search/data/models/product_placement_model.dart';
+import 'package:rociny/features/influencer/profile/data/models/collaborated_company_model.dart';
 import 'package:rociny/features/influencer/profile/data/models/influencer.dart';
 import 'package:rociny/features/influencer/profile/data/models/profile_completion_status.dart' as i;
 
@@ -39,6 +41,8 @@ class PreviewBloc extends Bloc<PreviewEvent, PreviewState> {
   late i.ProfileCompletionStatus influencerProfileCompletion;
   late Influencer influencer;
   InstagramAccount? instagramAccount;
+  List<ReviewSummary> reviewSummaries = [];
+  List<CollaboratedCompany> collaboratedCompanies = [];
 
   /// Company
   late ProfileCompletionStatus companyProfileCompletion;
@@ -64,11 +68,15 @@ class PreviewBloc extends Bloc<PreviewEvent, PreviewState> {
         companyRepository.getInfluencer(event.userId),
         companyRepository.getProfileCompletionStatus(),
         companyRepository.getCompany(),
+        companyRepository.getInfluencerReviewSummaries(event.userId),
+        companyRepository.getInfluencerCollaboratedCompanies(event.userId)
       ]);
       influencerProfileCompletion = results[0] as i.ProfileCompletionStatus;
       influencer = results[1] as Influencer;
       companyProfileCompletion = results[2] as ProfileCompletionStatus;
       company = results[3] as Company;
+      reviewSummaries = results[4] as List<ReviewSummary>;
+      collaboratedCompanies = results[5] as List<CollaboratedCompany>;
 
       if (influencerProfileCompletion.hasInstagramAccount) {
         instagramAccount = await companyRepository.getInfluencerInstagramAccount(event.userId);

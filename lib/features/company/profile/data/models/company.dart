@@ -15,6 +15,8 @@ class Company {
   String? postalCode;
   String? stripeCustomerId;
   List<SocialNetwork> socialNetworks;
+  final int collaborationAmount;
+  final double averageStars;
 
   Company({
     required this.id,
@@ -31,6 +33,8 @@ class Company {
     this.stripeCustomerId,
     required this.createdAt,
     required this.socialNetworks,
+    required this.collaborationAmount,
+    required this.averageStars,
   });
 
   factory Company.fromMap(Map<String, dynamic> map) {
@@ -49,6 +53,12 @@ class Company {
       stripeCustomerId: map['stripe_customer_id'],
       createdAt: map['created_at'] != null ? DateTime.parse(map['created_at']) : DateTime.now(),
       socialNetworks: SocialNetwork.fromJsons(map['social_networks']),
+      collaborationAmount: (map['collaboration_amount'] is String)
+          ? int.tryParse(map['collaboration_amount']) ?? 0
+          : (map['collaboration_amount'] ?? 0) as int,
+      averageStars: (map['average_stars'] is String)
+          ? double.tryParse(map['average_stars']) ?? 0.0
+          : (map['average_stars'] as num?)?.toDouble() ?? 0.0,
     );
   }
 

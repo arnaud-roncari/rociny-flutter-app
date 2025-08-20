@@ -44,13 +44,13 @@ class _PreviewCompanyPageState extends State<PreviewCompanyPage> {
               );
             }
 
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kPadding20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: kPadding20),
-                  Row(
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: kPadding20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: kPadding20),
+                  child: Row(
                     children: [
                       SvgButton(
                         path: "assets/svg/left_arrow.svg",
@@ -65,25 +65,27 @@ class _PreviewCompanyPageState extends State<PreviewCompanyPage> {
                       const SizedBox(width: kPadding20),
                     ],
                   ),
-                  const SizedBox(height: kPadding15),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: kPadding15),
-                          CompanyProfile(
-                            company: bloc.company,
-                            instagramAccount: bloc.instagramAccount,
-                          ),
-                          const SizedBox(height: kPadding20),
-                        ],
-                      ),
+                ),
+                const SizedBox(height: kPadding15),
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: kPadding15),
+                        CompanyProfile(
+                          company: bloc.company,
+                          instagramAccount: bloc.instagramAccount,
+                          reviewSummaries: bloc.reviewSummaries,
+                          collaboratedInfluencers: bloc.collaboratedInfluencers,
+                        ),
+                        const SizedBox(height: kPadding20),
+                      ],
                     ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             );
           },
         ),

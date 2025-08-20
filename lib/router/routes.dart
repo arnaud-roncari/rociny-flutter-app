@@ -12,6 +12,8 @@ import 'package:rociny/features/auth/ui/pages/forgot_password_page.dart';
 import 'package:rociny/features/auth/ui/pages/login_page.dart';
 import 'package:rociny/features/auth/ui/pages/register_code_verification_page.dart';
 import 'package:rociny/features/auth/ui/pages/register_page.dart';
+import 'package:rociny/features/influencer/profile/data/models/influencer.dart';
+import 'package:rociny/features/influencer/profile/ui/pages/portfolio_page.dart';
 import 'package:rociny/router/company_routes.dart';
 import 'package:rociny/router/influencer_routes.dart';
 import 'package:rociny/shared/pages/facebook_page.dart';
@@ -87,6 +89,15 @@ final GoRouter kRouter = GoRouter(
           return PreviewPicturePage(
             endpoint: endpoint,
             onDeleted: onDeleted,
+          );
+        }),
+    GoRoute(
+        path: '/portfolio',
+        builder: (context, state) {
+          Influencer influencer = state.extra as Influencer;
+
+          return PortfolioPage(
+            influencer: influencer,
           );
         }),
   ],

@@ -8,7 +8,9 @@ import 'package:rociny/core/utils/error_handling/api_exception.dart';
 import 'package:rociny/features/auth/data/models/instagram_account_model.dart';
 import 'package:rociny/features/company/profile/data/models/company.dart';
 import 'package:rociny/features/company/profile/data/models/profile_completion_status.dart';
+import 'package:rociny/features/company/profile/data/models/review_summary.dart';
 import 'package:rociny/features/company/search/data/enums/product_placement_type.dart';
+import 'package:rociny/features/company/search/data/models/influencer_summary_model.dart';
 import 'package:rociny/features/company/search/data/models/product_placement_model.dart';
 
 part 'preview_event.dart';
@@ -27,6 +29,8 @@ class PreviewBloc extends Bloc<PreviewEvent, PreviewState> {
   late ProfileCompletionStatus completion;
   late Company company;
   InstagramAccount? instagramAccount;
+  late List<ReviewSummary> reviewSummaries;
+  List<InfluencerSummary> collaboratedInfluencers = [];
 
   void initialize(Initialize event, Emitter<PreviewState> emit) async {
     try {
@@ -35,10 +39,14 @@ class PreviewBloc extends Bloc<PreviewEvent, PreviewState> {
       final results = await Future.wait([
         influencerRepository.getCompanyCompletionStatus(event.userId),
         influencerRepository.getCompany(event.userId),
+        influencerRepository.getReviewSummaries(),
+        influencerRepository.getCompanyCollaboratedInfluencers(event.userId)
       ]);
 
       completion = results[0] as ProfileCompletionStatus;
       company = results[1] as Company;
+      reviewSummaries = results[2] as List<ReviewSummary>;
+      collaboratedInfluencers = results[3] as List<InfluencerSummary>;
 
       if (completion.hasInstagramAccount) {
         instagramAccount = await influencerRepository.getCompanyInstagramAccount(event.userId);

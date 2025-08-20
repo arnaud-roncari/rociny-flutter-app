@@ -127,7 +127,7 @@ class _InfluencerSummaryCardState extends State<InfluencerSummaryCard> {
                             ),
                             const Spacer(),
                             Text(
-                              "0 Collaborations",
+                              "${widget.influencer.collaborationsAmount} Collaborations",
                               style: kCaption.copyWith(color: kWhite),
                             ),
                           ],
@@ -141,7 +141,7 @@ class _InfluencerSummaryCardState extends State<InfluencerSummaryCard> {
                             ),
                             const Spacer(),
                             Text(
-                              "0",
+                              formatAverage(),
                               style: kCaption.copyWith(color: kWhite),
                             ),
                             const SizedBox(width: kPadding5),
@@ -163,5 +163,18 @@ class _InfluencerSummaryCardState extends State<InfluencerSummaryCard> {
         );
       },
     );
+  }
+
+  String formatAverage() {
+    double value = widget.influencer.averageStars;
+    if (value == 0) {
+      return "Aucune notation";
+    }
+
+    if (value % 1 == 0) {
+      return value.toInt().toString();
+    } else {
+      return value.toStringAsFixed(1);
+    }
   }
 }

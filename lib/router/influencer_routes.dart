@@ -9,6 +9,7 @@ import 'package:rociny/features/influencer/collaborations/bloc/preview_bloc.dart
 import 'package:rociny/features/influencer/collaborations/ui/pages/collaboration_page.dart';
 import 'package:rociny/features/influencer/collaborations/ui/pages/preview_company_page.dart';
 import 'package:rociny/features/influencer/collaborations/ui/pages/review_page.dart';
+import 'package:rociny/features/influencer/dashboard/bloc/dashboard_bloc.dart';
 import 'package:rociny/features/influencer/profile/bloc/profile_bloc.dart';
 import 'package:rociny/features/influencer/profile/ui/pages/update_description_page.dart';
 import 'package:rociny/features/influencer/profile/ui/pages/update_geolocation.dart';
@@ -86,6 +87,13 @@ List<RouteBase> kInfluencerRoutes = [
           ),
           BlocProvider(
             create: (_) => CollaborationsBloc(
+              crashRepository: context.read<CrashRepository>(),
+              influencerRepository: context.read<InfluencerRepository>(),
+            ),
+            child: child,
+          ),
+          BlocProvider(
+            create: (_) => DashboardBloc(
               crashRepository: context.read<CrashRepository>(),
               influencerRepository: context.read<InfluencerRepository>(),
             ),

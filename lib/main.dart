@@ -17,10 +17,8 @@ import 'package:rociny/router/routes.dart';
 import 'package:rociny/shared/decorations/theme.dart';
 
 // TODO dans l'algo backend, ajouter le facteur de review multiplieur (ue)
-/// TODO rename preview en previewInflue@cer
-/// TODO bloquer les modifications juridique si colalboraiton en cours
-
 /// TODO définir les documents à upload (et valider auto au bout de 5 minutes pour le début)
+/// TODO upload CGU et privacy et ajouter MAJ devant text
 
 /// TODO DOC
 /// - rework routes du backend avant mise en prod (et tester)

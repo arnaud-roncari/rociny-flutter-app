@@ -7,12 +7,16 @@ import 'package:rociny/core/utils/error_handling/api_exception.dart';
 import 'package:rociny/features/auth/data/models/instagram_account_model.dart';
 import 'package:rociny/features/company/collaborations/data/model/collaboration_summary_model.dart';
 import 'package:rociny/features/company/profile/data/models/company.dart';
+import 'package:rociny/features/company/profile/data/models/review_summary.dart';
 import 'package:rociny/features/company/search/data/models/collaboration_model.dart';
+import 'package:rociny/features/company/search/data/models/influencer_summary_model.dart';
 import 'package:rociny/features/company/search/data/models/review_model.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_status.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_type.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/platform_type.dart';
 import 'package:rociny/features/influencer/complete_profile/data/models/social_network_model.dart';
+import 'package:rociny/features/influencer/dashboard/data/models/influencer_statistics_model.dart';
+import 'package:rociny/features/influencer/profile/data/models/collaborated_company_model.dart';
 import 'package:rociny/features/influencer/profile/data/models/influencer.dart';
 import 'package:rociny/features/influencer/profile/data/models/profile_completion_status.dart';
 import 'package:rociny/features/company/profile/data/models/profile_completion_status.dart' as c;
@@ -654,5 +658,86 @@ class InfluencerRepository {
     }
     final body = jsonDecode(response.body);
     return InstagramAccount.fromMap(body);
+  }
+
+  Future<List<ReviewSummary>> getReviewSummaries() async {
+    final response = await get(
+      Uri.parse('$kEndpoint/influencer/get-review-summaries'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+    final body = jsonDecode(response.body);
+    return ReviewSummary.fromJsons(body);
+  }
+
+  Future<List<CollaboratedCompany>> getCollaboratedCompanies() async {
+    final response = await get(
+      Uri.parse('$kEndpoint/influencer/get-collaborated-companies'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+    final body = jsonDecode(response.body);
+    return CollaboratedCompany.fromJsons(body);
+  }
+
+  Future<List<InfluencerSummary>> getCompanyCollaboratedInfluencers(int userId) async {
+    final response = await get(
+      Uri.parse('$kEndpoint/influencer/get-company-collaborated-influencers/$userId'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+    final body = jsonDecode(response.body);
+    return InfluencerSummary.fromJsons(body);
+  }
+
+  Future<InfluencerStatistics> getStatistics() async {
+    final response = await get(
+      Uri.parse('$kEndpoint/influencer/get-dashboard/statistics'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+    print(response.body);
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+
+    final body = jsonDecode(response.body);
+    return InfluencerStatistics.fromJson(body);
+  }
+
+  Future<List<CollaborationSummary>> getRecentCollaborations() async {
+    final response = await get(
+      Uri.parse('$kEndpoint/influencer/get-dashboard/collaborations'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+    final body = jsonDecode(response.body);
+    return CollaborationSummary.fromJsons(body);
   }
 }

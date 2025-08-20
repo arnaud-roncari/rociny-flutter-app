@@ -4,6 +4,7 @@ enum PlatformType {
   x,
   linkedin,
   tiktok,
+  instagram,
 }
 
 String getPlatformSvgAsset(PlatformType platform) {
@@ -18,6 +19,8 @@ String getPlatformSvgAsset(PlatformType platform) {
       return 'assets/svg/linkedin.svg';
     case PlatformType.tiktok:
       return 'assets/svg/tiktok.svg';
+    case PlatformType.instagram:
+      return 'assets/svg/instagram.svg';
   }
 }
 
@@ -33,5 +36,25 @@ String getDisplayedName(PlatformType platform) {
       return 'Linkedin';
     case PlatformType.tiktok:
       return 'Tiktok';
+    case PlatformType.instagram:
+      return 'Instagram';
+  }
+}
+
+/// TODO terminer
+String getPlatformBaseUrl(PlatformType platform) {
+  switch (platform) {
+    case PlatformType.twitch:
+      return 'https://www.twitch.tv/';
+    case PlatformType.youtube:
+      return 'https://www.youtube.com/';
+    case PlatformType.x:
+      return 'https://x.com/';
+    case PlatformType.linkedin:
+      return 'https://www.linkedin.com/in/';
+    case PlatformType.tiktok:
+      return 'https://www.tiktok.com/@';
+    case PlatformType.instagram:
+      return 'https://www.instagram.com/';
   }
 }

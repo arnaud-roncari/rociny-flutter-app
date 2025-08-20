@@ -42,19 +42,19 @@ class _PreviewInfluencerPageState extends State<PreviewInfluencerPage> {
           builder: (context, state) {
             final bloc = context.read<PreviewBloc>();
 
-            if (state is InitializeLoading) {
+            if (state is InitializeLoading || state is InitializeFailed) {
               return Center(
                 child: CircularProgressIndicator(color: kPrimary500),
               );
             }
 
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kPadding20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: kPadding20),
-                  Row(
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: kPadding20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: kPadding20),
+                  child: Row(
                     children: [
                       SvgButton(
                         path: "assets/svg/left_arrow.svg",
@@ -69,20 +69,24 @@ class _PreviewInfluencerPageState extends State<PreviewInfluencerPage> {
                       const SizedBox(width: kPadding20),
                     ],
                   ),
-                  const SizedBox(height: kPadding15),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: kPadding15),
-                          InfluencerProfile(
-                            influencer: bloc.influencer,
-                            instagramAccount: bloc.instagramAccount,
-                          ),
-                          const SizedBox(height: kPadding30),
-                          Button(
+                ),
+                const SizedBox(height: kPadding15),
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: kPadding15),
+                        InfluencerProfile(
+                          influencer: bloc.influencer,
+                          instagramAccount: bloc.instagramAccount,
+                          reviewSummaries: bloc.reviewSummaries,
+                          collaboratedCompanies: bloc.collaboratedCompanies,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: kPadding20),
+                          child: Button(
                             title: "Proposer une collaboration",
                             onPressed: () async {
                               if (!bloc.companyProfileCompletion.isCompleted()) {
@@ -114,13 +118,13 @@ class _PreviewInfluencerPageState extends State<PreviewInfluencerPage> {
                               }
                             },
                           ),
-                          const SizedBox(height: kPadding20),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(height: kPadding20),
+                      ],
                     ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             );
           },
         ),

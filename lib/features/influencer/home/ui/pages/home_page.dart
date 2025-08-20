@@ -6,7 +6,7 @@ import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/influencer/home/ui/pages/chat_page.dart';
 import 'package:rociny/features/influencer/collaborations/ui/pages/collaborations_page.dart';
-import 'package:rociny/features/influencer/home/ui/pages/dashboard_page.dart';
+import 'package:rociny/features/influencer/dashboard/ui/pages/dashboard_page.dart';
 import 'package:rociny/features/influencer/profile/ui/pages/profile_page.dart';
 
 class HomePage extends StatefulWidget {

@@ -9,6 +9,7 @@ import 'package:rociny/features/company/collaborations/data/model/collaboration_
 import 'package:rociny/features/company/complete_profile/data/dtos/setup_intent_dto.dart';
 import 'package:rociny/features/company/profile/data/models/company.dart';
 import 'package:rociny/features/company/profile/data/models/profile_completion_status.dart';
+import 'package:rociny/features/company/profile/data/models/review_summary.dart';
 import 'package:rociny/features/company/search/data/enums/product_placement_type.dart';
 import 'package:rociny/features/company/search/data/models/collaboration_model.dart';
 import 'package:rociny/features/company/search/data/models/influencer_summary_model.dart';
@@ -18,6 +19,7 @@ import 'package:rociny/features/influencer/complete_profile/data/enums/legal_doc
 import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_type.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/platform_type.dart';
 import 'package:rociny/features/influencer/complete_profile/data/models/social_network_model.dart';
+import 'package:rociny/features/influencer/profile/data/models/collaborated_company_model.dart';
 import 'package:rociny/features/influencer/profile/data/models/influencer.dart';
 import 'package:rociny/features/influencer/profile/data/models/profile_completion_status.dart' as i;
 
@@ -782,5 +784,69 @@ class CompanyRepository {
       Map<String, dynamic> body = jsonDecode(response.body);
       throw ApiException.fromJson(response.statusCode, body);
     }
+  }
+
+  Future<List<ReviewSummary>> getReviewSummaries() async {
+    final response = await get(
+      Uri.parse('$kEndpoint/company/get-review-summaries'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+    final body = jsonDecode(response.body);
+    return ReviewSummary.fromJsons(body);
+  }
+
+  Future<List<ReviewSummary>> getInfluencerReviewSummaries(int userId) async {
+    final response = await get(
+      Uri.parse('$kEndpoint/company/get-influencer-review-summaries/$userId'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+    final body = jsonDecode(response.body);
+    return ReviewSummary.fromJsons(body);
+  }
+
+  Future<List<InfluencerSummary>> getCollaboratedInfluencers() async {
+    final response = await get(
+      Uri.parse('$kEndpoint/company/get-collaborated-influencers'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+    final body = jsonDecode(response.body);
+    return InfluencerSummary.fromJsons(body);
+  }
+
+  Future<List<CollaboratedCompany>> getInfluencerCollaboratedCompanies(int userId) async {
+    final response = await get(
+      Uri.parse('$kEndpoint/company/get-influencer-collaborated-companies/$userId'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+    final body = jsonDecode(response.body);
+    return CollaboratedCompany.fromJsons(body);
   }
 }

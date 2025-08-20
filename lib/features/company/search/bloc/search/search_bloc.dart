@@ -98,14 +98,31 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   void sortByCollaborations() {
-    /// TODO implemtion sorting by collabs and reviews
+    // Sort by number of completed collaborations (descending).
+    // If equal, fallback to number of followers (descending).
+    influencers.sort((a, b) {
+      int cmp = b.collaborationsAmount.compareTo(a.collaborationsAmount);
+      if (cmp == 0) {
+        return b.followers.compareTo(a.followers);
+      }
+      return cmp;
+    });
   }
 
   void sortByFollowers() {
+    // Sort by followers count (descending).
     influencers.sort((a, b) => (b.followers).compareTo(a.followers));
   }
 
   void sortByNotations() {
-    /// ...
+    // Sort by average rating (descending).
+    // If equal, fallback to number of collaborations (descending).
+    influencers.sort((a, b) {
+      int cmp = b.averageStars.compareTo(a.averageStars);
+      if (cmp == 0) {
+        return b.collaborationsAmount.compareTo(a.collaborationsAmount);
+      }
+      return cmp;
+    });
   }
 }

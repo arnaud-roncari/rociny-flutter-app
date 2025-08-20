@@ -43,13 +43,13 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
       },
       builder: (context, state) {
         final bloc = context.read<ProfileBloc>();
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: kPadding20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: kPadding20),
-              Row(
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: kPadding20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: kPadding20),
+              child: Row(
                 children: [
                   Text(
                     "profile".translate(),
@@ -83,31 +83,34 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
                   )
                 ],
               ),
-              const SizedBox(height: kPadding15),
-              Expanded(
-                child: Builder(builder: (context) {
-                  if (state is GetProfileLoading || state is GetProfileFailed) {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: kPrimary500,
-                      ),
-                    );
-                  }
+            ),
+            const SizedBox(height: kPadding15),
+            Expanded(
+              child: Builder(builder: (context) {
+                if (state is GetProfileLoading || state is GetProfileFailed) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: kPrimary500,
+                    ),
+                  );
+                }
 
-                  return RefreshIndicator(
-                    backgroundColor: kWhite,
-                    elevation: 0,
-                    color: kPrimary500,
-                    onRefresh: () async {
-                      bloc.add(GetProfile());
-                    },
-                    child: SingleChildScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: kPadding15),
-                          Column(
+                return RefreshIndicator(
+                  backgroundColor: kWhite,
+                  elevation: 0,
+                  color: kPrimary500,
+                  onRefresh: () async {
+                    bloc.add(GetProfile());
+                  },
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: kPadding15),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: kPadding20),
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               buildAddProfilePicture(),
@@ -118,19 +121,21 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
                               buildAddInstagram(),
                             ],
                           ),
-                          CompanyProfile(
-                            company: bloc.company,
-                            instagramAccount: bloc.instagramAccount,
-                          ),
-                          const SizedBox(height: kPadding20),
-                        ],
-                      ),
+                        ),
+                        CompanyProfile(
+                          company: bloc.company,
+                          instagramAccount: bloc.instagramAccount,
+                          reviewSummaries: bloc.reviewSummaries,
+                          collaboratedInfluencers: bloc.collaboratedInfluencers,
+                        ),
+                        const SizedBox(height: kPadding20),
+                      ],
                     ),
-                  );
-                }),
-              ),
-            ],
-          ),
+                  ),
+                );
+              }),
+            ),
+          ],
         );
       },
     );

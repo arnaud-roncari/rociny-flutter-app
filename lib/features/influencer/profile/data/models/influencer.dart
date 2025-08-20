@@ -13,6 +13,8 @@ class Influencer {
   DateTime createdAt;
   String? vatNumber;
   List<SocialNetwork> socialNetworks;
+  final int collaborationAmount;
+  final double averageStars;
 
   Influencer({
     required this.id,
@@ -27,6 +29,8 @@ class Influencer {
     this.targetAudience = const [],
     required this.createdAt,
     required this.socialNetworks,
+    required this.collaborationAmount,
+    required this.averageStars,
   });
 
   factory Influencer.fromMap(Map<String, dynamic> map) {
@@ -42,7 +46,13 @@ class Influencer {
       themes: List<String>.from(map['themes'] ?? []),
       targetAudience: List<String>.from(map['target_audience'] ?? []),
       createdAt: map['created_at'] != null ? DateTime.parse(map['created_at']) : DateTime.now(),
-      socialNetworks: SocialNetwork.fromJsons(map['social_networks']),
+      socialNetworks: SocialNetwork.fromJsons(map['social_networks'] ?? []),
+      collaborationAmount: (map['collaboration_amount'] is String)
+          ? int.tryParse(map['collaboration_amount']) ?? 0
+          : (map['collaboration_amount'] ?? 0) as int,
+      averageStars: (map['average_stars'] is String)
+          ? double.tryParse(map['average_stars']) ?? 0.0
+          : (map['average_stars'] as num?)?.toDouble() ?? 0.0,
     );
   }
 

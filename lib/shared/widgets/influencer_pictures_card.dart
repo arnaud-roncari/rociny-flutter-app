@@ -70,7 +70,7 @@ class _InfluencerPicturesCardState extends State<InfluencerPicturesCard> {
 
                     return InkWell(
                       onTap: () {
-                        context.push("/preview_picture", extra: {"endpoint": imageUrl});
+                        context.push("/portfolio", extra: widget.influencer);
                       },
                       child: Image(
                         fit: BoxFit.cover,
