@@ -49,18 +49,16 @@ class _DashboardPageState extends State<DashboardPage> with AutomaticKeepAliveCl
               },
               builder: (context, state) {
                 if (state is InitializeFailed || state is InitializeLoading) {
-                  return Expanded(
-                    child: Column(
-                      children: [
-                        const Spacer(),
-                        Center(
-                          child: CircularProgressIndicator(
-                            color: kPrimary500,
-                          ),
+                  return Column(
+                    children: [
+                      const Spacer(),
+                      Center(
+                        child: CircularProgressIndicator(
+                          color: kPrimary500,
                         ),
-                        const Spacer(),
-                      ],
-                    ),
+                      ),
+                      const Spacer(),
+                    ],
                   );
                 }
 

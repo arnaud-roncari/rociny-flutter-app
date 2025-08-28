@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rociny/core/repositories/conversation_gateway.dart';
 import 'package:rociny/core/repositories/crash_repository.dart';
 import 'package:rociny/core/repositories/influencer_repository.dart';
 import 'package:rociny/features/auth/data/repositories/auth_repository.dart';
@@ -9,6 +10,9 @@ import 'package:rociny/features/influencer/collaborations/bloc/preview_bloc.dart
 import 'package:rociny/features/influencer/collaborations/ui/pages/collaboration_page.dart';
 import 'package:rociny/features/influencer/collaborations/ui/pages/preview_company_page.dart';
 import 'package:rociny/features/influencer/collaborations/ui/pages/review_page.dart';
+import 'package:rociny/features/influencer/conversation/bloc/conversation_bloc.dart';
+import 'package:rociny/features/influencer/conversation/bloc/conversations_bloc.dart';
+import 'package:rociny/features/influencer/conversation/ui/pages/conversation_page.dart';
 import 'package:rociny/features/influencer/dashboard/bloc/dashboard_bloc.dart';
 import 'package:rociny/features/influencer/profile/bloc/profile_bloc.dart';
 import 'package:rociny/features/influencer/profile/ui/pages/update_description_page.dart';
@@ -99,6 +103,14 @@ List<RouteBase> kInfluencerRoutes = [
             ),
             child: child,
           ),
+          BlocProvider(
+            create: (_) => ConversationsBloc(
+              crashRepository: context.read<CrashRepository>(),
+              influencerRepository: context.read<InfluencerRepository>(),
+              conversationGateway: context.read<ConversationGateway>(),
+            ),
+            child: child,
+          ),
         ],
         child: child,
       );
@@ -108,6 +120,36 @@ List<RouteBase> kInfluencerRoutes = [
         path: '/influencer/home',
         builder: (context, state) => const HomePage(),
         routes: [
+          /// Conversation
+          ShellRoute(
+            builder: (context, state, child) {
+              return BlocProvider(
+                create: (_) => ConversationBloc(
+                  crashRepository: context.read<CrashRepository>(),
+                  influencerRepository: context.read<InfluencerRepository>(),
+                  conversationGateway: context.read<ConversationGateway>(),
+                ),
+                child: child,
+              );
+            },
+            routes: [
+              GoRoute(
+                path: 'conversation',
+                builder: (context, state) {
+                  Map data = state.extra as Map;
+                  int conversationId = data["conversation_id"];
+                  String companyName = data["company_name"];
+                  String companyProfilePicture = data["company_profile_picture"];
+                  return ConversationPage(
+                    conversationId: conversationId,
+                    companyName: companyName,
+                    companyProfilePicture: companyProfilePicture,
+                  );
+                },
+              ),
+            ],
+          ),
+
           /// Collaborations
           ShellRoute(
             builder: (context, state, child) {

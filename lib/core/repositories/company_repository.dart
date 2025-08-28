@@ -19,6 +19,8 @@ import 'package:rociny/features/influencer/complete_profile/data/enums/legal_doc
 import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_type.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/platform_type.dart';
 import 'package:rociny/features/influencer/complete_profile/data/models/social_network_model.dart';
+import 'package:rociny/features/influencer/conversation/data/models/conversation_model.dart';
+import 'package:rociny/features/influencer/conversation/data/models/message_model.dart';
 import 'package:rociny/features/influencer/profile/data/models/collaborated_company_model.dart';
 import 'package:rociny/features/influencer/profile/data/models/influencer.dart';
 import 'package:rociny/features/influencer/profile/data/models/profile_completion_status.dart' as i;
@@ -848,5 +850,70 @@ class CompanyRepository {
     }
     final body = jsonDecode(response.body);
     return CollaboratedCompany.fromJsons(body);
+  }
+
+  Future<List<ConversationSummary>> getAllConversations() async {
+    final response = await get(
+      Uri.parse('$kEndpoint/company/get-all-conversations'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+    final body = jsonDecode(response.body);
+    return ConversationSummary.fromJsons(body);
+  }
+
+  Future<List<Message>> getMessagesByConversation(int conversationId) async {
+    final response = await get(
+      Uri.parse('$kEndpoint/company/get-messages-by-conversation/$conversationId'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+    final body = jsonDecode(response.body);
+    return Message.fromJsons(body);
+  }
+
+  Future<void> markConversationMessagesAsRead(int conversationId) async {
+    final response = await get(
+      Uri.parse('$kEndpoint/company/mark-messages-as-read/$conversationId'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+  }
+
+  Future<void> addMessage(int conversationId, String content) async {
+    var response = await post(
+      Uri.parse('$kEndpoint/company/add-message'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'conversation_id': conversationId,
+        "content": content,
+      }),
+    );
+
+    if (response.statusCode >= 400) {
+      Map<String, dynamic> body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
   }
 }

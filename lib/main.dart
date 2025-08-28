@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/constants/storage_keys.dart';
 import 'package:rociny/core/repositories/company_repository.dart';
+import 'package:rociny/core/repositories/conversation_gateway.dart';
 import 'package:rociny/core/repositories/crash_repository.dart';
 import 'package:rociny/core/repositories/influencer_repository.dart';
 import 'package:rociny/core/utils/helpers/department_helper.dart';
@@ -16,7 +18,10 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:rociny/router/routes.dart';
 import 'package:rociny/shared/decorations/theme.dart';
 
-// TODO dans l'algo backend, ajouter le facteur de review multiplieur (ue)
+/// TODO Tester sur samsung
+/// TODO différencer userid de company et influencerid dans els services
+/// TODO simplifier le get d'image (par nom de fichier et par userId, sans jwt)
+/// TODO MAJ les visuels dans le onboarding et complétion profil (heck tous les illustration)
 /// TODO définir les documents à upload (et valider auto au bout de 5 minutes pour le début)
 /// TODO upload CGU et privacy et ajouter MAJ devant text
 
@@ -38,6 +43,7 @@ import 'package:rociny/shared/decorations/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('fr_FR');
 
   /// The JWT is stored as a global variable, fetched from the client's keystore.
   /// Other services will be able to use the JWT, such as the router to define which initial route to display,
@@ -87,6 +93,7 @@ class RocinyApp extends StatelessWidget {
         RepositoryProvider(create: (context) => CrashRepository()),
         RepositoryProvider(create: (context) => InfluencerRepository()),
         RepositoryProvider(create: (context) => CompanyRepository()),
+        RepositoryProvider(create: (context) => ConversationGateway()),
       ],
       child: Builder(
         builder: (context) {

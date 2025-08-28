@@ -4,7 +4,7 @@ import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
-import 'package:rociny/features/company/home/ui/pages/chat_page.dart';
+import 'package:rociny/features/company/conversation/ui/pages/conversations_page.dart';
 import 'package:rociny/features/company/collaborations/ui/pages/collaborations_page.dart';
 import 'package:rociny/features/company/profile/ui/pages/profile_page.dart';
 import 'package:rociny/features/company/search/ui/pages/search_page.dart';
@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
                 controller: pageController,
                 children: const [
                   SearchPage(),
-                  ChatPage(),
+                  ConversationsPage(),
                   CollaborationsPage(),
                   ProfilePage(),
                 ],
