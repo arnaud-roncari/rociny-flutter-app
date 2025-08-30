@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/constants/storage_keys.dart';
 import 'package:rociny/core/repositories/company_repository.dart';
@@ -25,6 +26,7 @@ import 'package:rociny/shared/decorations/theme.dart';
 /// TODO définir les documents à upload (et valider auto au bout de 5 minutes pour le début)
 /// TODO upload CGU et privacy et ajouter MAJ devant text
 
+/// TODO il faut peut etre refaire la clés pour le auth, et coché sandbox et production (oauth apple)
 /// TODO DOC
 /// - rework routes du backend avant mise en prod (et tester)
 /// NOTE : Pour mise en prod:
@@ -78,6 +80,9 @@ void main() async {
   kCommission = 0.10;
 
   Stripe.publishableKey = kStripePublishableKey;
+
+  OneSignal.initialize("c182cc06-c092-4176-8888-8652f2a9cb78");
+  OneSignal.Notifications.requestPermission(true);
 
   runApp(const RocinyApp());
 }

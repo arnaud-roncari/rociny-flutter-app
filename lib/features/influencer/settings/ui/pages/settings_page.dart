@@ -65,6 +65,7 @@ class SettingsPage extends StatelessWidget {
               svgPath: "assets/svg/bell.svg",
               label: "notifications".translate(),
               onPressed: () {
+                context.read<SettingsBloc>().add(GetNotificationPreferences());
                 context.push("/influencer/home/settings/notifications");
               },
             ),

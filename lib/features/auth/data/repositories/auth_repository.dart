@@ -333,4 +333,36 @@ class AuthRepository {
       throw ApiException.fromJson(response.statusCode, body);
     }
   }
+
+  Future<void> addDevice(String onesignalId) async {
+    final response = await post(
+      Uri.parse('$kEndpoint/user/auth/register-device'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'onesignal_id': onesignalId,
+      }),
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+  }
+
+  Future<void> removeDevice(String onesignalId) async {
+    final response = await delete(
+      Uri.parse('$kEndpoint/user/auth/delete-device/$onesignalId'),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      final body = jsonDecode(response.body);
+      throw ApiException.fromJson(response.statusCode, body);
+    }
+  }
 }

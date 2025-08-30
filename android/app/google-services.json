@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "872716360781",
+    "project_id": "rociny-d56a8",
+    "storage_bucket": "rociny-d56a8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:872716360781:android:1d4c41f5f4e3f31822d004",
+        "android_client_info": {
+          "package_name": "com.example.rociny"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClmRAOUgMkUJ06khAaLd8SHHxMuumoAw4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

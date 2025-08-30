@@ -41,7 +41,6 @@ String getDisplayedName(PlatformType platform) {
   }
 }
 
-/// TODO terminer
 String getPlatformBaseUrl(PlatformType platform) {
   switch (platform) {
     case PlatformType.twitch:

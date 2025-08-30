@@ -51,6 +51,14 @@
 	<string>Nous avons besoin d'accéder à votre microphone pour enregistrer le son des vidéos.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Nous avons besoin d'accéder à votre galerie pour sélectionner des photos.</string>
+
+	<!-- Ajout pour notifications push -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
+
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
@@ -73,5 +81,4 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 </dict>
-
 </plist>

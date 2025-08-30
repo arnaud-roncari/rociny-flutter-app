@@ -181,3 +181,27 @@ class GetStripeCompletionStatusFailed extends SettingsState {
 
   GetStripeCompletionStatusFailed({required this.exception});
 }
+
+/// ---
+
+class GetNotificationPreferencesLoading extends SettingsState {}
+
+class GetNotificationPreferencesSuccess extends SettingsState {}
+
+class GetNotificationPreferencesFailed extends SettingsState {
+  final AlertException exception;
+
+  GetNotificationPreferencesFailed({required this.exception});
+}
+
+/// ---
+
+class UpdateNotificationPreferenceLoading extends SettingsState {}
+
+class UpdateNotificationPreferenceSuccess extends SettingsState {}
+
+class UpdateNotificationPreferenceFailed extends SettingsState {
+  final AlertException exception;
+
+  UpdateNotificationPreferenceFailed({required this.exception});
+}

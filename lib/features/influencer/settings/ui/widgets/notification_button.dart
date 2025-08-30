@@ -3,14 +3,13 @@ import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/radius.dart';
 import 'package:rociny/core/constants/text_styles.dart';
+import 'package:rociny/features/company/settings/data/contants.dart';
+import 'package:rociny/features/company/settings/data/models/user_preference_model.dart';
 
 class NotificationButton extends StatefulWidget {
-  final bool initialValue;
-  final String title;
-  final String description;
-  final void Function(bool value) onTap;
-  const NotificationButton(
-      {super.key, required this.initialValue, required this.title, required this.description, required this.onTap});
+  final UserNotificationPreference preference;
+  final void Function(UserNotificationPreference preference, bool value) onTap;
+  const NotificationButton({super.key, required this.onTap, required this.preference});
 
   @override
   State<NotificationButton> createState() => _NotificationButtonState();
@@ -22,7 +21,7 @@ class _NotificationButtonState extends State<NotificationButton> {
   @override
   void initState() {
     super.initState();
-    value = widget.initialValue;
+    value = widget.preference.enabled;
   }
 
   @override
@@ -46,7 +45,7 @@ class _NotificationButtonState extends State<NotificationButton> {
             value = !value;
           });
 
-          widget.onTap(value);
+          widget.onTap(widget.preference, value);
         },
         child: Padding(
           padding: const EdgeInsets.only(bottom: kPadding20, top: kPadding15),
@@ -57,12 +56,12 @@ class _NotificationButtonState extends State<NotificationButton> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.title,
+                      getTitle(widget.preference.type),
                       style: kBody,
                     ),
                     const SizedBox(height: kPadding5),
                     Text(
-                      widget.description,
+                      getDescription(widget.preference.type),
                       style: kCaption.copyWith(color: kGrey300),
                     ),
                   ],
@@ -107,5 +106,13 @@ class _NotificationButtonState extends State<NotificationButton> {
 
   AlignmentGeometry getAlignment() {
     return value ? Alignment.centerRight : Alignment.centerLeft;
+  }
+
+  String getTitle(String type) {
+    return kNotifications[type]!.first;
+  }
+
+  String getDescription(String type) {
+    return kNotifications[type]!.last;
   }
 }

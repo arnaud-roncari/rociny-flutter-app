@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/constants/storage_keys.dart';
 import 'package:rociny/core/repositories/crash_repository.dart';
@@ -59,6 +60,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       /// Extract account type from JWT.
       Map<String, dynamic> decodedToken = JwtDecoder.decode(kJwt!);
       AccountType accountType = AccountTypeExtension.fromString(decodedToken['account_type']);
+
+      String? deviceId = OneSignal.User.pushSubscription.id;
+      if (deviceId != null) {
+        await authRepository.addDevice(deviceId);
+      }
 
       emit(LoginSuccess(accountType: accountType));
     } catch (exception, stack) {
@@ -241,6 +247,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         Map<String, dynamic> decodedToken = JwtDecoder.decode(kJwt!);
         AccountType accountType = AccountTypeExtension.fromString(decodedToken['account_type']);
 
+        String? deviceId = OneSignal.User.pushSubscription.id;
+        if (deviceId != null) {
+          await authRepository.addDevice(deviceId);
+        }
+
         emit(LoginSuccess(accountType: accountType));
       } else {
         providerUserId = dto.providerUserId;
@@ -283,6 +294,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         Map<String, dynamic> decodedToken = JwtDecoder.decode(kJwt!);
         AccountType accountType = AccountTypeExtension.fromString(decodedToken['account_type']);
 
+        String? deviceId = OneSignal.User.pushSubscription.id;
+        if (deviceId != null) {
+          await authRepository.addDevice(deviceId);
+        }
+
         emit(LoginSuccess(accountType: accountType));
       } else {
         providerUserId = dto.providerUserId;
@@ -306,6 +322,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       FlutterSecureStorage storage = const FlutterSecureStorage();
       await storage.write(key: kKeyJwt, value: kJwt);
+
+      String? deviceId = OneSignal.User.pushSubscription.id;
+      if (deviceId != null) {
+        await authRepository.addDevice(deviceId);
+      }
 
       emit(CompleteAccountTypeSuccess(accountType: event.accountType));
     } catch (exception, stack) {

@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/constants/storage_keys.dart';
 import 'package:rociny/core/repositories/company_repository.dart';
@@ -15,6 +16,7 @@ import 'package:rociny/features/auth/data/models/instagram_account_model.dart';
 import 'package:rociny/features/auth/data/repositories/auth_repository.dart';
 import 'package:rociny/features/company/complete_profile/data/dtos/setup_intent_dto.dart';
 import 'package:rociny/features/company/profile/data/models/company.dart';
+import 'package:rociny/features/company/settings/data/models/user_preference_model.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_status.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_type.dart';
 
@@ -42,6 +44,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<UpdateVATNumber>(updateVATNumber);
     on<UpdateTradeName>(updateTradeName);
     on<UpdateBillingAddress>(updateBillingAddress);
+    on<GetNotificationPreferences>(getNotificationPreferences);
+    on<UpdateNotificationPreference>(updateNotificationPreference);
   }
   final CrashRepository crashRepository;
   final CompanyRepository companyRepository;
@@ -61,6 +65,41 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   InstagramAccount? instagramAccount;
   bool hasInstagramAccount = false;
   late Company company;
+
+  List<UserNotificationPreference> notifications = [];
+
+  void getNotificationPreferences(GetNotificationPreferences event, Emitter<SettingsState> emit) async {
+    try {
+      emit(GetNotificationPreferencesLoading());
+      notifications = await companyRepository.getUserPreferences();
+      emit(GetNotificationPreferencesSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(GetNotificationPreferencesFailed(exception: alertException));
+    }
+  }
+
+  void updateNotificationPreference(UpdateNotificationPreference event, Emitter<SettingsState> emit) async {
+    try {
+      emit(UpdateNotificationPreferenceLoading());
+      await companyRepository.updatePreference(event.type, event.enabled);
+      notifications = await companyRepository.getUserPreferences();
+      emit(UpdateNotificationPreferenceSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(UpdateNotificationPreferenceFailed(exception: alertException));
+    }
+  }
 
   void updateTradeName(UpdateTradeName event, Emitter<SettingsState> emit) async {
     try {
@@ -176,12 +215,20 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   }
 
   void logout(OnLogout event, Emitter<SettingsState> emit) async {
+    String? deviceId = OneSignal.User.pushSubscription.id;
+    if (deviceId != null) {
+      await authRepository.removeDevice(deviceId);
+    }
     kJwt = null;
     FlutterSecureStorage storage = const FlutterSecureStorage();
     await storage.delete(key: kKeyJwt);
   }
 
   void deleteAccount(OnDeleteAccount event, Emitter<SettingsState> emit) async {
+    String? deviceId = OneSignal.User.pushSubscription.id;
+    if (deviceId != null) {
+      await authRepository.removeDevice(deviceId);
+    }
     await authRepository.deleteAccount();
     kJwt = null;
     FlutterSecureStorage storage = const FlutterSecureStorage();

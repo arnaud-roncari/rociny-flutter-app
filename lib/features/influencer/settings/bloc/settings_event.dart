@@ -63,3 +63,12 @@ class UpdateVATNumber extends SettingsEvent {
 
   UpdateVATNumber({required this.vatNumber});
 }
+
+class GetNotificationPreferences extends SettingsEvent {}
+
+class UpdateNotificationPreference extends SettingsEvent {
+  final String type;
+  final bool enabled;
+
+  UpdateNotificationPreference({required this.type, required this.enabled});
+}

@@ -12,6 +12,7 @@ import 'package:rociny/core/utils/error_handling/api_exception.dart';
 import 'package:rociny/features/auth/data/models/fetched_instagram_account_model.dart';
 import 'package:rociny/features/auth/data/models/instagram_account_model.dart';
 import 'package:rociny/features/auth/data/repositories/auth_repository.dart';
+import 'package:rociny/features/company/settings/data/models/user_preference_model.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_status.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_type.dart';
 
@@ -39,6 +40,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<CreateInstagramAccount>(createInstagramAccount);
     on<LogoutFacebook>(logoutFacebook);
     on<UpdateVATNumber>(updateVATNumber);
+    on<GetNotificationPreferences>(getNotificationPreferences);
+    on<UpdateNotificationPreference>(updateNotificationPreference);
   }
   final CrashRepository crashRepository;
   final InfluencerRepository influencerRepository;
@@ -61,6 +64,41 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   late bool hasCompletedStripe;
   late bool hasCompletedLegalDocuments;
   late String? vatNumber;
+
+  List<UserNotificationPreference> notifications = [];
+
+  void getNotificationPreferences(GetNotificationPreferences event, Emitter<SettingsState> emit) async {
+    try {
+      emit(GetNotificationPreferencesLoading());
+      notifications = await influencerRepository.getUserPreferences();
+      emit(GetNotificationPreferencesSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(GetNotificationPreferencesFailed(exception: alertException));
+    }
+  }
+
+  void updateNotificationPreference(UpdateNotificationPreference event, Emitter<SettingsState> emit) async {
+    try {
+      emit(UpdateNotificationPreferenceLoading());
+      await influencerRepository.updatePreference(event.type, event.enabled);
+      notifications = await influencerRepository.getUserPreferences();
+      emit(UpdateNotificationPreferenceSuccess());
+    } catch (exception, stack) {
+      if (exception is! ApiException) {
+        crashRepository.registerCrash(exception, stack);
+      }
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(UpdateNotificationPreferenceFailed(exception: alertException));
+    }
+  }
 
   void updateVATNumber(UpdateVATNumber event, Emitter<SettingsState> emit) async {
     try {

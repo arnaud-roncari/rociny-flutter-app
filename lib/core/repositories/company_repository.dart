@@ -15,6 +15,7 @@ import 'package:rociny/features/company/search/data/models/collaboration_model.d
 import 'package:rociny/features/company/search/data/models/influencer_summary_model.dart';
 import 'package:rociny/features/company/search/data/models/inlfuencer_filters.dart';
 import 'package:rociny/features/company/search/data/models/review_model.dart';
+import 'package:rociny/features/company/settings/data/models/user_preference_model.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_status.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_type.dart';
 import 'package:rociny/features/influencer/complete_profile/data/enums/platform_type.dart';
@@ -914,6 +915,48 @@ class CompanyRepository {
     if (response.statusCode >= 400) {
       Map<String, dynamic> body = jsonDecode(response.body);
       throw ApiException.fromJson(response.statusCode, body);
+    }
+  }
+
+  Future<List<UserNotificationPreference>> getUserPreferences() async {
+    final response = await get(
+      Uri.parse("$kEndpoint/company/preferences"),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      throw ApiException.fromJson(
+        response.statusCode,
+        jsonDecode(response.body),
+      );
+    }
+
+    final List<dynamic> body = jsonDecode(response.body);
+    return UserNotificationPreference.fromJsonList(body);
+  }
+
+  /// Update a specific preference (enable/disable)
+  Future<void> updatePreference(String type, bool enabled) async {
+    final response = await put(
+      Uri.parse("$kEndpoint/company/preference"),
+      headers: {
+        'Authorization': 'Bearer $kJwt',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        "type": type,
+        "enabled": enabled,
+      }),
+    );
+
+    if (response.statusCode >= 400) {
+      throw ApiException.fromJson(
+        response.statusCode,
+        jsonDecode(response.body),
+      );
     }
   }
 }
