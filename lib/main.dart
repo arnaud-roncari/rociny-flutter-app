@@ -19,22 +19,15 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:rociny/router/routes.dart';
 import 'package:rociny/shared/decorations/theme.dart';
 
-/// TODO Retirer dans complete prpoofile documents (inf et entr)
-/// TODO retirerdans settings (inf | ent) documents
-/// TODO dans get CompletionProfile retirer le check documents (ent | inf)
+/// TODO  sup compte et refaire flow (insta et stripe), ipohje opuis samsung
 
-/// TODO  puis tester samsung
-/// TODO update visules, sup compte et refaire flow (insta et stripe), ipohje opuis samsung
-
-/// TODO MAJ les visuels dans le onboarding et complétion profil (heck tous les illustration)
-
-/// TODO il faut peut etre refaire la clés pour le auth, et coché sandbox et production (oauth apple)
 /// NOTE : Pour mise en prod:
 /// - mettre api en prod
 /// - mettre cgu et pc
 /// - changer les apikey stripe front et back (celle de prod)
 /// - maj webhook stripe
 /// - mettre leystore de production avec le sha1 (nécésasire pour le googlesign)
+/// il faut peut etre refaire la clés pour le auth, et coché sandbox et production (oauth apple)
 /// - maj le fichier apple google oauth (pour sigin google)
 /// - changer app version dans environnement
 /// - changer l'url de redirection dans developer.facebook (debug avec ngrok en attendant)

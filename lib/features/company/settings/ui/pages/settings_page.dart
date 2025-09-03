@@ -69,14 +69,14 @@ class SettingsPage extends StatelessWidget {
                 context.push("/company/home/settings/notifications");
               },
             ),
-            const SizedBox(height: kPadding5),
-            NavigationButton(
-              svgPath: "assets/svg/file.svg",
-              label: "legal_documents".translate(),
-              onPressed: () {
-                context.push("/company/home/settings/policies");
-              },
-            ),
+            // const SizedBox(height: kPadding5),
+            // NavigationButton(
+            //   svgPath: "assets/svg/file.svg",
+            //   label: "legal_documents".translate(),
+            //   onPressed: () {
+            //     context.push("/company/home/settings/policies");
+            //   },
+            // ),
             const SizedBox(height: kPadding5),
             NavigationButton(
               svgPath: "assets/svg/logout.svg",

@@ -61,7 +61,8 @@ class ProfileCompletionStatus {
   }
 
   bool hasCompletedLegal() {
-    if (!hasStripeCompleted || !hasLegalDocuments) {
+    if (!hasStripeCompleted) {
+      // if (!hasStripeCompleted || !hasLegalDocuments) {
       return false;
     }
 

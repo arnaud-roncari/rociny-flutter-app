@@ -51,7 +51,8 @@ class ProfileCompletionStatus {
   }
 
   bool hasCompletedLegal() {
-    if (!hasStripePaymentMethod || !hasLegalDocuments || !hasBillingAddress || !hasTradeName) {
+    // if (!hasStripePaymentMethod || !hasLegalDocuments || !hasBillingAddress || !hasTradeName) {
+    if (!hasStripePaymentMethod || !hasBillingAddress || !hasTradeName) {
       return false;
     }
 

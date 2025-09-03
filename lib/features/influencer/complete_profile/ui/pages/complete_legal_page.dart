@@ -6,9 +6,7 @@ import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
 import 'package:rociny/core/utils/error_handling/alert.dart';
 import 'package:rociny/core/utils/extensions/translate.dart';
-import 'package:rociny/features/company/complete_profile/ui/widgets/update_legal_documents_form.dart';
 import 'package:rociny/features/influencer/complete_profile/bloc/complete_profile/complete_profile_bloc.dart';
-import 'package:rociny/features/influencer/complete_profile/data/enums/legal_document_type.dart';
 import 'package:rociny/features/influencer/complete_profile/ui/widgets/stripe_form.dart';
 import 'package:rociny/features/influencer/complete_profile/ui/widgets/update_vat_form.dart';
 import 'package:rociny/shared/widgets/stripe_modal.dart';
@@ -100,7 +98,7 @@ class _CompleteLegaltate extends State<CompleteLegalPage> {
                 ),
                 Center(
                   child: Text(
-                    "${"step".translate()} ${index + 1} ${"out_of".translate()} 3",
+                    "${"step".translate()} ${index + 1} ${"out_of".translate()} 2",
                     style: kCaption.copyWith(color: kGrey300),
                   ),
                 ),
@@ -110,14 +108,14 @@ class _CompleteLegaltate extends State<CompleteLegalPage> {
                     physics: const NeverScrollableScrollPhysics(),
                     controller: pageController,
                     children: [
-                      UpdateLegalDocumentsForm(
-                        documents: {
-                          LegalDocumentType.debug: bloc.debugStatus,
-                        },
-                        onUpdated: (type) {
-                          bloc.add(UpdateDocument(type: type));
-                        },
-                      ),
+                      // UpdateLegalDocumentsForm(
+                      //   documents: {
+                      //     LegalDocumentType.debug: bloc.debugStatus,
+                      //   },
+                      //   onUpdated: (type) {
+                      //     bloc.add(UpdateDocument(type: type));
+                      //   },
+                      // ),
                       StripeForm(
                         isStripeCompleted: bloc.isStripeCompleted,
                         onPressed: (isStripeCompleted) {
@@ -139,9 +137,9 @@ class _CompleteLegaltate extends State<CompleteLegalPage> {
                 ),
                 const SizedBox(height: kPadding20),
                 Button(
-                  title: index == 2 ? "finish".translate() : "next_step".translate(),
+                  title: index == 1 ? "finish".translate() : "next_step".translate(),
                   onPressed: () {
-                    if (index != 2) {
+                    if (index != 1) {
                       setState(() {
                         index += 1;
                       });
