@@ -1,5 +1,5 @@
 /// Base API endpoint (backend server)
-String kEndpoint = "https://04e377c76c43.ngrok-free.app";
+String kEndpoint = "https://80b844b15636.ngrok-free.app";
 
 /// Current app version
 String kAppVersion = "1.0.0";
