@@ -4,7 +4,6 @@ import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/constants/colors.dart';
 import 'package:rociny/core/constants/paddings.dart';
 import 'package:rociny/core/constants/text_styles.dart';
-import 'package:rociny/core/utils/extensions/translate.dart';
 import 'package:rociny/features/influencer/settings/ui/widgets/navigation_button.dart';
 import 'package:rociny/shared/widgets/svg_button.dart';
 
@@ -32,7 +31,7 @@ class PoliciesPage extends StatelessWidget {
                 ),
                 const Spacer(),
                 Text(
-                  "legal_documents".translate(),
+                  "legal_documents",
                   style: kTitle1Bold,
                 ),
                 const Spacer(),
@@ -41,14 +40,14 @@ class PoliciesPage extends StatelessWidget {
             ),
             const SizedBox(height: kPadding30),
             NavigationButton(
-              label: "terms_of_service".translate(),
+              label: "Conditions générales d'utilisation",
               onPressed: () {
                 context.push("/preview_pdf/network", extra: "$kEndpoint/policy/privacy-policy");
               },
             ),
             const SizedBox(height: kPadding5),
             NavigationButton(
-              label: "privacy_policy".translate(),
+              label: "Politique de confidentialité",
               onPressed: () {
                 context.push("/preview_pdf/network", extra: "$kEndpoint/policy/terms-of-use");
               },

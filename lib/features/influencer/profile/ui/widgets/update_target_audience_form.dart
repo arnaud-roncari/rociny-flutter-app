@@ -34,19 +34,19 @@ class _UpdateTargetAudienceFormState extends State<UpdateTargetAudienceForm> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "themes".translate(),
+          "target".translate(),
           style: kTitle1Bold,
         ),
         const SizedBox(height: kPadding10),
         Text(
-          "define_themes_description".translate(),
+          "Définissez vos cibles.",
           style: kBody.copyWith(color: kGrey300),
         ),
         const SizedBox(height: kPadding20),
         TextField(
           controller: controller,
           decoration: kTextFieldDecoration.copyWith(
-            hintText: "theme".translate(),
+            hintText: "targets".translate(),
           ),
           style: kBody,
           onChanged: (value) {

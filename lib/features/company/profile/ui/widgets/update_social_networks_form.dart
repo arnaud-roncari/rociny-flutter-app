@@ -60,17 +60,23 @@ class _UpdateSocialNetworksFormState extends State<UpdateSocialNetworksForm> {
           onTap: () async {
             showModalBottomSheet(
               context: context,
+              isScrollControlled: true,
               backgroundColor: kWhite,
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(kRadius20)),
               ),
               builder: (context) {
-                return SupportedPlatformsSheet(
-                  platforms: platforms,
-                  onTap: (platform, url) {
-                    widget.onAdded(platform, url);
-                    context.pop();
-                  },
+                return Padding(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom,
+                  ),
+                  child: SupportedPlatformsSheet(
+                    platforms: platforms,
+                    onTap: (platform, url) {
+                      widget.onAdded(platform, url);
+                      context.pop();
+                    },
+                  ),
                 );
               },
             );
@@ -92,19 +98,25 @@ class _UpdateSocialNetworksFormState extends State<UpdateSocialNetworksForm> {
                 onUpdate: (sn) {
                   showModalBottomSheet(
                     context: context,
+                    isScrollControlled: true,
                     backgroundColor: kWhite,
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.vertical(top: Radius.circular(kRadius20)),
                     ),
                     builder: (context) {
-                      return SupportedPlatformsSheet(
-                        type: SocialNetworkSheetType.udpate,
-                        selectedSocialNetwork: sn,
-                        platforms: platforms,
-                        onTap: (platform, url) {
-                          widget.onUpdated(sn.id, url);
-                          context.pop();
-                        },
+                      return Padding(
+                        padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom,
+                        ),
+                        child: SupportedPlatformsSheet(
+                          type: SocialNetworkSheetType.udpate,
+                          selectedSocialNetwork: sn,
+                          platforms: platforms,
+                          onTap: (platform, url) {
+                            widget.onUpdated(sn.id, url);
+                            context.pop();
+                          },
+                        ),
                       );
                     },
                   );
@@ -113,7 +125,6 @@ class _UpdateSocialNetworksFormState extends State<UpdateSocialNetworksForm> {
             );
           }),
         ),
-        const Spacer(),
       ],
     );
   }

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:http/http.dart';
 import 'package:rociny/core/config/environment.dart';
 import 'package:rociny/core/utils/error_handling/api_exception.dart';
@@ -25,828 +24,493 @@ import 'package:rociny/features/influencer/profile/data/models/profile_completio
 import 'package:rociny/features/company/profile/data/models/profile_completion_status.dart' as c;
 
 class InfluencerRepository {
+  Map<String, String> _headers() => {
+        'Authorization': 'Bearer $kJwt',
+        'Content-Type': 'application/json',
+      };
+
+  /// Upload or update profile picture
   Future<String> updateProfilePicture(File image) async {
-    var request = MultipartRequest(
+    final request = MultipartRequest(
       'PUT',
-      Uri.parse('$kEndpoint/influencer/update-profile-picture'),
-    );
+      Uri.parse('$kEndpoint/influencer/profile-picture'),
+    )
+      ..headers['Authorization'] = 'Bearer $kJwt'
+      ..files.add(await MultipartFile.fromPath('file', image.path));
 
-    request.files.add(
-      await MultipartFile.fromPath('file', image.path),
-    );
-
-    request.headers['Authorization'] = 'Bearer $kJwt';
-
-    StreamedResponse response = await request.send();
-    String stringifiedBody = await response.stream.bytesToString();
+    final response = await request.send();
+    final body = jsonDecode(await response.stream.bytesToString());
 
     if (response.statusCode >= 400) {
-      Map<String, dynamic> body = jsonDecode(stringifiedBody);
       throw ApiException.fromJson(response.statusCode, body);
     }
-    Map<String, dynamic> body = jsonDecode(stringifiedBody);
     return body["profile_picture"];
   }
 
+  /// Replace the whole portfolio
   Future<List<String>> updatePortfolio(List<File> images) async {
-    var request = MultipartRequest(
+    final request = MultipartRequest(
       'PUT',
-      Uri.parse('$kEndpoint/influencer/update-all-portfolio'),
-    );
+      Uri.parse('$kEndpoint/influencer/portfolio'),
+    )..headers['Authorization'] = 'Bearer $kJwt';
 
-    for (var image in images) {
-      request.files.add(
-        await MultipartFile.fromPath('files', image.path),
-      );
+    for (final img in images) {
+      request.files.add(await MultipartFile.fromPath('files', img.path));
     }
 
-    request.headers['Authorization'] = 'Bearer $kJwt';
-
-    StreamedResponse response = await request.send();
-    String stringifiedBody = await response.stream.bytesToString();
-
+    final response = await request.send();
+    final body = jsonDecode(await response.stream.bytesToString());
     if (response.statusCode >= 400) {
-      Map<String, dynamic> body = jsonDecode(stringifiedBody);
       throw ApiException.fromJson(response.statusCode, body);
     }
-
-    Map<String, dynamic> body = jsonDecode(stringifiedBody);
     return List<String>.from(body["portfolio"]);
   }
 
+  /// Add pictures to portfolio
   Future<void> addPicturesToPortfolio(List<File> images) async {
-    var request = MultipartRequest(
-      'PUT',
-      Uri.parse('$kEndpoint/influencer/add-pictures-to-portfolio'),
-    );
+    final request = MultipartRequest(
+      'POST',
+      Uri.parse('$kEndpoint/influencer/portfolio/pictures'),
+    )..headers['Authorization'] = 'Bearer $kJwt';
 
-    for (var image in images) {
-      request.files.add(
-        await MultipartFile.fromPath('files', image.path),
-      );
+    for (final img in images) {
+      request.files.add(await MultipartFile.fromPath('files', img.path));
     }
 
-    request.headers['Authorization'] = 'Bearer $kJwt';
-
-    StreamedResponse response = await request.send();
+    final response = await request.send();
 
     if (response.statusCode >= 400) {
-      String stringifiedBody = await response.stream.bytesToString();
-      Map<String, dynamic> body = jsonDecode(stringifiedBody);
+      final body = jsonDecode(await response.stream.bytesToString());
       throw ApiException.fromJson(response.statusCode, body);
     }
   }
 
+  /// Remove picture from portfolio
   Future<void> removePictureFromPortfolio(String pictureUrl) async {
-    var response = await delete(
-      Uri.parse('$kEndpoint/influencer/remove-picture-from-portfolio/$pictureUrl'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
+    final response = await delete(
+      Uri.parse('$kEndpoint/influencer/portfolio/pictures/$pictureUrl'),
+      headers: {'Authorization': 'Bearer $kJwt'},
     );
 
     if (response.statusCode >= 400) {
-      Map<String, dynamic> body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+      throw ApiException.fromJson(response.statusCode, jsonDecode(response.body));
     }
   }
 
+  /// Update influencer name
   Future<void> updateName(String name) async {
-    var response = await put(
-      Uri.parse('$kEndpoint/influencer/update-name'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({'name': name}),
-    );
-
-    if (response.statusCode >= 400) {
-      Map<String, dynamic> body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+    final res =
+        await put(Uri.parse('$kEndpoint/influencer/name'), headers: _headers(), body: jsonEncode({'name': name}));
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
   }
 
-  Future<void> updateVATNumber(String vatNumber) async {
-    var response = await put(
-      Uri.parse('$kEndpoint/influencer/update-vat-number'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({'vat_number': vatNumber}),
-    );
-
-    if (response.statusCode >= 400) {
-      Map<String, dynamic> body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+  /// Update VAT number
+  Future<void> updateVATNumber(String vat) async {
+    final res = await put(Uri.parse('$kEndpoint/influencer/vat-number'),
+        headers: _headers(), body: jsonEncode({'vat_number': vat}));
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
   }
 
-  Future<void> updateDescription(String description) async {
-    var response = await put(
-      Uri.parse('$kEndpoint/influencer/update-description'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({'description': description}),
-    );
-
-    if (response.statusCode >= 400) {
-      Map<String, dynamic> body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+  /// Update description
+  Future<void> updateDescription(String desc) async {
+    final res = await put(Uri.parse('$kEndpoint/influencer/description'),
+        headers: _headers(), body: jsonEncode({'description': desc}));
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
   }
 
-  Future<void> updateDepartment(String department) async {
-    var response = await put(
-      Uri.parse('$kEndpoint/influencer/update-department'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({'department': department}),
-    );
-
-    if (response.statusCode >= 400) {
-      Map<String, dynamic> body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+  /// Update department
+  Future<void> updateDepartment(String dep) async {
+    final res = await put(Uri.parse('$kEndpoint/influencer/department'),
+        headers: _headers(), body: jsonEncode({'department': dep}));
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
   }
 
+  /// Update themes
   Future<void> updateThemes(List<String> themes) async {
-    var response = await put(
-      Uri.parse('$kEndpoint/influencer/update-themes'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({'themes': themes}),
-    );
+    final res =
+        await put(Uri.parse('$kEndpoint/influencer/themes'), headers: _headers(), body: jsonEncode({'themes': themes}));
 
-    if (response.statusCode >= 400) {
-      Map<String, dynamic> body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
   }
 
-  Future<void> updateTargetAudiences(List<String> targetAudiences) async {
-    var response = await put(
-      Uri.parse('$kEndpoint/influencer/update-target-audience'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({'target_audience': targetAudiences}),
-    );
-
-    if (response.statusCode >= 400) {
-      Map<String, dynamic> body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+  /// Update target audiences
+  Future<void> updateTargetAudiences(List<String> audiences) async {
+    final res = await put(Uri.parse('$kEndpoint/influencer/target-audience'),
+        headers: _headers(), body: jsonEncode({'target_audience': audiences}));
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
   }
 
+  /// Add a social network
   Future<void> addSocialNetwork(PlatformType platform, String url) async {
-    var response = await post(
-      Uri.parse('$kEndpoint/influencer/add-social-network'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({
-        'platform': platform.name,
-        "url": url,
-      }),
-    );
-
-    if (response.statusCode >= 400) {
-      Map<String, dynamic> body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+    final res = await post(Uri.parse('$kEndpoint/influencer/social-networks'),
+        headers: _headers(), body: jsonEncode({'platform': platform.name, 'url': url}));
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
   }
 
+  /// Get all social networks
   Future<List<SocialNetwork>> getSocialNetworks() async {
-    var response = await get(
-      Uri.parse('$kEndpoint/influencer/get-social-networks'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-        'Content-Type': 'application/json',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      Map<String, dynamic> body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+    final res = await get(Uri.parse('$kEndpoint/influencer/social-networks'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
-    List<dynamic> body = jsonDecode(response.body);
-    return SocialNetwork.fromJsons(body);
+    return SocialNetwork.fromJsons(jsonDecode(res.body));
   }
 
+  /// Delete a social network
   Future<void> deleteSocialNetwork(int id) async {
-    var response = await delete(
-      Uri.parse('$kEndpoint/influencer/delete-social-network/$id'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-        'Content-Type': 'application/json',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      Map<String, dynamic> body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+    final res = await delete(Uri.parse('$kEndpoint/influencer/social-networks/$id'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
   }
 
+  /// Update a social network
   Future<void> updateSocialNetwork(int id, String url) async {
-    var response = await put(Uri.parse('$kEndpoint/influencer/update-social-network'),
-        headers: {
-          'Authorization': 'Bearer $kJwt',
-          'Content-Type': 'application/json',
-        },
-        body: jsonEncode({
-          "id": id.toString(),
-          "url": url,
-        }));
-
-    if (response.statusCode >= 400) {
-      Map<String, dynamic> body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+    final res = await put(Uri.parse('$kEndpoint/influencer/social-networks/$id'),
+        headers: _headers(), body: jsonEncode({'url': url}));
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
   }
 
+  /// Add a legal document
   Future<void> addLegalDocument(LegalDocumentType type, File file) async {
-    final uri = Uri.parse('$kEndpoint/influencer/add-legal-document/${type.name}');
-    final request = MultipartRequest('POST', uri)
+    final request = MultipartRequest(
+      'POST',
+      Uri.parse('$kEndpoint/influencer/legal-documents/${type.name}'),
+    )
       ..headers['Authorization'] = 'Bearer $kJwt'
       ..files.add(await MultipartFile.fromPath('file', file.path));
 
     final response = await request.send();
     if (response.statusCode >= 400) {
-      final body = await response.stream.bytesToString();
-      throw ApiException.fromJson(response.statusCode, jsonDecode(body));
+      throw ApiException.fromJson(response.statusCode, jsonDecode(await response.stream.bytesToString()));
     }
   }
 
+  /// Get status of a legal document
   Future<LegalDocumentStatus> getLegalDocumentStatus(LegalDocumentType type) async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer/get-legal-document-status/${type.name}'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+    final res = await get(Uri.parse('$kEndpoint/influencer/legal-documents/${type.name}/status'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
-
-    String s = jsonDecode(response.body)['status'];
-    return LegalDocumentStatus.values.firstWhere(
-      (e) => e.name == s,
-    );
+    final s = jsonDecode(res.body)['status'];
+    return LegalDocumentStatus.values.firstWhere((e) => e.name == s);
   }
 
-  Future<void> deleteLegalDocument(String documentId) async {
-    final response = await delete(
-      Uri.parse('$kEndpoint/influencer/delete-legal-document/$documentId'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+  /// Delete a legal document
+  Future<void> deleteLegalDocument(LegalDocumentType type) async {
+    final res = await delete(Uri.parse('$kEndpoint/influencer/legal-documents/${type.name}'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
   }
 
+  /// Get Stripe account onboarding URL
   Future<String> getStripeAccountUrl() async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer/stripe/account-link'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+    final res = await get(Uri.parse('$kEndpoint/influencer/payments/account-link'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
-    String url = jsonDecode(response.body)['url'];
-    return url;
+    return jsonDecode(res.body)['url'];
   }
 
+  /// Get Stripe login link
   Future<String> getStripeLoginUrl() async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer/stripe/login-link'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+    final res = await get(Uri.parse('$kEndpoint/influencer/payments/auth/login-link'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
-    String url = jsonDecode(response.body)['url'];
-    return url;
+    return jsonDecode(res.body)['url'];
   }
 
+  /// Check if influencer has completed legal documents
   Future<bool> hasCompletedLegalDocuments() async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer/has-completed/legal-documents'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+    final res = await get(Uri.parse('$kEndpoint/influencer/legal-documents/completed'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
-
-    bool hasCompleted = jsonDecode(response.body)['has_completed'];
-    return hasCompleted;
+    return jsonDecode(res.body)['has_completed'];
   }
 
+  /// Check if influencer has completed Stripe onboarding
   Future<bool> hasCompletedStripe() async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer/has-completed/stripe'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+    final res = await get(Uri.parse('$kEndpoint/influencer/payments/completed'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
-
-    bool hasCompleted = jsonDecode(response.body)['has_completed'];
-    return hasCompleted;
+    return jsonDecode(res.body)['has_completed'];
   }
 
+  /// Check if influencer has linked Instagram
   Future<bool> hasInstagramAccount() async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer/has-instagram-account'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+    final res = await get(Uri.parse('$kEndpoint/influencer/social/instagram/has-account'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
-
-    bool hasCompleted = jsonDecode(response.body)['has_instagram_account'];
-    return hasCompleted;
+    return jsonDecode(res.body)['has_instagram_account'];
   }
 
+  /// Get Instagram account
   Future<InstagramAccount> getInstagramAccount() async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer/instagram'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+    final res = await get(Uri.parse('$kEndpoint/influencer/social/instagram'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
-
-    Map<String, dynamic> body = jsonDecode(response.body);
-    return InstagramAccount.fromMap(body);
+    return InstagramAccount.fromMap(jsonDecode(res.body));
   }
 
-  Future<void> createInstagramAccount(String fetchedInstagramAccountId) async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer/instagram/$fetchedInstagramAccountId'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+  /// Link a fetched Instagram account
+  Future<void> createInstagramAccount(String fetchedId) async {
+    final res = await get(Uri.parse('$kEndpoint/influencer/social/instagram/$fetchedId'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
   }
 
+  /// Get authenticated influencer details
   Future<Influencer> getInfluencer() async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+    final res = await get(Uri.parse('$kEndpoint/influencer'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
-    final body = jsonDecode(response.body);
-    return Influencer.fromMap(body);
+    return Influencer.fromMap(jsonDecode(res.body));
   }
 
-  Future<Company> getCompany(int userId) async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer/get-company/$userId'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
-    }
-    final body = jsonDecode(response.body);
-    return Company.fromMap(body);
-  }
-
+  /// Get influencer profile completion status
   Future<ProfileCompletionStatus> getProfileCompletionStatus() async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer/get-profile-completion-status'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+    final res = await get(Uri.parse('$kEndpoint/influencer/profile/completion-status'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
-    final body = jsonDecode(response.body);
-    return ProfileCompletionStatus.fromMap(body);
+    return ProfileCompletionStatus.fromMap(jsonDecode(res.body));
   }
 
+  /// Get collaboration summaries
   Future<List<CollaborationSummary>> getCollaborationSummaries() async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer/get-collaboration-summaries'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+    final res = await get(Uri.parse('$kEndpoint/influencer/collaborations/summaries'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
-
-    final body = jsonDecode(response.body);
-    return CollaborationSummary.fromJsons(body);
+    return CollaborationSummary.fromJsons(jsonDecode(res.body));
   }
 
-  Future<void> acceptCollaboration(int collaborationid) async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer/accept-collaboration/$collaborationid'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+  /// Accept collaboration
+  Future<void> acceptCollaboration(int id) async {
+    final res = await post(Uri.parse('$kEndpoint/influencer/collaborations/$id/accept'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
   }
 
-  Future<void> refuseCollaboration(int collaborationid) async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer/refuse-collaboration/$collaborationid'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+  /// Refuse collaboration
+  Future<void> refuseCollaboration(int id) async {
+    final res = await post(Uri.parse('$kEndpoint/influencer/collaborations/$id/refuse'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
   }
 
-  Future<void> endCollaboration(int collaborationid) async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer/end-collaboration/$collaborationid'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+  /// End collaboration
+  Future<void> endCollaboration(int id) async {
+    final res = await post(Uri.parse('$kEndpoint/influencer/collaborations/$id/end'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
   }
 
-  Future<void> createReview(int collaborationId, int reviewedId, int stars, String description) async {
-    final response = await post(
-      Uri.parse('$kEndpoint/influencer/create-review'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({
-        'collaboration_id': collaborationId,
-        'reviewed_id': reviewedId,
-        "stars": stars,
-        "description": description,
-      }),
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
-    }
-  }
-
-  Future<Review?> getReview(int collaborationId, int authorId, int reviewedId) async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer/get-review/$collaborationId/$authorId/$reviewedId'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
-    }
-    final body = jsonDecode(response.body);
-    if (body["review"] == null) {
-      return null;
-    }
-    return Review.fromJson(body["review"]);
-  }
-
-  Future<List<Review>> getReviewsByAuthor(int authorId) async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer/get-reviews/author/$authorId'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
-    }
-    final body = jsonDecode(response.body);
-    return Review.fromJsons(body);
-  }
-
-  Future<List<Review>> getReviewsByReviewed(int reviewedId) async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer/get-reviews/reviewed/$reviewedId'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
-    }
-    final body = jsonDecode(response.body);
-    return Review.fromJsons(body);
-  }
-
+  /// Get collaboration by ID
   Future<Collaboration> getCollaboration(int id) async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer/get-collaboration/$id'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+    final res = await get(Uri.parse('$kEndpoint/influencer/collaborations/$id'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
-
-    final body = jsonDecode(response.body);
-    return Collaboration.fromJson(body);
+    return Collaboration.fromJson(jsonDecode(res.body));
   }
 
-  Future<c.ProfileCompletionStatus> getCompanyCompletionStatus(int userId) async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer/get-company-completion-status/$userId'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+  /// Create a review
+  Future<void> createReview(int collabId, int reviewedId, int stars, String description) async {
+    final res = await post(Uri.parse('$kEndpoint/influencer/reviews'),
+        headers: _headers(),
+        body: jsonEncode({
+          'collaboration_id': collabId,
+          'reviewed_id': reviewedId,
+          'stars': stars,
+          'description': description,
+        }));
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
-    final body = jsonDecode(response.body);
-    return c.ProfileCompletionStatus.fromMap(body);
   }
 
-  Future<InstagramAccount> getCompanyInstagramAccount(int userId) async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer/get-company-instagram-statistics/$userId'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+  /// Get a specific review
+  Future<Review?> getReview(int collabId, int authorId, int reviewedId) async {
+    final res =
+        await get(Uri.parse('$kEndpoint/influencer/reviews/$collabId/$authorId/$reviewedId'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
-    final body = jsonDecode(response.body);
-    return InstagramAccount.fromMap(body);
+    final body = jsonDecode(res.body);
+    return body["review"] == null ? null : Review.fromJson(body["review"]);
   }
 
+  /// Get reviews by author
+  Future<List<Review>> getReviewsByAuthor(int authorId) async {
+    final res = await get(Uri.parse('$kEndpoint/influencer/reviews/author/$authorId'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
+    }
+    return Review.fromJsons(jsonDecode(res.body));
+  }
+
+  /// Get reviews by reviewed
+  Future<List<Review>> getReviewsByReviewed(int reviewedId) async {
+    final res = await get(Uri.parse('$kEndpoint/influencer/reviews/reviewed/$reviewedId'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
+    }
+    return Review.fromJsons(jsonDecode(res.body));
+  }
+
+  /// Get review summaries
   Future<List<ReviewSummary>> getReviewSummaries() async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer/get-review-summaries'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+    final res = await get(Uri.parse('$kEndpoint/influencer/reviews/summaries'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
-    final body = jsonDecode(response.body);
-    return ReviewSummary.fromJsons(body);
+    return ReviewSummary.fromJsons(jsonDecode(res.body));
   }
 
+  /// Get company details
+  Future<Company> getCompany(int userId) async {
+    final res = await get(Uri.parse('$kEndpoint/influencer/companies/$userId'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
+    }
+    return Company.fromMap(jsonDecode(res.body));
+  }
+
+  /// Get company profile completion status
+  Future<c.ProfileCompletionStatus> getCompanyCompletionStatus(int userId) async {
+    final res = await get(Uri.parse('$kEndpoint/influencer/companies/$userId/completion-status'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
+    }
+    return c.ProfileCompletionStatus.fromMap(jsonDecode(res.body));
+  }
+
+  /// Get company Instagram statistics
+  Future<InstagramAccount> getCompanyInstagramAccount(int userId) async {
+    final res =
+        await get(Uri.parse('$kEndpoint/influencer/companies/$userId/instagram-statistics'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
+    }
+    return InstagramAccount.fromMap(jsonDecode(res.body));
+  }
+
+  /// Get companies the influencer has collaborated with
   Future<List<CollaboratedCompany>> getCollaboratedCompanies() async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer/get-collaborated-companies'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+    final res =
+        await get(Uri.parse('$kEndpoint/influencer/collaborations/collaborated-companies'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
-    final body = jsonDecode(response.body);
-    return CollaboratedCompany.fromJsons(body);
+    return CollaboratedCompany.fromJsons(jsonDecode(res.body));
   }
 
+  /// Get influencers a company has collaborated with
   Future<List<InfluencerSummary>> getCompanyCollaboratedInfluencers(int userId) async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer/get-company-collaborated-influencers/$userId'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+    final res =
+        await get(Uri.parse('$kEndpoint/influencer/companies/$userId/collaborated-influencers'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
-    final body = jsonDecode(response.body);
-    return InfluencerSummary.fromJsons(body);
+    return InfluencerSummary.fromJsons(jsonDecode(res.body));
   }
 
+  /// Get dashboard statistics
   Future<InfluencerStatistics> getStatistics() async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer/get-dashboard/statistics'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+    final res = await get(Uri.parse('$kEndpoint/influencer/dashboard/statistics'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
-
-    final body = jsonDecode(response.body);
-    return InfluencerStatistics.fromJson(body);
+    return InfluencerStatistics.fromJson(jsonDecode(res.body));
   }
 
+  /// Get recent collaborations from dashboard
   Future<List<CollaborationSummary>> getRecentCollaborations() async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer/get-dashboard/collaborations'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+    final res = await get(Uri.parse('$kEndpoint/influencer/dashboard/collaborations'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
-    final body = jsonDecode(response.body);
-    return CollaborationSummary.fromJsons(body);
+    return CollaborationSummary.fromJsons(jsonDecode(res.body));
   }
 
+  /// Get all conversations
   Future<List<ConversationSummary>> getAllConversations() async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer/get-all-conversations'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+    final res = await get(Uri.parse('$kEndpoint/influencer/conversations'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
-    final body = jsonDecode(response.body);
-    return ConversationSummary.fromJsons(body);
+    return ConversationSummary.fromJsons(jsonDecode(res.body));
   }
 
-  Future<List<Message>> getMessagesByConversation(int conversationId) async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer/get-messages-by-conversation/$conversationId'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+  /// Get messages by conversation
+  Future<List<Message>> getMessagesByConversation(int id) async {
+    final res = await get(Uri.parse('$kEndpoint/influencer/conversations/$id/messages'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
-    final body = jsonDecode(response.body);
-    return Message.fromJsons(body);
+    return Message.fromJsons(jsonDecode(res.body));
   }
 
-  Future<void> markConversationMessagesAsRead(int conversationId) async {
-    final response = await get(
-      Uri.parse('$kEndpoint/influencer/mark-messages-as-read/$conversationId'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      final body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+  /// Mark all messages of a conversation as read
+  Future<void> markConversationMessagesAsRead(int id) async {
+    final res = await post(Uri.parse('$kEndpoint/influencer/conversations/$id/mark-as-read'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
   }
 
+  /// Add a message to conversation
   Future<void> addMessage(int conversationId, String content) async {
-    var response = await post(
-      Uri.parse('$kEndpoint/influencer/add-message'),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({
-        'conversation_id': conversationId,
-        "content": content,
-      }),
-    );
-
-    if (response.statusCode >= 400) {
-      Map<String, dynamic> body = jsonDecode(response.body);
-      throw ApiException.fromJson(response.statusCode, body);
+    final res = await post(Uri.parse('$kEndpoint/influencer/conversations/$conversationId/messages'),
+        headers: _headers(), body: jsonEncode({'conversation_id': conversationId, 'content': content}));
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
   }
 
+  /// Get user notification preferences
   Future<List<UserNotificationPreference>> getUserPreferences() async {
-    final response = await get(
-      Uri.parse("$kEndpoint/influencer/preferences"),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-        'Content-Type': 'application/json',
-      },
-    );
-
-    if (response.statusCode >= 400) {
-      throw ApiException.fromJson(
-        response.statusCode,
-        jsonDecode(response.body),
-      );
+    final res = await get(Uri.parse('$kEndpoint/influencer/notifications/preferences'), headers: _headers());
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
-
-    final List<dynamic> body = jsonDecode(response.body);
-    return UserNotificationPreference.fromJsonList(body);
+    return UserNotificationPreference.fromJsonList(jsonDecode(res.body));
   }
 
-  /// Update a specific preference (enable/disable)
+  /// Update user notification preference
   Future<void> updatePreference(String type, bool enabled) async {
-    final response = await put(
-      Uri.parse("$kEndpoint/influencer/preference"),
-      headers: {
-        'Authorization': 'Bearer $kJwt',
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({
-        "type": type,
-        "enabled": enabled,
-      }),
-    );
-
-    if (response.statusCode >= 400) {
-      throw ApiException.fromJson(
-        response.statusCode,
-        jsonDecode(response.body),
-      );
+    final res = await put(Uri.parse('$kEndpoint/influencer/notifications/preferences'),
+        headers: _headers(), body: jsonEncode({'type': type, 'enabled': enabled}));
+    if (res.statusCode >= 400) {
+      throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
   }
 }

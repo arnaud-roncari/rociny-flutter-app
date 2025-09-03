@@ -63,8 +63,8 @@ class _InfluencerSummaryCardState extends State<InfluencerSummaryCard> {
                     final isProfile = i == 0;
 
                     final imageUrl = isProfile
-                        ? "$kEndpoint/influencer/get-profile-picture/${widget.influencer.userId}?uuid=${widget.influencer.profilePicture}"
-                        : "$kEndpoint/influencer/get-portfolio/$pictureId/${widget.influencer.userId}";
+                        ? "$kEndpoint/influencer/profile-pictures/${widget.influencer.profilePicture}"
+                        : "$kEndpoint/influencer/portfolio/$pictureId";
 
                     return InkWell(
                       focusColor: Colors.transparent,

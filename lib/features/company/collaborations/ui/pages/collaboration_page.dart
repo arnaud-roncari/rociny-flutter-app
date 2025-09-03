@@ -236,7 +236,7 @@ class _CollaborationPageState extends State<CollaborationPage> {
                       borderRadius: BorderRadius.circular(kPadding10),
                       onTap: () {
                         context.push("/preview_pdf/network",
-                            extra: "$kEndpoint/company/get-influencer-invoice/$collaborationId");
+                            extra: "$kEndpoint/company/collaborations/$collaborationId/influencer-invoice");
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(kPadding20),
@@ -266,7 +266,7 @@ class _CollaborationPageState extends State<CollaborationPage> {
                       borderRadius: BorderRadius.circular(kPadding10),
                       onTap: () {
                         context.push("/preview_pdf/network",
-                            extra: "$kEndpoint/company/get-platform-invoice/$collaborationId");
+                            extra: "$kEndpoint/company/collaborations/$collaborationId/platform-invoice");
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(kPadding20),
@@ -400,7 +400,8 @@ class _CollaborationPageState extends State<CollaborationPage> {
         style: kBody,
       ),
       onTap: () {
-        context.push("/preview_pdf/network", extra: "$kEndpoint/company/get-influencer-quote/$collaborationId");
+        context.push("/preview_pdf/network",
+            extra: "$kEndpoint/company/collaborations/$collaborationId/influencer-quote");
       },
     );
 
@@ -411,7 +412,8 @@ class _CollaborationPageState extends State<CollaborationPage> {
         style: kBody,
       ),
       onTap: () {
-        context.push("/preview_pdf/network", extra: "$kEndpoint/company/get-platform-quote/$collaborationId");
+        context.push("/preview_pdf/network",
+            extra: "$kEndpoint/company/collaborations/$collaborationId/platform-quote");
       },
     );
 
@@ -558,14 +560,14 @@ class _CollaborationPageState extends State<CollaborationPage> {
               Builder(
                 builder: (context) {
                   List<Widget> children = [];
-                  for (String url in collaboration.files) {
+                  for (String name in collaboration.files) {
                     children.add(
                       Padding(
                         padding: const EdgeInsets.only(left: kPadding20),
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width - 60,
                           child: FileCard(
-                            url: "$kEndpoint/company/collaboration-file/$url",
+                            url: "$kEndpoint/company/collaborations/files/$name",
                           ),
                         ),
                       ),

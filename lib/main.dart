@@ -19,18 +19,20 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:rociny/router/routes.dart';
 import 'package:rociny/shared/decorations/theme.dart';
 
-/// TODO Tester sur samsung
-/// TODO différencer userid de company et influencerid dans els services
-/// TODO simplifier le get d'image (par nom de fichier et par userId, sans jwt)
+/// TODO Retirer dans complete prpoofile documents (inf et entr)
+/// TODO retirerdans settings (inf | ent) documents
+/// TODO dans get CompletionProfile retirer le check documents (ent | inf)
+
+/// TODO  puis tester samsung
+/// TODO update visules, sup compte et refaire flow (insta et stripe), ipohje opuis samsung
+
 /// TODO MAJ les visuels dans le onboarding et complétion profil (heck tous les illustration)
-/// TODO définir les documents à upload (et valider auto au bout de 5 minutes pour le début)
-/// TODO upload CGU et privacy et ajouter MAJ devant text
 
 /// TODO il faut peut etre refaire la clés pour le auth, et coché sandbox et production (oauth apple)
-/// TODO DOC
-/// - rework routes du backend avant mise en prod (et tester)
 /// NOTE : Pour mise en prod:
-/// - changer les apikey stripe front et back
+/// - mettre api en prod
+/// - mettre cgu et pc
+/// - changer les apikey stripe front et back (celle de prod)
 /// - maj webhook stripe
 /// - mettre leystore de production avec le sha1 (nécésasire pour le googlesign)
 /// - maj le fichier apple google oauth (pour sigin google)
@@ -38,10 +40,6 @@ import 'package:rociny/shared/decorations/theme.dart';
 /// - changer l'url de redirection dans developer.facebook (debug avec ngrok en attendant)
 /// - setup insta en version prod (faire soumission, changer redirect_url sur site, front et back)
 ///  - définir rociny vat dans .env, dans backend (génération de facture)
-///
-/// Point d'amélioration
-/// - rework le routing du backend, services... (un audit par chagpt)
-/// - utiliser même bloc pour complete register et settings (?) (set au démarrage du backend plutot)
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -77,11 +75,14 @@ void main() async {
   /// Redirect user on "first launch" screens if true.
   kFirstLaunch = await storage.read(key: kKeyFirstLaunch) == null;
 
+  /// Commission (can be loaded from API later)
   kCommission = 0.10;
 
+  /// Stripe
   Stripe.publishableKey = kStripePublishableKey;
 
-  OneSignal.initialize("c182cc06-c092-4176-8888-8652f2a9cb78");
+  /// One Signal
+  OneSignal.initialize(kOneSignalPublishableKey);
   OneSignal.Notifications.requestPermission(true);
 
   runApp(const RocinyApp());

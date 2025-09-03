@@ -41,14 +41,14 @@ class PoliciesPage extends StatelessWidget {
             ),
             const SizedBox(height: kPadding30),
             NavigationButton(
-              label: "terms_of_service".translate(),
+              label: "Conditions générales d'utilisation",
               onPressed: () {
                 context.push("/preview_pdf/network", extra: "$kEndpoint/policy/privacy-policy");
               },
             ),
             const SizedBox(height: kPadding5),
             NavigationButton(
-              label: "privacy_policy".translate(),
+              label: "Politique de confidentialité",
               onPressed: () {
                 context.push("/preview_pdf/network", extra: "$kEndpoint/policy/terms-of-use");
               },

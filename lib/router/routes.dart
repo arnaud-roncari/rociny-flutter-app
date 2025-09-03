@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:go_router/go_router.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:rociny/core/config/environment.dart';
@@ -24,6 +23,9 @@ import 'package:rociny/shared/pages/preview_network_pdf_page.dart';
 final GoRouter kRouter = GoRouter(
   initialLocation: getLocation(),
   routes: [
+    // -------------------
+    // AUTH
+    // -------------------
     GoRoute(
       path: '/login',
       builder: (context, state) => const LoginPage(),
@@ -56,6 +58,10 @@ final GoRouter kRouter = GoRouter(
       path: '/forgot_password/new_password',
       builder: (context, state) => const ForgotPasswordNewPasswordPage(),
     ),
+
+    // -------------------
+    // FILE PREVIEWS
+    // -------------------
     GoRoute(
       path: '/preview_pdf/network',
       builder: (context, state) {
@@ -70,41 +76,50 @@ final GoRouter kRouter = GoRouter(
         return PreviewPdfPage(file: file);
       },
     ),
+    GoRoute(
+      path: '/preview_picture',
+      builder: (context, state) {
+        Map extra = state.extra as Map;
+        String endpoint = extra["endpoint"] as String;
+        void Function()? onDeleted = extra["onDeleted"] as void Function()?;
+
+        return PreviewPicturePage(
+          endpoint: endpoint,
+          onDeleted: onDeleted,
+        );
+      },
+    ),
+
+    // -------------------
+    // INFLUENCER
+    // -------------------
+    GoRoute(
+      path: '/portfolio',
+      builder: (context, state) {
+        Influencer influencer = state.extra as Influencer;
+        return PortfolioPage(influencer: influencer);
+      },
+    ),
     ...kInfluencerRoutes,
+
+    // -------------------
+    // COMPANY
+    // -------------------
     ...kCompanyRoutes,
 
-    /// Shared
+    // -------------------
+    // DEEPLINKS
+    // -------------------
     GoRoute(
       path: '/facebook',
       builder: (context, state) => const FacebookPage(),
     ),
-    GoRoute(
-        path: '/preview_picture',
-        builder: (context, state) {
-          Map extra = state.extra as Map;
-          String endpoint = extra["endpoint"] as String;
-          void Function()? onDeleted = extra["onDeleted"] as void Function()?;
-
-          return PreviewPicturePage(
-            endpoint: endpoint,
-            onDeleted: onDeleted,
-          );
-        }),
-    GoRoute(
-        path: '/portfolio',
-        builder: (context, state) {
-          Influencer influencer = state.extra as Influencer;
-
-          return PortfolioPage(
-            influencer: influencer,
-          );
-        }),
   ],
 );
 
+/// Returns the initial location when the app starts.
 String getLocation() {
-  // return "/login";
-  // return "/company/complete_profile/profile_illustration";
+  // return '/login';
 
   if (kFirstLaunch) {
     return '/first_launch';
@@ -114,8 +129,7 @@ String getLocation() {
     return '/login';
   }
 
-  /// Extract account type from JWT.
-
+  // Extract account type from JWT
   Map<String, dynamic> decodedToken = JwtDecoder.decode(kJwt!);
   AccountType accountType = AccountTypeExtension.fromString(decodedToken['account_type']);
 

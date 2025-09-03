@@ -3,9 +3,6 @@ class CollaboratedCompany {
   final String name;
   final String? profilePicture;
 
-  /// TODO FIX les routes et repo doc des controller back et front (demander suggestions et optimisation) (push avant)
-  /// TODO faire pareil avec les routes du front (et deeplink insta, stripe)
-  /// demander comme le back aurait orga le service colalb et conversations (selon serive inf et comp)
   CollaboratedCompany({
     required this.userId,
     required this.name,

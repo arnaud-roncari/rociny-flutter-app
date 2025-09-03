@@ -11,7 +11,6 @@ import 'package:rociny/shared/decorations/textfield_decoration.dart';
 import 'package:rociny/shared/widgets/button.dart';
 import 'package:rociny/shared/widgets/supported_platform_chip.dart';
 
-/// TODO Adapter form
 class SupportedPlatformsSheet extends StatefulWidget {
   final SocialNetworkSheetType type;
   final SocialNetwork? selectedSocialNetwork;

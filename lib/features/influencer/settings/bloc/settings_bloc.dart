@@ -209,7 +209,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
   void resentUpdateEmailVerificationCode(OnResentUpdateEmailVerificationCode event, Emitter<SettingsState> emit) async {
     try {
-      await authRepository.resentUpdateEmailVerificationCode(newEmail!);
+      await authRepository.resendUpdateEmailVerificationCode(newEmail!);
     } catch (exception, stack) {
       if (exception is! ApiException) {
         crashRepository.registerCrash(exception, stack);

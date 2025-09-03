@@ -72,7 +72,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
               borderRadius: BorderRadius.circular(kRadius10),
               child: Image(
                 image: NetworkImage(
-                  "$kEndpoint/company/get-profile-picture/${company.profilePicture!}",
+                  "$kEndpoint/company/profile-pictures/${company.profilePicture!}",
                   headers: {
                     'Authorization': 'Bearer $kJwt',
                   },
@@ -306,7 +306,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
                                 child: Image(
                                   fit: BoxFit.cover,
                                   image: CachedNetworkImageProvider(
-                                    "$kEndpoint/company/get-influencer-profile-picture/${r.profilePicture}",
+                                    "$kEndpoint/influencer/profile-pictures/${r.profilePicture}",
                                     headers: {"Authorization": "Bearer $kJwt"},
                                   ),
                                 ),

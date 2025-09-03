@@ -42,7 +42,7 @@ class ConversationSummaryCard extends StatelessWidget {
                       width: 50,
                       fit: BoxFit.cover,
                       image: CachedNetworkImageProvider(
-                        "$kEndpoint/company/get-influencer-profile-picture/${summary.influencerProfilePicture}",
+                        "$kEndpoint/influencer/profile-pictures/${summary.influencerProfilePicture}",
                         headers: {"Authorization": "Bearer $kJwt"},
                       ),
                     ),

@@ -35,7 +35,7 @@ class PortfolioCarousel extends StatelessWidget {
                       child: Image(
                         fit: BoxFit.cover,
                         image: CachedNetworkImageProvider(
-                          "$kEndpoint/influencer/get-portfolio/${pictures[leftIndex]}",
+                          "$kEndpoint/influencer/portfolio/${pictures[leftIndex]}",
                           headers: {"Authorization": "Bearer $kJwt"},
                         ),
                       ),
@@ -52,7 +52,7 @@ class PortfolioCarousel extends StatelessWidget {
                       child: Image(
                         fit: BoxFit.cover,
                         image: CachedNetworkImageProvider(
-                          "$kEndpoint/influencer/get-portfolio/${pictures[rightIndex]}",
+                          "$kEndpoint/influencer/portfolio/${pictures[rightIndex]}",
                           headers: {"Authorization": "Bearer $kJwt"},
                         ),
                       ),
@@ -74,7 +74,7 @@ class PortfolioCarousel extends StatelessWidget {
                   child: Image(
                     fit: BoxFit.cover,
                     image: CachedNetworkImageProvider(
-                      "$kEndpoint/influencer/get-portfolio/${pictures[index]}",
+                      "$kEndpoint/influencer/portfolio/${pictures[index]}",
                       headers: {"Authorization": "Bearer $kJwt"},
                     ),
                   ),
@@ -94,7 +94,7 @@ class PortfolioCarousel extends StatelessWidget {
                 child: Image(
                   fit: BoxFit.cover,
                   image: CachedNetworkImageProvider(
-                    "$kEndpoint/influencer/get-portfolio/${pictures[index]}",
+                    "$kEndpoint/influencer/portfolio/${pictures[index]}",
                     headers: {"Authorization": "Bearer $kJwt"},
                   ),
                 ),

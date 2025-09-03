@@ -128,7 +128,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   void registerCodeVerificationResentEmail(OnResentRegisterVerificationCode event, Emitter<AuthState> emit) async {
     try {
-      await authRepository.resentRegisterVerificationCode(emailToRegister!);
+      await authRepository.resendRegisterVerificationCode(emailToRegister!);
     } catch (exception, stack) {
       if (exception is! ApiException) {
         crashRepository.registerCrash(exception, stack);
@@ -200,7 +200,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     try {
-      await authRepository.resentForgotPasswordVerificationCode(emailForgotPassword!);
+      await authRepository.resendForgotPasswordVerificationCode(emailForgotPassword!);
     } catch (exception, stack) {
       if (exception is! ApiException) {
         crashRepository.registerCrash(exception, stack);

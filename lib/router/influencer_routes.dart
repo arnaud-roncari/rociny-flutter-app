@@ -43,6 +43,9 @@ import 'package:rociny/features/influencer/settings/ui/pages/stripe_page.dart';
 import 'package:rociny/features/influencer/settings/ui/pages/update_vat_number_page.dart';
 
 List<RouteBase> kInfluencerRoutes = [
+  // -------------------
+  // COMPLETE PROFILE
+  // -------------------
   ShellRoute(
     builder: (context, state, child) {
       return BlocProvider(
@@ -56,61 +59,50 @@ List<RouteBase> kInfluencerRoutes = [
     },
     routes: [
       GoRoute(
-        path: '/influencer/complete_profile/profile_illustration',
-        builder: (context, state) => const ProfileIllustrationPage(),
-      ),
+          path: '/influencer/complete_profile/profile_illustration',
+          builder: (context, state) => const ProfileIllustrationPage()),
+      GoRoute(path: '/influencer/complete_profile/profile', builder: (context, state) => const CompleteProfilPage()),
       GoRoute(
-        path: '/influencer/complete_profile/profile',
-        builder: (context, state) => const CompleteProfilPage(),
-      ),
-      GoRoute(
-        path: '/influencer/complete_profile/legal_illustration',
-        builder: (context, state) => const LegalIllustrationPage(),
-      ),
+          path: '/influencer/complete_profile/legal_illustration',
+          builder: (context, state) => const LegalIllustrationPage()),
       GoRoute(path: '/influencer/complete_profile/legal', builder: (context, state) => const CompleteLegalPage()),
     ],
   ),
+
+  // -------------------
+  // HOME + FEATURES
+  // -------------------
   ShellRoute(
     builder: (context, state, child) {
       return MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (_) => ProfileBloc(
-              crashRepository: context.read<CrashRepository>(),
-              influencerRepository: context.read<InfluencerRepository>(),
-            ),
-            child: child,
-          ),
+              create: (_) => ProfileBloc(
+                  crashRepository: context.read<CrashRepository>(),
+                  influencerRepository: context.read<InfluencerRepository>()),
+              child: child),
           BlocProvider(
-            create: (_) => SettingsBloc(
-              crashRepository: context.read<CrashRepository>(),
-              influencerRepository: context.read<InfluencerRepository>(),
-              authRepository: context.read<AuthRepository>(),
-            ),
-            child: child,
-          ),
+              create: (_) => SettingsBloc(
+                  crashRepository: context.read<CrashRepository>(),
+                  influencerRepository: context.read<InfluencerRepository>(),
+                  authRepository: context.read<AuthRepository>()),
+              child: child),
           BlocProvider(
-            create: (_) => CollaborationsBloc(
-              crashRepository: context.read<CrashRepository>(),
-              influencerRepository: context.read<InfluencerRepository>(),
-            ),
-            child: child,
-          ),
+              create: (_) => CollaborationsBloc(
+                  crashRepository: context.read<CrashRepository>(),
+                  influencerRepository: context.read<InfluencerRepository>()),
+              child: child),
           BlocProvider(
-            create: (_) => DashboardBloc(
-              crashRepository: context.read<CrashRepository>(),
-              influencerRepository: context.read<InfluencerRepository>(),
-            ),
-            child: child,
-          ),
+              create: (_) => DashboardBloc(
+                  crashRepository: context.read<CrashRepository>(),
+                  influencerRepository: context.read<InfluencerRepository>()),
+              child: child),
           BlocProvider(
-            create: (_) => ConversationsBloc(
-              crashRepository: context.read<CrashRepository>(),
-              influencerRepository: context.read<InfluencerRepository>(),
-              conversationGateway: context.read<ConversationGateway>(),
-            ),
-            child: child,
-          ),
+              create: (_) => ConversationsBloc(
+                  crashRepository: context.read<CrashRepository>(),
+                  influencerRepository: context.read<InfluencerRepository>(),
+                  conversationGateway: context.read<ConversationGateway>()),
+              child: child),
         ],
         child: child,
       );
@@ -120,7 +112,7 @@ List<RouteBase> kInfluencerRoutes = [
         path: '/influencer/home',
         builder: (context, state) => const HomePage(),
         routes: [
-          /// Conversation
+          // Conversation
           ShellRoute(
             builder: (context, state, child) {
               return BlocProvider(
@@ -137,20 +129,17 @@ List<RouteBase> kInfluencerRoutes = [
                 path: 'conversation',
                 builder: (context, state) {
                   Map data = state.extra as Map;
-                  int conversationId = data["conversation_id"];
-                  String companyName = data["company_name"];
-                  String companyProfilePicture = data["company_profile_picture"];
                   return ConversationPage(
-                    conversationId: conversationId,
-                    companyName: companyName,
-                    companyProfilePicture: companyProfilePicture,
+                    conversationId: data["conversation_id"],
+                    companyName: data["company_name"],
+                    companyProfilePicture: data["company_profile_picture"],
                   );
                 },
               ),
             ],
           ),
 
-          /// Collaborations
+          // Collaborations
           ShellRoute(
             builder: (context, state, child) {
               return BlocProvider(
@@ -166,56 +155,26 @@ List<RouteBase> kInfluencerRoutes = [
                 path: 'preview_collaboration',
                 builder: (context, state) {
                   final extra = state.extra as Map<String, dynamic>?;
-                  int userId = extra?["user_id"] as int;
-                  int collaborationId = extra?["collaboration_id"] as int;
                   return CollaborationPage(
-                    userId: userId,
-                    collaborationId: collaborationId,
+                    userId: extra?["user_id"] as int,
+                    collaborationId: extra?["collaboration_id"] as int,
                   );
                 },
-                routes: [
-                  GoRoute(
-                    path: 'review',
-                    builder: (context, state) {
-                      return const ReviewPage();
-                    },
-                  ),
-                ],
+                routes: [GoRoute(path: 'review', builder: (context, state) => const ReviewPage())],
               ),
             ],
           ),
 
-          /// Profile
-          GoRoute(
-            path: 'profile/name',
-            builder: (context, state) => const UpdateNamePage(),
-          ),
-          GoRoute(
-            path: 'profile/geolocation',
-            builder: (context, state) => const UpdateGeolocationPage(),
-          ),
-          GoRoute(
-            path: 'profile/description',
-            builder: (context, state) => const UpdateDescriptionPage(),
-          ),
-          GoRoute(
-            path: 'profile/social_networks',
-            builder: (context, state) => const UpdateSocialNetworksPage(),
-          ),
-          GoRoute(
-            path: 'profile/themes',
-            builder: (context, state) => const UpdateThemesPage(),
-          ),
-          GoRoute(
-            path: 'profile/target_audience',
-            builder: (context, state) => const UpdateTargetAudiencePage(),
-          ),
-          GoRoute(
-            path: 'profile/portfolio',
-            builder: (context, state) => const UpdatePorfolioPage(),
-          ),
+          // Profile
+          GoRoute(path: 'profile/name', builder: (context, state) => const UpdateNamePage()),
+          GoRoute(path: 'profile/geolocation', builder: (context, state) => const UpdateGeolocationPage()),
+          GoRoute(path: 'profile/description', builder: (context, state) => const UpdateDescriptionPage()),
+          GoRoute(path: 'profile/social_networks', builder: (context, state) => const UpdateSocialNetworksPage()),
+          GoRoute(path: 'profile/themes', builder: (context, state) => const UpdateThemesPage()),
+          GoRoute(path: 'profile/target_audience', builder: (context, state) => const UpdateTargetAudiencePage()),
+          GoRoute(path: 'profile/portfolio', builder: (context, state) => const UpdatePorfolioPage()),
 
-          /// Settings
+          // Settings
           GoRoute(
             path: 'settings',
             builder: (context, state) => const SettingsPage(),
@@ -225,59 +184,33 @@ List<RouteBase> kInfluencerRoutes = [
                 builder: (context, state) => const CredentialsPage(),
                 routes: [
                   GoRoute(path: 'email', builder: (context, state) => const EmailPage(), routes: [
-                    GoRoute(
-                      path: 'code-verification',
-                      builder: (context, state) => const EmailCodeVerificationPage(),
-                    ),
+                    GoRoute(path: 'code-verification', builder: (context, state) => const EmailCodeVerificationPage())
                   ]),
-                  GoRoute(
-                    path: 'password',
-                    builder: (context, state) => const PasswordPage(),
-                  ),
-                  GoRoute(
-                    path: 'instagram',
-                    builder: (context, state) => const InstagramPage(),
-                  ),
+                  GoRoute(path: 'password', builder: (context, state) => const PasswordPage()),
+                  GoRoute(path: 'instagram', builder: (context, state) => const InstagramPage()),
                 ],
               ),
-              GoRoute(
-                path: 'policies',
-                builder: (context, state) => const PoliciesPage(),
-              ),
-              GoRoute(
-                path: 'notifications',
-                builder: (context, state) => const NotificationsPage(),
-              ),
+              GoRoute(path: 'policies', builder: (context, state) => const PoliciesPage()),
+              GoRoute(path: 'notifications', builder: (context, state) => const NotificationsPage()),
               GoRoute(
                 path: 'company',
                 builder: (context, state) => const CompanyPage(),
                 routes: [
-                  GoRoute(
-                    path: 'legal-documents',
-                    builder: (context, state) => const LegalDocumentsPage(),
-                  ),
-                  GoRoute(
-                    path: 'stripe',
-                    builder: (context, state) => const StripePage(),
-                    routes: const [],
-                  ),
-                  GoRoute(
-                    path: 'vat',
-                    builder: (context, state) => const UpdateVatNumberPage(),
-                  ),
+                  GoRoute(path: 'legal-documents', builder: (context, state) => const LegalDocumentsPage()),
+                  GoRoute(path: 'stripe', builder: (context, state) => const StripePage()),
+                  GoRoute(path: 'vat', builder: (context, state) => const UpdateVatNumberPage()),
                 ],
               ),
             ],
           ),
 
-          /// Preview company
+          // Preview company
           ShellRoute(
             builder: (context, state, child) {
               return BlocProvider(
                 create: (_) => PreviewBloc(
-                  crashRepository: context.read<CrashRepository>(),
-                  influencerRepository: context.read<InfluencerRepository>(),
-                ),
+                    crashRepository: context.read<CrashRepository>(),
+                    influencerRepository: context.read<InfluencerRepository>()),
                 child: child,
               );
             },
@@ -286,9 +219,7 @@ List<RouteBase> kInfluencerRoutes = [
                 path: 'preview',
                 builder: (context, state) {
                   int userId = state.extra as int;
-                  return PreviewCompanyPage(
-                    userId: userId,
-                  );
+                  return PreviewCompanyPage(userId: userId);
                 },
               ),
             ],

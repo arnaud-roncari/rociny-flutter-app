@@ -40,7 +40,7 @@ class PortfolioPage extends StatelessWidget {
                     context.push(
                       "/preview_picture",
                       extra: {
-                        "endpoint": "$kEndpoint/influencer/get-portfolio/$pictureUrl",
+                        "endpoint": "$kEndpoint/influencer/portfolio/$pictureUrl",
                       } as Map,
                     );
                   },

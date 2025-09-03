@@ -66,17 +66,19 @@ class UpdateSocialNetworksPage extends StatelessWidget {
                 ),
                 const SizedBox(height: kPadding30),
                 Expanded(
-                  child: UpdateSocialNetworksForm(
-                    initialValue: bloc.influencer.socialNetworks,
-                    onAdded: (platform, url) {
-                      bloc.add(AddSocialNetwork(platform: platform, url: url));
-                    },
-                    onDeleted: (id) {
-                      bloc.add(DeleteSocialNetwork(id: id));
-                    },
-                    onUpdated: (id, url) {
-                      bloc.add(UpdateSocialNetwork(id: id, url: url));
-                    },
+                  child: SingleChildScrollView(
+                    child: UpdateSocialNetworksForm(
+                      initialValue: bloc.influencer.socialNetworks,
+                      onAdded: (platform, url) {
+                        bloc.add(AddSocialNetwork(platform: platform, url: url));
+                      },
+                      onDeleted: (id) {
+                        bloc.add(DeleteSocialNetwork(id: id));
+                      },
+                      onUpdated: (id, url) {
+                        bloc.add(UpdateSocialNetwork(id: id, url: url));
+                      },
+                    ),
                   ),
                 ),
               ],

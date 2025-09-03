@@ -38,7 +38,6 @@ class _ConversationPageState extends State<ConversationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kWhite,
-      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: BlocConsumer<ConversationBloc, ConversationState>(
           listener: (context, state) {
@@ -56,7 +55,7 @@ class _ConversationPageState extends State<ConversationPage> {
             }
 
             return Padding(
-              padding: const EdgeInsets.all(kPadding20),
+              padding: const EdgeInsets.only(left: kPadding20, right: kPadding20, top: kPadding20),
               child: Column(
                 children: [
                   Row(
@@ -76,7 +75,7 @@ class _ConversationPageState extends State<ConversationPage> {
                           width: 30,
                           fit: BoxFit.cover,
                           image: CachedNetworkImageProvider(
-                            "$kEndpoint/company/get-influencer-profile-picture/${widget.influencerProfilePicture}",
+                            "$kEndpoint/influencer/profile-pictures/${widget.influencerProfilePicture}",
                             headers: {"Authorization": "Bearer $kJwt"},
                           ),
                         ),
@@ -205,7 +204,7 @@ class _ConversationPageState extends State<ConversationPage> {
 
   Widget buildBottomInput() {
     return SizedBox(
-      height: 60,
+      height: 50,
       child: SizedBox(
         height: 30,
         child: Row(

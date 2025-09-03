@@ -64,7 +64,7 @@ class _BillingFormState extends State<BillingForm> {
                           child: Image(
                             fit: BoxFit.cover,
                             image: CachedNetworkImageProvider(
-                              "$kEndpoint/company/get-profile-picture",
+                              "$kEndpoint/company/profile-pictures/${company.profilePicture}",
                               headers: {"Authorization": "Bearer $kJwt"},
                             ),
                           ),

@@ -81,7 +81,7 @@ class FileCard extends StatelessWidget {
     if (file != null) {
       return basenameWithoutExtension(file!.path);
     } else if (url != null) {
-      return url!.split('-').first;
+      return url!.split('/files/')[1];
     }
     return '';
   }

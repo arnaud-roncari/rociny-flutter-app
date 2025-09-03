@@ -47,6 +47,9 @@ import 'package:rociny/features/company/settings/ui/pages/update_trade_name_page
 import 'package:rociny/features/company/settings/ui/pages/update_vat_number_page.dart';
 
 List<RouteBase> kCompanyRoutes = [
+  // -------------------
+  // COMPLETE PROFILE
+  // -------------------
   ShellRoute(
     builder: (context, state, child) {
       return BlocProvider(
@@ -60,66 +63,50 @@ List<RouteBase> kCompanyRoutes = [
     },
     routes: [
       GoRoute(
-        path: '/company/complete_profile/profile_illustration',
-        builder: (context, state) => const ProfileIllustrationPage(),
-      ),
+          path: '/company/complete_profile/profile_illustration',
+          builder: (context, state) => const ProfileIllustrationPage()),
+      GoRoute(path: '/company/complete_profile/profile', builder: (context, state) => const CompleteProfilePage()),
       GoRoute(
-        path: '/company/complete_profile/profile',
-        builder: (context, state) => const CompleteProfilePage(),
-      ),
-      GoRoute(
-        path: '/company/complete_profile/legal_illustration',
-        builder: (context, state) => const LegalIllustrationPage(),
-      ),
-      GoRoute(
-        path: '/company/complete_profile/legal',
-        builder: (context, state) => const CompleteLegalPage(),
-      ),
+          path: '/company/complete_profile/legal_illustration',
+          builder: (context, state) => const LegalIllustrationPage()),
+      GoRoute(path: '/company/complete_profile/legal', builder: (context, state) => const CompleteLegalPage()),
     ],
   ),
 
-  /// Home
+  // -------------------
+  // HOME
+  // -------------------
   ShellRoute(
     builder: (context, state, child) {
       return MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (_) => ProfileBloc(
-              crashRepository: context.read<CrashRepository>(),
-              companyRepository: context.read<CompanyRepository>(),
-            ),
-            child: child,
-          ),
+              create: (_) => ProfileBloc(
+                  crashRepository: context.read<CrashRepository>(),
+                  companyRepository: context.read<CompanyRepository>()),
+              child: child),
           BlocProvider(
-            create: (_) => SettingsBloc(
-              crashRepository: context.read<CrashRepository>(),
-              companyRepository: context.read<CompanyRepository>(),
-              authRepository: context.read<AuthRepository>(),
-            ),
-            child: child,
-          ),
+              create: (_) => SettingsBloc(
+                  crashRepository: context.read<CrashRepository>(),
+                  companyRepository: context.read<CompanyRepository>(),
+                  authRepository: context.read<AuthRepository>()),
+              child: child),
           BlocProvider(
-            create: (_) => SearchBloc(
-              crashRepository: context.read<CrashRepository>(),
-              companyRepository: context.read<CompanyRepository>(),
-            ),
-            child: child,
-          ),
+              create: (_) => SearchBloc(
+                  crashRepository: context.read<CrashRepository>(),
+                  companyRepository: context.read<CompanyRepository>()),
+              child: child),
           BlocProvider(
-            create: (_) => CollaborationsBloc(
-              crashRepository: context.read<CrashRepository>(),
-              companyRepository: context.read<CompanyRepository>(),
-            ),
-            child: child,
-          ),
+              create: (_) => CollaborationsBloc(
+                  crashRepository: context.read<CrashRepository>(),
+                  companyRepository: context.read<CompanyRepository>()),
+              child: child),
           BlocProvider(
-            create: (_) => ConversationsBloc(
-              crashRepository: context.read<CrashRepository>(),
-              companyRepository: context.read<CompanyRepository>(),
-              conversationGateway: context.read<ConversationGateway>(),
-            ),
-            child: child,
-          ),
+              create: (_) => ConversationsBloc(
+                  crashRepository: context.read<CrashRepository>(),
+                  companyRepository: context.read<CompanyRepository>(),
+                  conversationGateway: context.read<ConversationGateway>()),
+              child: child),
         ],
         child: child,
       );
@@ -129,7 +116,9 @@ List<RouteBase> kCompanyRoutes = [
         path: '/company/home',
         builder: (context, state) => const HomePage(),
         routes: [
-          /// Conversation
+          // -------------------
+          // Conversations
+          // -------------------
           ShellRoute(
             builder: (context, state, child) {
               return BlocProvider(
@@ -159,7 +148,9 @@ List<RouteBase> kCompanyRoutes = [
             ],
           ),
 
-          /// Collaborations
+          // -------------------
+          // Collaborations
+          // -------------------
           ShellRoute(
             builder: (context, state, child) {
               return BlocProvider(
@@ -177,39 +168,35 @@ List<RouteBase> kCompanyRoutes = [
                   final extra = state.extra as Map<String, dynamic>?;
                   int userId = extra?["user_id"] as int;
                   int collaborationId = extra?["collaboration_id"] as int;
-                  return CollaborationPage(
-                    userId: userId,
-                    collaborationId: collaborationId,
-                  );
+                  return CollaborationPage(userId: userId, collaborationId: collaborationId);
                 },
                 routes: [
-                  GoRoute(
-                    path: 'review',
-                    builder: (context, state) {
-                      return const ReviewPage();
-                    },
-                  ),
+                  GoRoute(path: 'review', builder: (context, state) => const ReviewPage()),
                 ],
               ),
             ],
           ),
 
-          /// Search
-          GoRoute(path: 'filters', builder: (context, state) => const FiltersPage(), routes: [
-            GoRoute(
-              path: 'results',
-              builder: (context, state) => const ResultsPage(),
-            ),
-          ]),
+          // -------------------
+          // Search
+          // -------------------
+          GoRoute(
+            path: 'filters',
+            builder: (context, state) => const FiltersPage(),
+            routes: [
+              GoRoute(path: 'results', builder: (context, state) => const ResultsPage()),
+            ],
+          ),
 
-          /// Preview influencer
+          // -------------------
+          // Preview Influencer
+          // -------------------
           ShellRoute(
             builder: (context, state, child) {
               return BlocProvider(
                 create: (_) => PreviewBloc(
-                  crashRepository: context.read<CrashRepository>(),
-                  companyRepository: context.read<CompanyRepository>(),
-                ),
+                    crashRepository: context.read<CrashRepository>(),
+                    companyRepository: context.read<CompanyRepository>()),
                 child: child,
               );
             },
@@ -218,9 +205,7 @@ List<RouteBase> kCompanyRoutes = [
                 path: 'preview',
                 builder: (context, state) {
                   int userId = state.extra as int;
-                  return PreviewInfluencerPage(
-                    userId: userId,
-                  );
+                  return PreviewInfluencerPage(userId: userId);
                 },
                 routes: [
                   GoRoute(
@@ -228,13 +213,9 @@ List<RouteBase> kCompanyRoutes = [
                     builder: (context, state) => const CreateCollaborationPage(),
                     routes: [
                       GoRoute(
-                        path: 'create/product_placement',
-                        builder: (context, state) => const CreateProductPlacementPage(),
-                      ),
-                      GoRoute(
-                        path: 'preview',
-                        builder: (context, state) => const PreviewCollaborationPage(),
-                      ),
+                          path: 'create/product_placement',
+                          builder: (context, state) => const CreateProductPlacementPage()),
+                      GoRoute(path: 'preview', builder: (context, state) => const PreviewCollaborationPage()),
                     ],
                   ),
                 ],
@@ -242,25 +223,17 @@ List<RouteBase> kCompanyRoutes = [
             ],
           ),
 
-          /// Profile
-          GoRoute(
-            path: 'profile/name',
-            builder: (context, state) => const UpdateNamePage(),
-          ),
-          GoRoute(
-            path: 'profile/geolocation',
-            builder: (context, state) => const UpdateGeolocationPage(),
-          ),
-          GoRoute(
-            path: 'profile/description',
-            builder: (context, state) => const UpdateDescriptionPage(),
-          ),
-          GoRoute(
-            path: 'profile/social_networks',
-            builder: (context, state) => const UpdateSocialNetworksPage(),
-          ),
+          // -------------------
+          // Profile
+          // -------------------
+          GoRoute(path: 'profile/name', builder: (context, state) => const UpdateNamePage()),
+          GoRoute(path: 'profile/geolocation', builder: (context, state) => const UpdateGeolocationPage()),
+          GoRoute(path: 'profile/description', builder: (context, state) => const UpdateDescriptionPage()),
+          GoRoute(path: 'profile/social_networks', builder: (context, state) => const UpdateSocialNetworksPage()),
 
-          /// Settings
+          // -------------------
+          // Settings
+          // -------------------
           GoRoute(
             path: 'settings',
             builder: (context, state) => const SettingsPage(),
@@ -269,52 +242,31 @@ List<RouteBase> kCompanyRoutes = [
                 path: 'credentials',
                 builder: (context, state) => const CredentialsPage(),
                 routes: [
-                  GoRoute(path: 'email', builder: (context, state) => const EmailPage(), routes: [
-                    GoRoute(
-                      path: 'code-verification',
-                      builder: (context, state) => const EmailCodeVerificationPage(),
-                    ),
-                  ]),
                   GoRoute(
-                    path: 'password',
-                    builder: (context, state) => const PasswordPage(),
+                    path: 'email',
+                    builder: (context, state) => const EmailPage(),
+                    routes: [
+                      GoRoute(
+                          path: 'code-verification', builder: (context, state) => const EmailCodeVerificationPage()),
+                    ],
                   ),
-                  GoRoute(
-                    path: 'instagram',
-                    builder: (context, state) => const InstagramPage(),
-                  ),
+                  GoRoute(path: 'password', builder: (context, state) => const PasswordPage()),
+                  GoRoute(path: 'instagram', builder: (context, state) => const InstagramPage()),
                 ],
               ),
+              GoRoute(path: 'policies', builder: (context, state) => const PoliciesPage()),
+              GoRoute(path: 'notifications', builder: (context, state) => const NotificationsPage()),
               GoRoute(
-                path: 'policies',
-                builder: (context, state) => const PoliciesPage(),
+                path: 'company',
+                builder: (context, state) => const CompanyPage(),
+                routes: [
+                  GoRoute(path: 'legal-documents', builder: (context, state) => const LegalDocumentsPage()),
+                  GoRoute(path: 'stripe', builder: (context, state) => const StripePage()),
+                  GoRoute(path: 'vat', builder: (context, state) => const UpdateVATNumberPage()),
+                  GoRoute(path: 'trade-name', builder: (context, state) => const UpdateTradeNamePage()),
+                  GoRoute(path: 'billing-address', builder: (context, state) => const UpdateBillingAddressPage()),
+                ],
               ),
-              GoRoute(
-                path: 'notifications',
-                builder: (context, state) => const NotificationsPage(),
-              ),
-              GoRoute(path: 'company', builder: (context, state) => const CompanyPage(), routes: [
-                GoRoute(
-                  path: 'legal-documents',
-                  builder: (context, state) => const LegalDocumentsPage(),
-                ),
-                GoRoute(
-                  path: 'stripe',
-                  builder: (context, state) => const StripePage(),
-                ),
-                GoRoute(
-                  path: 'vat',
-                  builder: (context, state) => const UpdateVATNumberPage(),
-                ),
-                GoRoute(
-                  path: 'trade-name',
-                  builder: (context, state) => const UpdateTradeNamePage(),
-                ),
-                GoRoute(
-                  path: 'billing-address',
-                  builder: (context, state) => const UpdateBillingAddressPage(),
-                ),
-              ]),
             ],
           ),
         ],

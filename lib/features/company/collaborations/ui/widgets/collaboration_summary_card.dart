@@ -40,7 +40,7 @@ class CollaborationSummaryCard extends StatelessWidget {
                     child: Image(
                       fit: BoxFit.cover,
                       image: CachedNetworkImageProvider(
-                        "$kEndpoint/influencer/get-profile-picture/${summary.influencerUserId}?uuid=${summary.influencerProfilePicture}",
+                        "$kEndpoint/influencer/profile-pictures/${summary.influencerProfilePicture}",
                         headers: {"Authorization": "Bearer $kJwt"},
                       ),
                     ),

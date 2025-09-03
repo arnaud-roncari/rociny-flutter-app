@@ -222,7 +222,7 @@ class _CollaborationPageState extends State<CollaborationPage> {
                 borderRadius: BorderRadius.circular(kPadding10),
                 onTap: () {
                   context.push("/preview_pdf/network",
-                      extra: "$kEndpoint/influencer/get-influencer-invoice/$collaborationId");
+                      extra: "$kEndpoint/influencer/collaborations/$collaborationId/influencer-invoice");
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(kPadding20),
@@ -292,7 +292,8 @@ class _CollaborationPageState extends State<CollaborationPage> {
         style: kBody,
       ),
       onTap: () {
-        context.push("/preview_pdf/network", extra: "$kEndpoint/influencer/get-influencer-quote/$collaborationId");
+        context.push("/preview_pdf/network",
+            extra: "$kEndpoint/influencer/collaborations/$collaborationId/influencer-quote");
       },
     );
 
@@ -374,7 +375,7 @@ class _CollaborationPageState extends State<CollaborationPage> {
                       child: Image(
                         fit: BoxFit.cover,
                         image: CachedNetworkImageProvider(
-                          "$kEndpoint/influencer/get-company-profile-picture/${bloc.company.profilePicture}",
+                          "$kEndpoint/company/profile-pictures/${bloc.company.profilePicture}",
                           headers: {"Authorization": "Bearer $kJwt"},
                         ),
                       ),
@@ -454,7 +455,7 @@ class _CollaborationPageState extends State<CollaborationPage> {
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width - 60,
                           child: FileCard(
-                            url: "$kEndpoint/influencer/collaboration-file/$url",
+                            url: "$kEndpoint/influencer/collaborations/files/$url",
                           ),
                         ),
                       ),

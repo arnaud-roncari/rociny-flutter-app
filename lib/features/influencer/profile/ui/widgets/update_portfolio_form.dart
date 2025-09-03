@@ -44,7 +44,7 @@ class UpdatePortfolioForm extends StatelessWidget {
               context.push(
                 "/preview_picture",
                 extra: {
-                  "endpoint": "$kEndpoint/influencer/get-portfolio/$pictureUrl",
+                  "endpoint": "$kEndpoint/influencer/portfolio/$pictureUrl",
                   "onDeleted": () => onRemoved(pictureUrl)
                 } as Map,
               );

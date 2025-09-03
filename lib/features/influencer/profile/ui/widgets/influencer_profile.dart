@@ -328,7 +328,7 @@ class _InfluencerProfileState extends State<InfluencerProfile> {
                                 child: Image(
                                   fit: BoxFit.cover,
                                   image: CachedNetworkImageProvider(
-                                    "$kEndpoint/influencer/get-company-profile-picture/${r.profilePicture}",
+                                    "$kEndpoint/company/profile-pictures/${r.profilePicture}",
                                     headers: {"Authorization": "Bearer $kJwt"},
                                   ),
                                 ),
@@ -406,7 +406,7 @@ class _InfluencerProfileState extends State<InfluencerProfile> {
                         child: Image(
                           fit: BoxFit.cover,
                           image: CachedNetworkImageProvider(
-                            "$kEndpoint/influencer/get-company-profile-picture/${r.profilePicture}",
+                            "$kEndpoint/company/profile-pictures/${r.profilePicture}",
                             headers: {"Authorization": "Bearer $kJwt"},
                           ),
                         ),

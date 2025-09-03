@@ -56,7 +56,7 @@ class _UpdateProfilePictureFormState extends State<UpdateProfilePictureForm> {
                 borderRadius: BorderRadius.circular(kRadius10),
                 child: Image(
                   image: NetworkImage(
-                    "$kEndpoint/company/get-profile-picture?dummy=${DateTime.now().millisecondsSinceEpoch}",
+                    "$kEndpoint/company/profile-pictures/${widget.initialValue}",
                     headers: {
                       'Authorization': 'Bearer $kJwt',
                     },
