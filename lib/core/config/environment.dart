@@ -1,11 +1,12 @@
 /// Base API endpoint (backend server)
-String kEndpoint = "https://a60e4b56208c.ngrok-free.app";
+String kEndpoint = "https://api.rociny.com";
 
 /// Current app version
 String kAppVersion = "1.0.0";
 
 // Alternative local endpoint for development
 // String kEndpoint = "http://127.0.0.1:3000";
+// String kEndpoint = "https://a60e4b56208c.ngrok-free.app";
 
 /// Stripe publishable key (test mode)
 String kStripePublishableKey =

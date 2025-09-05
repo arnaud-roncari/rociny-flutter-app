@@ -75,15 +75,15 @@ class _CompanyPageState extends State<CompanyPage> {
                   style: kBody.copyWith(color: kGrey300),
                 ),
                 const SizedBox(height: kPadding20),
-                CompanySectionButton(
-                  onTap: () {
-                    bloc.add(GetLegalDocumentsStatus());
-                    context.push("/influencer/home/settings/company/legal-documents");
-                  },
-                  isCompleted: bloc.hasCompletedLegalDocuments,
-                  name: "document".translate(),
-                ),
-                const SizedBox(height: kPadding15),
+                // CompanySectionButton(
+                //   onTap: () {
+                //     bloc.add(GetLegalDocumentsStatus());
+                //     context.push("/influencer/home/settings/company/legal-documents");
+                //   },
+                //   isCompleted: bloc.hasCompletedLegalDocuments,
+                //   name: "document".translate(),
+                // ),
+                // const SizedBox(height: kPadding15),
                 CompanySectionButton(
                   onTap: () {
                     context.push("/influencer/home/settings/company/stripe");
