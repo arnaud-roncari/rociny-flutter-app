@@ -19,19 +19,16 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:rociny/router/routes.dart';
 import 'package:rociny/shared/decorations/theme.dart';
 
-/// TODO  sup compte et refaire flow (insta et stripe), ipohje opuis samsung
+/// TODO ipohje opuis samsung :
 
 /// NOTE : Pour mise en prod:
-/// - mettre api en prod
 /// - mettre cgu et pc
 ///  - définir rociny vat dans .env, dans backend (génération de facture)
 /// - changer les apikey stripe front et back (celle de prod)
-/// - maj webhook stripe
 /// - mettre leystore de production avec le sha1 (nécésasire pour le googlesign)
 /// il faut peut etre refaire la clés pour le auth, et coché sandbox et production (oauth apple)
 /// - maj le fichier apple google oauth (pour sigin google)
 /// - changer app version dans environnement
-/// - changer l'url de redirection dans developer.facebook (debug avec ngrok en attendant)
 /// - setup insta en version prod (faire soumission, changer redirect_url sur site, front et back)
 
 /// TODO changer l'image minio pour avoir l'accès au web depuis VPS (ou fix l'issue)

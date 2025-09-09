@@ -17,7 +17,7 @@ class FacebookPage extends StatefulWidget {
 
 class _FacebookPageState extends State<FacebookPage> with WidgetsBindingObserver {
   late String clientId;
-  final String redirectUri = '$kEndpoint/user/auth/login-with-facebook';
+  final String redirectUri = '$kEndpoint/auth/login/facebook';
   final String responseType = 'code';
   final String scope =
       "email,public_profile,pages_show_list,pages_read_engagement,instagram_basic,instagram_manage_insights,business_management";

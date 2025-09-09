@@ -231,7 +231,7 @@ class InfluencerRepository {
 
   /// Get Stripe login link
   Future<String> getStripeLoginUrl() async {
-    final res = await get(Uri.parse('$kEndpoint/influencer/payments/auth/login-link'), headers: _headers());
+    final res = await get(Uri.parse('$kEndpoint/influencer/payments/login-link'), headers: _headers());
     if (res.statusCode >= 400) {
       throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
