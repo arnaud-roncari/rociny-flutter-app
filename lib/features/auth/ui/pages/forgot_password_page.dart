@@ -26,7 +26,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   @override
   void initState() {
     super.initState();
-    emailController.text = "arnaud.roncaripro@gmail.com";
   }
 
   @override
@@ -56,14 +55,17 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 children: [
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.1,
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: SvgButton(
-                        path: "assets/svg/left_arrow.svg",
-                        color: kBlack,
-                        onPressed: () {
-                          context.pop();
-                        },
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: kPadding20),
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: SvgButton(
+                          path: "assets/svg/left_arrow.svg",
+                          color: kBlack,
+                          onPressed: () {
+                            context.pop();
+                          },
+                        ),
                       ),
                     ),
                   ),

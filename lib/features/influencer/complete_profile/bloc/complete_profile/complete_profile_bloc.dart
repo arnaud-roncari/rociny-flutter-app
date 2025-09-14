@@ -72,6 +72,7 @@ class CompleteProfileBloc extends Bloc<CompleteProfileEvent, CompleteProfileStat
   void getProfile(GetProfile event, Emitter<CompleteProfileState> emit) async {
     try {
       emit(GetProfileLoading());
+
       influencer = await influencerRepository.getInfluencer();
       emit(GetProfileSuccess());
     } catch (exception, stack) {

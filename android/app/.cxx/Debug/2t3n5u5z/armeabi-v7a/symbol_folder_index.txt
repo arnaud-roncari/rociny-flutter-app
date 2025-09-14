@@ -1,0 +1,1 @@
+/Users/arnaudroncari/Repositories/Rociny/rociny-flutter-app/build/app/intermediates/cxx/Debug/2t3n5u5z/obj/armeabi-v7a

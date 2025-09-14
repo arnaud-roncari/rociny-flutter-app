@@ -7,6 +7,6 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.rociny</string>
+	<string>com.rociny.app</string>
 </dict>
 </plist>

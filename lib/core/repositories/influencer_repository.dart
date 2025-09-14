@@ -288,6 +288,7 @@ class InfluencerRepository {
     if (res.statusCode >= 400) {
       throw ApiException.fromJson(res.statusCode, jsonDecode(res.body));
     }
+
     return Influencer.fromMap(jsonDecode(res.body));
   }
 

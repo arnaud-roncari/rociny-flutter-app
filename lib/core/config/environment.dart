@@ -1,12 +1,15 @@
+// ignore_for_file: dangling_library_doc_comments
+
 /// Base API endpoint (backend server)
 String kEndpoint = "https://api.rociny.com";
 
 /// Current app version
+
 String kAppVersion = "1.0.0";
 
 // Alternative local endpoint for development
 // String kEndpoint = "http://127.0.0.1:3000";
-// String kEndpoint = "https://a60e4b56208c.ngrok-free.app";
+// String kEndpoint = "https://02b85687e05e.ngrok-free.app";
 
 /// Stripe publishable key (test mode)
 String kStripePublishableKey =
@@ -17,6 +20,7 @@ String kOneSignalPublishableKey = "c182cc06-c092-4176-8888-8652f2a9cb78";
 
 /// Google OAuth client ID for web (used for Google Sign-In)
 String kGooglePublishableClientWebId = "949880046138-orc7r7tnt5rv8k6trhes46o4rdjkkj7d.apps.googleusercontent.com";
+String kGooglePublishableClientAndroidId = "949880046138-ha0ikg4lj3kjhnu811jtvh67cu2hm1js.apps.googleusercontent.com";
 
 /// JWT token (set after login, used for authenticated requests)
 String? kJwt;

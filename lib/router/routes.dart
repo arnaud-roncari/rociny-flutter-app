@@ -119,9 +119,7 @@ final GoRouter kRouter = GoRouter(
 
 /// Returns the initial location when the app starts.
 String getLocation() {
-  /// TODO tester company
-  return '/login';
-
+  // return '/login';
   if (kFirstLaunch) {
     return '/first_launch';
   }

@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:872716360781:android:1d4c41f5f4e3f31822d004",
+        "mobilesdk_app_id": "1:872716360781:android:6cbec9f012d143a622d004",
         "android_client_info": {
-          "package_name": "com.example.rociny"
+          "package_name": "com.rociny.app"
         }
       },
       "oauth_client": [],

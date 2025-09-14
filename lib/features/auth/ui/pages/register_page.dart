@@ -31,10 +31,6 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   void initState() {
     super.initState();
-
-    emailController.text = "arnaud.roncaripro@gmail.com";
-    passwordController.text = "yourpassword";
-    confirmPasswordController.text = "yourpassword";
   }
 
   @override

@@ -1,4 +1,4 @@
-package com.example.rociny
+package com.rociny.app
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 
