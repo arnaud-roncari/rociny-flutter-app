@@ -122,7 +122,7 @@ class _InfluencerSummaryCardState extends State<InfluencerSummaryCard> {
                         Row(
                           children: [
                             Text(
-                              "Yvick Letexier",
+                              widget.influencer.name,
                               style: kBodyBold.copyWith(color: kWhite),
                             ),
                             const Spacer(),
